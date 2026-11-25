@@ -71,23 +71,22 @@ export function projectCard(p, { root, index = 0, featured = false }) {
 /* ───────────────────────── Skills ───────────────────────── */
 
 function tileIcon(s) {
-  const fallback = icon(s.icon || 'code', { size: 24 });
+  const fallback = icon(s.icon || 'code', { size: 20 });
   if (!s.devicon) return `<span class="tile__logo">${fallback}</span>`;
-  return `<span class="tile__logo${s.mono ? ' tile__logo--mono' : ''}"><img src="${DEVICON}${s.devicon}.svg" alt="" width="28" height="28" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('is-fallback')">${fallback}</span>`;
+  return `<span class="tile__logo${s.mono ? ' tile__logo--mono' : ''}"><img src="${DEVICON}${s.devicon}.svg" alt="" width="24" height="24" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('is-fallback')">${fallback}</span>`;
 }
 
 /**
- * Tabbed skills explorer: category tabs on the left (a scrollable row on mobile),
- * the active category's technologies as uniform logo tiles on the right.
- * Without JavaScript every panel is shown, one after another.
+ * Tabbed skills explorer: one card with a horizontal category bar on top (a sliding pill
+ * marks the active tab) and the active category's technologies as compact logo tiles below.
+ * The first group in skills.js is open by default. Without JavaScript every panel is shown.
  */
 export function skillsTabs(groups) {
   const tabs = groups
     .map(
-      (g, i) => `<button class="skillset__tab${i === 0 ? ' is-active' : ''}" type="button" role="tab" id="skill-tab-${i}" aria-controls="skill-panel-${i}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">
-        <span class="skillset__tab-ico">${icon(g.icon, { size: 18 })}</span>
-        <span class="skillset__tab-text"><span class="skillset__tab-title">${esc(g.title)}</span><span class="skillset__tab-count">${g.items.length} ${g.items.length === 1 ? 'skill' : 'skills'}</span></span>
-        <span class="skillset__tab-num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
+      (g, i) => `<button class="skillset__tab${i === 0 ? ' is-active' : ''}" type="button" role="tab" id="skill-tab-${i}" aria-controls="skill-panel-${i}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" title="${esc(g.title)}">
+        ${icon(g.icon, { size: 16, cls: 'skillset__tab-ico' })}
+        <span class="skillset__tab-label">${esc(g.short || g.title)}</span>
       </button>`,
     )
     .join('');
@@ -97,10 +96,11 @@ export function skillsTabs(groups) {
       (g, i) => `<section class="skillset__panel${i === 0 ? ' is-active' : ''}" role="tabpanel" id="skill-panel-${i}" aria-labelledby="skill-tab-${i}"${i === 0 ? '' : ' aria-hidden="true"'}>
         <header class="skillset__head">
           <span class="skillset__head-ico">${icon(g.icon, { size: 22 })}</span>
-          <div>
+          <div class="skillset__head-text">
             <h3 class="skillset__title">${esc(g.title)}</h3>
             <p class="skillset__blurb">${esc(g.blurb)}</p>
           </div>
+          <span class="skillset__head-count"><b>${String(g.items.length).padStart(2, '0')}</b>${g.items.length === 1 ? 'technology' : 'technologies'}</span>
         </header>
         <ul class="tiles">${g.items.map((s) => `<li class="tile">${tileIcon(s)}<span class="tile__name">${esc(s.name)}</span></li>`).join('')}</ul>
       </section>`,
@@ -108,11 +108,13 @@ export function skillsTabs(groups) {
     .join('');
 
   return `<div class="skillset" data-skillset data-reveal>
-    <div class="skillset__nav" role="tablist" aria-label="Skill categories" aria-orientation="vertical">
-      <span class="skillset__indicator" aria-hidden="true"></span>
-      ${tabs}
+    <div class="skillset__bar">
+      <div class="skillset__nav" role="tablist" aria-label="Skill categories">
+        <span class="skillset__indicator" aria-hidden="true"></span>
+        ${tabs}
+      </div>
     </div>
-    <div class="skillset__panels" data-spotlight>${panels}</div>
+    <div class="skillset__stage" data-spotlight>${panels}</div>
   </div>`;
 }
 

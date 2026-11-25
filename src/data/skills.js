@@ -2,21 +2,13 @@
  * Technology stack, grouped by category.
  * `devicon` → logo from the Devicon set (https://devicon.dev), `icon` → built-in line icon.
  * If a logo fails to load, the line icon is shown instead.
+ * The first group is the tab that is open by default; `short` is the tab label.
  * @type {import('./types.js').SkillGroup[]}
  */
 export const skillGroups = [
   {
-    title: 'Programming Languages',
-    blurb: 'The languages I write every day.',
-    icon: 'code',
-    items: [
-      { name: 'Java', devicon: 'java/java-original' },
-      { name: 'JavaScript', devicon: 'javascript/javascript-original' },
-      { name: 'SQL', icon: 'database' },
-    ],
-  },
-  {
     title: 'Backend Development',
+    short: 'Backend',
     blurb: 'APIs, security and persistence with the Spring ecosystem.',
     icon: 'server',
     items: [
@@ -32,7 +24,19 @@ export const skillGroups = [
     ],
   },
   {
+    title: 'Programming Languages',
+    short: 'Languages',
+    blurb: 'The languages I write every day.',
+    icon: 'code',
+    items: [
+      { name: 'Java', devicon: 'java/java-original' },
+      { name: 'JavaScript', devicon: 'javascript/javascript-original' },
+      { name: 'SQL', icon: 'database' },
+    ],
+  },
+  {
     title: 'Databases & Caching',
+    short: 'Databases',
     blurb: 'Relational storage and fast in-memory caching.',
     icon: 'database',
     items: [
@@ -43,6 +47,7 @@ export const skillGroups = [
   },
   {
     title: 'Messaging & Integration',
+    short: 'Messaging',
     blurb: 'Connecting services, payments and notifications.',
     icon: 'plug',
     items: [
@@ -53,6 +58,7 @@ export const skillGroups = [
   },
   {
     title: 'DevOps & Development Tools',
+    short: 'DevOps & Tools',
     blurb: 'Shipping, versioning and documenting software.',
     icon: 'box',
     items: [
@@ -69,6 +75,7 @@ export const skillGroups = [
   },
   {
     title: 'Testing & Monitoring',
+    short: 'Testing',
     blurb: 'Confidence before release, visibility after.',
     icon: 'activity',
     items: [
@@ -80,6 +87,7 @@ export const skillGroups = [
   },
   {
     title: 'Architecture & Concepts',
+    short: 'Architecture',
     blurb: 'How I think about structuring systems.',
     icon: 'network',
     items: [
@@ -95,6 +103,7 @@ export const skillGroups = [
   },
   {
     title: 'AI & Automation',
+    short: 'AI & Automation',
     blurb: 'Intelligent workflows that remove manual work.',
     icon: 'sparkles',
     items: [

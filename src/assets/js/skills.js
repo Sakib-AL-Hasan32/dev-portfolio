@@ -1,6 +1,6 @@
 /**
- * Skills explorer: accessible tabs (click, arrow keys, Home/End) with a sliding
- * indicator, a cross-fade between panels and staggered tile entrances.
+ * Skills explorer: accessible tabs (click, arrow keys, Home/End) with a sliding pill,
+ * a smooth height change between categories and staggered tile entrances.
  */
 import { $, $$, reducedMotion, rafThrottle, EASE_SPRING, EASE_OUT } from './utils.js';
 
@@ -12,8 +12,8 @@ export function animateTiles(panel, delay = 0) {
   );
   $$('.tile', panel).forEach((tile, j) =>
     tile.animate(
-      { opacity: [0, 1], scale: ['0.86', '1'], translate: ['0 16px', '0 0'] },
-      { duration: 560, delay: delay + 80 + j * 45, easing: EASE_SPRING, fill: 'backwards' },
+      { opacity: [0, 1], scale: ['0.9', '1'], translate: ['0 14px', '0 0'] },
+      { duration: 520, delay: delay + 60 + j * 40, easing: EASE_SPRING, fill: 'backwards' },
     ),
   );
 }
@@ -22,24 +22,33 @@ export function initSkills() {
   const root = $('[data-skillset]');
   if (!root) return;
   const nav = $('.skillset__nav', root);
+  const stage = $('.skillset__stage', root);
   const tabs = $$('.skillset__tab', root);
   const panels = $$('.skillset__panel', root);
   const indicator = $('.skillset__indicator', root);
   let active = Math.max(0, tabs.findIndex((t) => t.classList.contains('is-active')));
 
   function moveIndicator(instant = false) {
-    if (!indicator || getComputedStyle(indicator).display === 'none') return;
     const tab = tabs[active];
     if (instant) indicator.classList.add('no-anim');
-    indicator.style.setProperty('--iy', `${tab.offsetTop}px`);
-    indicator.style.setProperty('--ih', `${tab.offsetHeight}px`);
+    indicator.style.setProperty('--ix', `${tab.offsetLeft}px`);
+    indicator.style.setProperty('--iw', `${tab.offsetWidth}px`);
     indicator.style.setProperty('--io', '1');
     if (instant) requestAnimationFrame(() => requestAnimationFrame(() => indicator.classList.remove('no-anim')));
   }
 
+  /** Keep the active tab in view inside the scrollable bar, without scrolling the page. */
+  function revealTab(tab) {
+    if (nav.scrollWidth <= nav.clientWidth) return;
+    const left = tab.offsetLeft - (nav.clientWidth - tab.offsetWidth) / 2;
+    nav.scrollTo({ left, behavior: reducedMotion() ? 'auto' : 'smooth' });
+  }
+
   function select(i, { focus = false } = {}) {
     if (i === active) return;
+    const from = stage.offsetHeight;
     active = i;
+
     tabs.forEach((t, k) => {
       const on = k === i;
       t.classList.toggle('is-active', on);
@@ -52,20 +61,24 @@ export function initSkills() {
       if (on) p.removeAttribute('aria-hidden');
       else p.setAttribute('aria-hidden', 'true');
     });
+
     if (focus) tabs[i].focus({ preventScroll: true });
     moveIndicator();
-    animateTiles(panels[i], 60);
+    revealTab(tabs[i]);
 
-    // Mobile: keep the chosen tab visible in the horizontal row (without scrolling the page).
-    if (nav.scrollWidth > nav.clientWidth) {
-      nav.scrollTo({ left: tabs[i].offsetLeft - 8, behavior: reducedMotion() ? 'auto' : 'smooth' });
+    if (reducedMotion()) return;
+    // Smoothly grow/shrink the card to the new category's height.
+    const to = stage.offsetHeight;
+    if (from !== to) {
+      stage.animate({ height: [`${from}px`, `${to}px`] }, { duration: 450, easing: EASE_OUT });
     }
+    animateTiles(panels[i], 40);
   }
 
   tabs.forEach((t, i) => t.addEventListener('click', () => select(i)));
 
   nav.addEventListener('keydown', (e) => {
-    const keys = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 };
+    const keys = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
     let next = null;
     if (e.key in keys) next = (active + keys[e.key] + tabs.length) % tabs.length;
     else if (e.key === 'Home') next = 0;

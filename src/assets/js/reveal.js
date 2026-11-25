@@ -27,8 +27,8 @@ function reveal(el) {
   if (el.matches('[data-skillset]')) {
     $$('.skillset__tab', el).forEach((tab, j) =>
       tab.animate(
-        { opacity: [0, 1], translate: ['-16px 0', '0 0'] },
-        { duration: 600, delay: delay + 150 + j * 50, easing: EASE_OUT, fill: 'backwards' },
+        { opacity: [0, 1], translate: ['0 12px', '0 0'] },
+        { duration: 600, delay: delay + 150 + j * 45, easing: EASE_OUT, fill: 'backwards' },
       ),
     );
     const panel = $('.skillset__panel.is-active', el);

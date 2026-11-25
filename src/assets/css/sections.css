@@ -794,37 +794,51 @@
 
 /* ---------- Skills ---------- */
 
+/* One card: category bar on top, active category's tiles below. */
 .skillset {
-  display: grid;
-  grid-template-columns: 300px minmax(0, 1fr);
-  gap: 20px;
-  align-items: start;
+  position: relative;
+  border-radius: var(--r-xl);
+  background:
+    radial-gradient(70% 55% at 100% 0%, var(--accent-soft), transparent 60%),
+    radial-gradient(50% 50% at 0% 100%, rgba(56, 189, 248, 0.06), transparent 70%),
+    var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
 }
 
-/* Category tabs */
+/* ---- Category bar ---- */
+.skillset__bar {
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-2) 55%, transparent);
+}
+
 .skillset__nav {
   position: relative;
-  display: grid;
+  display: flex;
   gap: 4px;
-  padding: 8px;
-  border-radius: var(--r-lg);
-  background: var(--surface);
-  border: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+}
+
+.skillset__nav::-webkit-scrollbar {
+  display: none;
 }
 
 .skillset__indicator {
   position: absolute;
-  left: 8px;
-  right: 8px;
   top: 0;
-  height: var(--ih, 0);
-  border-radius: 12px;
-  background: var(--accent-soft);
-  border: 1px solid var(--accent-line);
-  box-shadow: 0 10px 30px -18px var(--glow);
-  transform: translateY(var(--iy, 0));
+  left: 0;
+  height: 100%;
+  width: var(--iw, 0);
+  border-radius: var(--r-full);
+  background: var(--grad-btn);
+  box-shadow: 0 8px 24px -10px var(--glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateX(var(--ix, 0));
   opacity: var(--io, 0);
-  transition: transform 0.55s var(--ease-out), height 0.55s var(--ease-out), opacity var(--dur-2);
+  transition: transform 0.5s var(--ease-out), width 0.5s var(--ease-out), opacity var(--dur-2);
 }
 
 .skillset__indicator.no-anim {
@@ -834,170 +848,168 @@
 .skillset__tab {
   position: relative;
   z-index: 1;
-  display: flex;
+  flex: 1 0 auto;
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 11px 12px;
-  border-radius: 12px;
-  text-align: left;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 16px;
+  border-radius: var(--r-full);
+  font-size: 0.88rem;
+  font-weight: 600;
+  white-space: nowrap;
   color: var(--text-2);
+  scroll-snap-align: start;
   transition: color var(--dur-2), background-color var(--dur-2);
 }
 
 .skillset__tab:hover {
   color: var(--text);
-  background: color-mix(in srgb, var(--surface-2) 70%, transparent);
+  background: color-mix(in srgb, var(--surface-3) 60%, transparent);
 }
 
 .skillset__tab.is-active {
-  color: var(--text);
+  color: #fff;
   background: transparent;
 }
 
 .skillset__tab-ico {
   flex: none;
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  color: var(--text-3);
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  transition: color var(--dur-2), background-color var(--dur-2), border-color var(--dur-2), transform 0.5s var(--ease-spring);
+  opacity: 0.8;
+  transition: transform 0.5s var(--ease-spring), opacity var(--dur-2);
 }
 
 .skillset__tab.is-active .skillset__tab-ico {
-  color: #fff;
-  background: var(--grad-btn);
-  border-color: transparent;
-  transform: scale(1.06);
+  opacity: 1;
+  transform: scale(1.1);
 }
 
-.skillset__tab-text {
-  display: grid;
-  min-width: 0;
-}
-
-.skillset__tab-title {
-  font-weight: 600;
-  font-size: 0.92rem;
-  line-height: 1.3;
-}
-
-.skillset__tab-count {
-  font-size: 0.76rem;
-  color: var(--text-3);
-}
-
-.skillset__tab-num {
-  margin-left: auto;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--text-3);
-  transition: color var(--dur-2);
-}
-
-.skillset__tab.is-active .skillset__tab-num {
-  color: var(--accent);
-}
-
-/* Panels: all stacked in one grid cell, so switching never changes the height */
-.skillset__panels {
-  display: grid;
-  border-radius: var(--r-lg);
-  background:
-    radial-gradient(80% 60% at 100% 0%, var(--accent-soft), transparent 60%),
-    var(--surface);
-  border: 1px solid var(--border);
-  overflow: hidden;
+/* ---- Stage (height animates between categories in skills.js) ---- */
+.skillset__stage {
+  position: relative;
+  border-radius: 0 0 var(--r-xl) var(--r-xl);
 }
 
 .skillset__panel {
-  grid-area: 1 / 1;
-  padding: clamp(22px, 3vw, 34px);
-  transition: opacity 0.3s var(--ease-out) 0.05s, visibility 0s;
+  padding: clamp(22px, 3.4vw, 40px);
 }
 
-/* Cross-fade: the old panel fades out while the new one's tiles pop in. */
 html.js .skillset__panel:not(.is-active) {
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease-in, visibility 0s 0.2s;
+  display: none;
 }
 
 .skillset__head {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding-bottom: 22px;
-  margin-bottom: 24px;
-  border-bottom: 1px solid var(--border);
+  gap: 18px;
+  margin-bottom: clamp(22px, 3vw, 30px);
 }
 
 .skillset__head-ico {
   flex: none;
   display: grid;
   place-items: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 14px;
-  color: var(--accent);
-  background: var(--accent-soft);
-  border: 1px solid var(--accent-line);
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  color: #fff;
+  background: var(--grad-btn);
+  box-shadow: 0 12px 30px -12px var(--glow);
+}
+
+.skillset__head-text {
+  flex: 1;
+  min-width: 0;
 }
 
 .skillset__title {
-  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem);
+  font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.85rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
 }
 
 .skillset__blurb {
   margin-top: 4px;
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   color: var(--text-2);
 }
 
-/* Uniform technology tiles */
+.skillset__head-count {
+  flex: none;
+  display: grid;
+  justify-items: end;
+  font-size: 0.76rem;
+  color: var(--text-3);
+}
+
+.skillset__head-count b {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---- Compact technology tiles ---- */
 .tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 12px;
 }
 
 .tile {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 14px;
-  min-height: 112px;
-  padding: 16px;
+  padding: 12px 16px 12px 12px;
   border-radius: var(--r-md);
-  background: var(--surface-2);
+  background: color-mix(in srgb, var(--surface-2) 80%, transparent);
   border: 1px solid var(--border);
+  overflow: hidden;
   transition: transform 0.4s var(--ease-spring), border-color var(--dur-2), box-shadow 0.4s var(--ease-out), background-color var(--dur-2);
 }
 
+/* soft accent wash that slides in on hover */
+.tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, var(--accent-soft), transparent 70%);
+  opacity: 0;
+  transform: translateX(-30%);
+  transition: opacity 0.4s var(--ease-out), transform 0.6s var(--ease-out);
+  pointer-events: none;
+}
+
 .tile:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   border-color: var(--accent-line);
-  background: var(--surface);
-  box-shadow: 0 14px 34px -16px var(--glow);
+  box-shadow: 0 14px 34px -18px var(--glow);
+}
+
+.tile:hover::before {
+  opacity: 1;
+  transform: none;
 }
 
 .tile__logo {
+  position: relative;
+  flex: none;
   display: grid;
   place-items: center;
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   border-radius: 12px;
   color: var(--accent);
   background: var(--surface);
   border: 1px solid var(--border);
-  transition: transform 0.45s var(--ease-spring);
+  transition: transform 0.45s var(--ease-spring), border-color var(--dur-2);
 }
 
 [data-theme='light'] .tile__logo {
@@ -1005,12 +1017,13 @@ html.js .skillset__panel:not(.is-active) {
 }
 
 .tile:hover .tile__logo {
-  transform: scale(1.1) rotate(-6deg);
+  transform: scale(1.08) rotate(-6deg);
+  border-color: var(--accent-line);
 }
 
 .tile__logo img {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
 }
 
@@ -1031,67 +1044,46 @@ html.js .skillset__panel:not(.is-active) {
 }
 
 .tile__name {
-  font-size: 0.9rem;
+  position: relative;
+  font-size: 0.93rem;
   font-weight: 600;
   line-height: 1.3;
 }
 
-@media (max-width: 900px) {
-  .skillset {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .skillset__nav {
-    display: flex;
-    gap: 6px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    scroll-snap-type: x proximity;
-  }
-
-  .skillset__nav::-webkit-scrollbar {
-    display: none;
-  }
-
-  .skillset__indicator {
-    display: none;
+@media (max-width: 760px) {
+  .skillset__bar {
+    padding: 8px;
   }
 
   .skillset__tab {
     flex: none;
-    width: auto;
-    padding: 8px 14px 8px 8px;
-    scroll-snap-align: start;
+    height: 40px;
+    padding: 0 14px;
   }
 
-  .skillset__tab.is-active {
-    background: var(--accent-soft);
-    box-shadow: inset 0 0 0 1px var(--accent-line);
+  .skillset__head {
+    flex-wrap: wrap;
+    gap: 14px;
   }
 
-  .skillset__tab-count,
-  .skillset__tab-num {
+  .skillset__head-ico {
+    width: 46px;
+    height: 46px;
+  }
+
+  .skillset__head-count {
     display: none;
   }
 
-  .skillset__tab-ico {
-    width: 30px;
-    height: 30px;
-  }
-
-  .skillset__tab-ico .ico {
-    width: 16px;
-    height: 16px;
-  }
-}
-
-@media (max-width: 480px) {
   .tiles {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
   }
 
   .tile {
-    min-height: 100px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
     padding: 14px;
   }
 }
