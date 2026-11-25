@@ -110,6 +110,20 @@ const hash = crypto.createHash('sha1').update(css);
 for (const f of (await fs.readdir(jsDir)).sort()) hash.update(await fs.readFile(path.join(jsDir, f)));
 const version = hash.digest('hex').slice(0, 8);
 
+// Stamp every relative module import with the build version (./nav.js → ./nav.js?v=…), so after a
+// deploy browsers fetch fresh copies of all modules, not just main.js, and never mix old and new files.
+const distJs = path.join(DIST, 'assets', 'js');
+for (const f of await fs.readdir(distJs)) {
+  if (!f.endsWith('.js')) continue;
+  const file = path.join(distJs, f);
+  const code = await fs.readFile(file, 'utf8');
+  const stamped = code.replace(
+    /(\bfrom\s*|\bimport\s*\(\s*|\bimport\s+)(['"])(\.{1,2}\/[^'"?]+\.js)\2/g,
+    (_, lead, q, spec) => `${lead}${q}${spec}?v=${version}${q}`,
+  );
+  await fs.writeFile(file, stamped);
+}
+
 /* ───────────────────────── Templating ───────────────────────── */
 
 async function template(name) {
