@@ -72,6 +72,15 @@ export const training = [
 
 export const achievements = [
   {
+    badge: 'Champion',
+    icon: 'trophy',
+    title: 'Academic Project Achievement',
+    summary: 'Champion — Data Structure & Algorithm Project Competition.',
+    items: ['Awarded Champion — 1st place in the competition', 'Role: Project Lead Developer'],
+    highlight: true,
+    // certificateUrl: '',
+  },
+  {
     badge: 'Hackathon',
     icon: 'cpu',
     title: 'AI Dev Fest 2026',
@@ -96,15 +105,6 @@ export const achievements = [
       'Unlock the Algorithm — 17th Place',
       'Take-Off Programming Contest Spring 2024 — 15th Place',
     ],
-    // certificateUrl: '',
-  },
-  {
-    badge: 'Champion',
-    icon: 'trophy',
-    title: 'Academic Project Achievement',
-    summary: 'Champion — Data Structure & Algorithm Project Competition.',
-    items: ['Awarded Champion — 1st place in the competition', 'Role: Project Lead Developer'],
-    highlight: true,
     // certificateUrl: '',
   },
 ];

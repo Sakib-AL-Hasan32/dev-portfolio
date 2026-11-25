@@ -108,6 +108,8 @@
   --t4: #7f9cf5;
   --t5: #b794f4;
   --t6: #68d391;
+  --c-green: #3ee07f; /* bright green */
+  --c-blue: #4aa8ff;  /* bright blue */
 
   --logo-invert: 1;
 }
@@ -156,6 +158,8 @@
   --t4: #3b5bdb;
   --t5: #7b3fbf;
   --t6: #2f9e44;
+  --c-green: #16a34a;
+  --c-blue: #1d6fe0;
 
   --logo-invert: 0;
 }
