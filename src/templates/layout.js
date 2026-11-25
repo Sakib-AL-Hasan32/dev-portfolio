@@ -48,9 +48,10 @@ const preloadSrc = function () {
   var setup = function (v, activation, slug) {
     v.ready.catch(noop);
     v.updateCallbackDone.catch(noop);
-    if (v.types && ((activation && activation.navigationType === 'traverse') || goingBack())) v.types.add('back');
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { v.skipTransition(); return; }
+    if ((activation && activation.navigationType === 'traverse') || goingBack()) d.classList.add('vt-back');
     var media = nameCard(slug);
-    var done = function () { if (media) media.style.viewTransitionName = ''; };
+    var done = function () { d.classList.remove('vt-back'); if (media) media.style.viewTransitionName = ''; };
     v.finished.then(done, done);
   };
   // Leaving this page: name the card whose project we are opening.
@@ -95,7 +96,6 @@ ${canonical ? `<link rel="canonical" href="${esc(canonical)}">\n<meta property="
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="${o.root}assets/images/favicon.svg" type="image/svg+xml">
 <script>${preload}</script>
-<link rel="expect" href="#page-end" blocking="render">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 ${o.preconnectCdn ? '<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>' : ''}

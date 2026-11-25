@@ -274,11 +274,11 @@ html:not(.theme-vt)::view-transition-new(root) {
 }
 
 /* Going back: the same motion in reverse (old page sinks, previous page settles from above). */
-html:active-view-transition-type(back)::view-transition-old(root) {
+html.vt-back::view-transition-old(root) {
   animation-name: vt-out-back;
 }
 
-html:active-view-transition-type(back)::view-transition-new(root) {
+html.vt-back::view-transition-new(root) {
   animation-name: vt-in-back;
 }
 
@@ -354,10 +354,6 @@ html.no-vt body.is-leaving .footer {
    ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
-  @view-transition {
-    navigation: none;
-  }
-
   html {
     scroll-behavior: auto;
   }

@@ -105,16 +105,11 @@ function backLinks() {
   const label = link.querySelector('span');
   if (label && page === 'project') label.textContent = isProjectsPath(target.pathname) ? 'All projects' : 'Back to home';
 
+  // Navigate to the remembered page (with the reverse "back" animation) and restore its scroll
+  // position on arrival. A normal navigation animates more reliably than history.back().
   link.addEventListener('click', (e) => {
     if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     store('pf:back', 1);
-    // Came straight from that page → real history back (browser restores scroll natively).
-    if (document.referrer && cleanUrl(document.referrer) === cleanUrl(target.href) && history.length > 1) {
-      e.preventDefault();
-      history.back();
-      return;
-    }
-    // Otherwise (e.g. after Previous/Next) navigate there and restore the scroll position on arrival.
     store('pf:restore', origin);
   });
 }
