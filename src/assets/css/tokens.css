@@ -101,6 +101,14 @@
   --tk-cm: #6e6a72;
   --tk-fn: #8ab4ff;
 
+  /* Variety tones for small icons and numbers (cycled across items). */
+  --t1: #ff5f6d;
+  --t2: #4fd1c5;
+  --t3: #f6ad55;
+  --t4: #7f9cf5;
+  --t5: #b794f4;
+  --t6: #68d391;
+
   --logo-invert: 1;
 }
 
@@ -140,6 +148,14 @@
   --shadow-glow: 0 0 0 1px var(--accent-line), 0 18px 50px -20px var(--glow);
 
   --code-bg: #131216;
+
+  /* Variety tones (deeper for contrast on white). */
+  --t1: #d1202f;
+  --t2: #0f8f84;
+  --t3: #c46a0a;
+  --t4: #3b5bdb;
+  --t5: #7b3fbf;
+  --t6: #2f9e44;
 
   --logo-invert: 0;
 }

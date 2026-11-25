@@ -2327,3 +2327,72 @@ html:not(.js) .course__ring-dot,
     gap: 32px;
   }
 }
+
+/* ==========================================================================
+   Colour variety — small icons and numbers cycle through six tones
+   (red, teal, amber, blue, violet, green) instead of all using the accent.
+   ========================================================================== */
+
+:is(.highlights, .tiles, .course__stats, .features, .contact__cards, .skillset__nav, .timeline) > :nth-child(6n + 1) { --tone: var(--t1); }
+:is(.highlights, .tiles, .course__stats, .features, .contact__cards, .skillset__nav, .timeline) > :nth-child(6n + 2) { --tone: var(--t2); }
+:is(.highlights, .tiles, .course__stats, .features, .contact__cards, .skillset__nav, .timeline) > :nth-child(6n + 3) { --tone: var(--t3); }
+:is(.highlights, .tiles, .course__stats, .features, .contact__cards, .skillset__nav, .timeline) > :nth-child(6n + 4) { --tone: var(--t4); }
+:is(.highlights, .tiles, .course__stats, .features, .contact__cards, .skillset__nav, .timeline) > :nth-child(6n + 5) { --tone: var(--t5); }
+:is(.highlights, .tiles, .course__stats, .features, .contact__cards, .skillset__nav, .timeline) > :nth-child(6n + 6) { --tone: var(--t6); }
+
+/* Shared look for a toned icon badge */
+.hl-card__ico,
+.tile__logo--icon,
+.ccard__ico {
+  color: var(--tone, var(--accent));
+  background: color-mix(in srgb, var(--tone, var(--accent)) 12%, transparent);
+  border-color: color-mix(in srgb, var(--tone, var(--accent)) 34%, transparent);
+}
+
+.ccard__ico {
+  border: 1px solid color-mix(in srgb, var(--tone, var(--accent)) 30%, transparent);
+}
+
+.hl-card:hover .hl-card__ico {
+  color: #fff;
+  background: var(--tone, var(--accent));
+}
+
+.hl-card:hover {
+  border-color: color-mix(in srgb, var(--tone, var(--accent)) 40%, transparent);
+}
+
+.tile:hover:has(.tile__logo--icon) {
+  border-color: color-mix(in srgb, var(--tone) 45%, transparent);
+  box-shadow: 0 20px 44px -22px color-mix(in srgb, var(--tone) 55%, transparent);
+}
+
+/* Skill tab icons get their own colour until selected (the active one keeps the gradient) */
+.skillset__tab:not(.is-active) .skillset__tab-ico {
+  color: var(--tone);
+  background: color-mix(in srgb, var(--tone) 10%, transparent);
+  border-color: color-mix(in srgb, var(--tone) 28%, transparent);
+}
+
+/* Course stat numbers: one colour each instead of the red gradient */
+.course .stat__value {
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  color: var(--tone, var(--accent));
+}
+
+.course .stat:hover {
+  border-color: color-mix(in srgb, var(--tone, var(--accent)) 40%, transparent);
+}
+
+/* Project page feature numbers */
+.feature__num {
+  color: var(--tone, var(--accent));
+}
+
+/* Timeline icons (before they light up on scroll) */
+.tl-item:not(.is-lit) .tl-item__node {
+  color: var(--tone, var(--accent));
+  border-color: color-mix(in srgb, var(--tone, var(--accent)) 40%, transparent);
+}
