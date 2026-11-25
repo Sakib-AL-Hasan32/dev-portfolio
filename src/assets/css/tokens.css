@@ -48,7 +48,7 @@
      ember-orange rim light and golden highlights. */
   --crimson: #c8102e;
   --ember: #ff5a1f;
-  --amber: #ffb627;
+  --amber: #f4b56a;
   --green: #34d399;
   /* legacy names kept so older rules keep working */
   --indigo: var(--crimson);
@@ -73,17 +73,17 @@
   --text-3: #8a776b;
 
   --accent: #ff6a3d;
-  --accent-2: #ffb627;
+  --accent-2: #f4b56a;
   --accent-ink: #160805;
   --accent-soft: rgba(255, 106, 61, 0.13);
   --accent-line: rgba(255, 120, 70, 0.36);
-  --grad: linear-gradient(110deg, #ff3b3b 0%, #ff6a2b 45%, #ffbf3c 100%);
-  --grad-btn: linear-gradient(110deg, #d4142f 0%, #ff4f1f 55%, #ff9a1f 100%);
+  --grad: linear-gradient(110deg, #ff4438 0%, #ff6f35 50%, #f6b06b 100%);
+  --grad-btn: linear-gradient(110deg, #d4142f 0%, #ff4f1f 60%, #f98a3a 100%);
 
   --grid-line: rgba(255, 220, 200, 0.04);
   --blob-a: rgba(200, 16, 46, 0.34);
   --blob-b: rgba(255, 106, 31, 0.18);
-  --blob-c: rgba(255, 182, 39, 0.12);
+  --blob-c: rgba(244, 181, 106, 0.08);
   --glow: rgba(255, 82, 40, 0.45);
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
@@ -93,7 +93,7 @@
 
   --code-bg: #100a08;
   --tk-kw: #ff7b6b;
-  --tk-ty: #ffcf5c;
+  --tk-ty: #f2c98a;
   --tk-st: #b9d97f;
   --tk-an: #ff9f43;
   --tk-cm: #7c6a5f;
@@ -118,17 +118,17 @@
   --text-3: #9a8478;
 
   --accent: #d62828;
-  --accent-2: #f77f00;
+  --accent-2: #ef8a2e;
   --accent-ink: #ffffff;
   --accent-soft: rgba(214, 40, 40, 0.08);
   --accent-line: rgba(214, 40, 40, 0.28);
-  --grad: linear-gradient(110deg, #c1121f 0%, #e85d04 50%, #f4a100 100%);
-  --grad-btn: linear-gradient(110deg, #c1121f 0%, #e63912 55%, #f48c06 100%);
+  --grad: linear-gradient(110deg, #c1121f 0%, #e45a13 55%, #ec9d4c 100%);
+  --grad-btn: linear-gradient(110deg, #c1121f 0%, #e63912 60%, #ef8333 100%);
 
-  --grid-line: rgba(80, 30, 10, 0.055);
+  --grid-line: rgba(240, 115, 30, 0.13);
   --blob-a: rgba(230, 57, 70, 0.16);
   --blob-b: rgba(247, 127, 0, 0.14);
-  --blob-c: rgba(252, 191, 73, 0.2);
+  --blob-c: rgba(246, 178, 107, 0.12);
   --glow: rgba(230, 70, 30, 0.26);
 
   --shadow-sm: 0 1px 2px rgba(60, 25, 10, 0.07);
