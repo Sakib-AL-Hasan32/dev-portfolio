@@ -129,8 +129,7 @@ export function nav({ root, page }) {
     )
     .join('');
 
-  return `<a class="skip-link" href="#main">Skip to content</a>
-<header class="nav" data-nav>
+  return `<header class="nav" data-nav>
   <div class="nav__inner">
     <a class="nav__logo" href="${onHome ? '#home' : root}" aria-label="${esc(site.shortName)} — home">${esc(site.shortName)}<span class="nav__dot">.</span></a>
     <nav class="nav__links" aria-label="Primary" data-nav-links>
@@ -196,7 +195,7 @@ export function footer({ root, page }) {
     <div class="footer__brand">
       <a class="nav__logo footer__logo" href="${onHome ? '#home' : root}">${esc(site.shortName)}<span class="nav__dot">.</span></a>
       <p class="footer__name">${esc(site.name)}</p>
-      <p class="footer__title">${esc(site.title)}</p>
+      <p class="footer__title">Software Engineer</p>
       <div class="footer__socials">${socialLinks()}</div>
     </div>
     <nav class="footer__nav" aria-label="Footer">
@@ -211,7 +210,7 @@ export function footer({ root, page }) {
   </div>
   <div class="container footer__bottom">
     <p>© ${year} ${esc(site.name)}. All rights reserved.</p>
-    <p class="footer__love">Built with passion ${icon('heart', { size: 14, cls: 'footer__heart' })} — HTML, CSS &amp; vanilla JS.</p>
+    <p class="footer__love">Designed and built with care in Bangladesh.</p>
   </div>
 </footer>
 <div id="page-end" hidden></div>`;

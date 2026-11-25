@@ -110,24 +110,6 @@ button {
   border: 0;
 }
 
-.skip-link {
-  position: fixed;
-  top: 12px;
-  left: 12px;
-  z-index: 200;
-  padding: 10px 16px;
-  border-radius: var(--r-sm);
-  background: var(--accent);
-  color: var(--accent-ink);
-  font-weight: 600;
-  transform: translateY(-150%);
-  transition: transform var(--dur-2) var(--ease-out);
-}
-
-.skip-link:focus {
-  transform: none;
-}
-
 /* Scrollbar */
 html {
   scrollbar-color: var(--surface-3) transparent;

@@ -22,8 +22,6 @@ function scrollChrome() {
 
   toTop?.addEventListener('click', () => {
     scrollTo({ top: 0, behavior: reducedMotion() ? 'auto' : 'smooth' });
-    // Move focus to the top for keyboard users without scrolling again.
-    $('.skip-link')?.focus({ preventScroll: true });
   });
 }
 

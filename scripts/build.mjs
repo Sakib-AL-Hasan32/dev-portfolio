@@ -153,7 +153,7 @@ const featured = (projects.some((p) => p.featured) ? projects.filter((p) => p.fe
 
 function portrait(root) {
   if (site.profileImage && existsSync(path.join(SRC, site.profileImage))) {
-    return `<img class="portrait__img" src="${root}${esc(site.profileImage)}" alt="Portrait of ${esc(site.name)}" width="800" height="1000" fetchpriority="high" decoding="async">`;
+    return `<img class="portrait__img" src="${root}${esc(site.profileImage)}" alt="Portrait of ${esc(site.name)}" width="960" height="1192" fetchpriority="high" decoding="async">`;
   }
   warn(`Profile photo not found at src/${site.profileImage} — showing placeholder`);
   const initials = site.name

@@ -12,6 +12,7 @@ import { initProjectsPage } from './projects-page.js';
 import { initDetail } from './detail.js';
 import { initContact } from './contact.js';
 import { initSkills } from './skills.js';
+import { initCodeWindow } from './code-window.js';
 
 const page = document.body.dataset.page;
 
@@ -19,6 +20,7 @@ initTheme();
 initNav();
 initHero();
 initSkills();
+initCodeWindow();
 initReveal();
 initEffects();
 initChrome();

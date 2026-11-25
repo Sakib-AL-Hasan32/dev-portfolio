@@ -153,13 +153,16 @@ export function trainingCards(list) {
   return list
     .map(
       (t, i) => `<article class="course" data-reveal data-spotlight style="--i:${i}">
-      <header class="course__top">
-        <span class="course__ico">${icon(t.icon || 'graduation', { size: 22 })}</span>
-        <span class="badge badge--accent">${icon('graduation', { size: 14 })} ${esc(t.type)}</span>
-      </header>
-      <h3 class="course__title">${esc(t.program)}</h3>
-      <p class="course__provider">${icon('award', { size: 15 })}${esc(t.provider)}</p>
-      <ul class="checklist">${t.points.map((pt) => `<li>${icon('check', { size: 16 })}<span>${esc(pt)}</span></li>`).join('')}</ul>
+      <div class="course__main">
+        <span class="course__ico">${icon(t.icon || 'graduation', { size: 24 })}</span>
+        <div class="course__info">
+          <span class="badge badge--accent">${icon('graduation', { size: 14 })} ${esc(t.type)}</span>
+          <h3 class="course__title">${esc(t.program)}</h3>
+          <p class="course__provider">${icon('award', { size: 15 })}${esc(t.provider)}</p>
+          <ul class="checklist">${t.points.map((pt) => `<li>${icon('check', { size: 16 })}<span>${esc(pt)}</span></li>`).join('')}</ul>
+        </div>
+      </div>
+      <div class="course__side">
       <dl class="course__stats">
         ${t.stats
           .map(
@@ -176,6 +179,7 @@ export function trainingCards(list) {
             ? `<a class="btn btn--sm btn--ghost btn--block" href="${esc(t.certificateUrl)}" target="_blank" rel="noopener">${icon('award', { size: 16 })}View credential${icon('external', { size: 15 })}</a>`
             : `<button class="btn btn--sm btn--ghost btn--block" type="button" disabled title="Certificate link coming soon">${icon('award', { size: 16 })}View credential<span class="course__soon">Soon</span></button>`
         }
+      </div>
       </div>
     </article>`,
     )

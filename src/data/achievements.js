@@ -11,12 +11,11 @@
  */
 export const training = [
   {
-    program: 'Backend Web Development with Java & Spring Boot',
+    program: 'Backend Development with Java & Spring Boot',
     provider: 'Ostad',
     type: 'Professional training',
     icon: 'server',
     points: [
-      'Completed an 8-month backend development program.',
       'Worked on 28 backend projects, assignments and quizzes.',
       'Took part in live classes, problem-solving sessions, discussions and code reviews.',
     ],
@@ -25,6 +24,25 @@ export const training = [
       { value: 5, prefix: '#', label: 'Rank among 53 students' },
       { value: 28, label: 'Projects, assignments & quizzes' },
       { value: 8, label: 'Month program' },
+    ],
+    certificateUrl: 'https://ostad.app/share/certificate/c46010-sakib',
+  },
+  {
+    program: 'AI Native DevOps',
+    provider: 'Ostad',
+    type: 'Professional training',
+    icon: 'repeat',
+    // TODO: the numbers below are PLACEHOLDERS — replace them with your real results.
+    points: [
+      'Completed a 4-month DevOps program.',
+      'Worked on 16 DevOps projects, assignments and quizzes.',
+      'Took part in live classes, lab sessions and code reviews.',
+    ],
+    stats: [
+      { value: 94.2, decimals: 1, suffix: '%', label: 'Final score' },
+      { value: 7, prefix: '#', label: 'Rank among 48 students' },
+      { value: 16, label: 'Projects, assignments & quizzes' },
+      { value: 4, label: 'Month program' },
     ],
     certificateUrl: '', // TODO: paste the Ostad certificate link
   },
@@ -43,25 +61,6 @@ export const training = [
       { value: 95.6, decimals: 1, suffix: '%', label: 'Final score' },
       { value: 4, prefix: '#', label: 'Rank among 60 students' },
       { value: 18, label: 'Projects, assignments & quizzes' },
-      { value: 4, label: 'Month program' },
-    ],
-    certificateUrl: '', // TODO: paste the Ostad certificate link
-  },
-  {
-    program: 'AI Native DevOps',
-    provider: 'Ostad',
-    type: 'Professional training',
-    icon: 'repeat',
-    // TODO: the numbers below are PLACEHOLDERS — replace them with your real results.
-    points: [
-      'Completed a 4-month DevOps program.',
-      'Worked on 16 DevOps projects, assignments and quizzes.',
-      'Took part in live classes, lab sessions and code reviews.',
-    ],
-    stats: [
-      { value: 94.2, decimals: 1, suffix: '%', label: 'Final score' },
-      { value: 7, prefix: '#', label: 'Rank among 48 students' },
-      { value: 16, label: 'Projects, assignments & quizzes' },
       { value: 4, label: 'Month program' },
     ],
     certificateUrl: '', // TODO: paste the Ostad certificate link
@@ -92,7 +91,6 @@ export const achievements = [
     summary: 'Competitive programming contest results.',
     items: [
       'Unlock the Algorithm — 17th Place',
-      'CodeTrap Programming Contest — 62nd Place',
       'Take-Off Programming Contest Spring 2024 — 15th Place',
     ],
     // certificateUrl: '',
@@ -102,7 +100,7 @@ export const achievements = [
     icon: 'trophy',
     title: 'Academic Project Achievement',
     summary: 'Champion — Data Structure & Algorithm Project Competition.',
-    items: ['Role: Project Lead Developer'],
+    items: ['Awarded Champion — 1st place in the competition', 'Role: Project Lead Developer'],
     highlight: true,
     // certificateUrl: '',
   },

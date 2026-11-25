@@ -324,7 +324,7 @@ html.theme-vt::view-transition-new(root) {
   z-index: 2;
 }
 
-html.theme-vt .nav,
+html.theme-vt .nav__inner,
 html.theme-vt .detail-hero__cover,
 html.theme-vt .pcard__media {
   view-transition-name: none;

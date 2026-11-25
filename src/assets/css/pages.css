@@ -62,10 +62,10 @@
   color: var(--text-2);
 }
 
+/* Filter bar scrolls with the page (it does not follow the header down). */
 .toolbar {
-  position: sticky;
-  top: calc(var(--nav-h) + 24px);
-  z-index: 20;
+  position: relative;
+  z-index: 2;
   display: grid;
   gap: 14px;
   padding: 14px;
@@ -258,11 +258,6 @@
 @media (max-width: 680px) {
   .projects-grid {
     grid-template-columns: 1fr;
-  }
-
-  .toolbar {
-    position: relative;
-    top: 0;
   }
 
   .toolbar__row {
