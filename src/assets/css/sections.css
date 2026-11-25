@@ -2664,27 +2664,29 @@ html:not(.js) .course__ring-dot,
   }
 }
 
-/* Contact: info icon, email link and the submit button in green */
-.form__notice .ico,
-.form__notice a {
-  color: var(--c-green);
-}
-
-.form__submit.btn--primary {
-  color: #06210f;
-  background: linear-gradient(110deg, var(--c-green), color-mix(in srgb, var(--c-green) 70%, #0b7a3b));
-  box-shadow: 0 12px 32px -12px color-mix(in srgb, var(--c-green) 60%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-}
-
-.form__submit.btn--primary:hover {
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-green) 18%, transparent), 0 14px 40px -8px color-mix(in srgb, var(--c-green) 55%, transparent);
-}
-
-[data-theme='light'] .form__submit.btn--primary {
-  color: #ffffff;
-}
-
 /* Courses: more space between the stats row and View credential */
 .course__foot {
   margin-top: 22px;
+}
+
+/* Hero greeting in blue */
+.hero__hello {
+  color: var(--c-blue);
+}
+
+.hero__hello .caret {
+  background: var(--c-blue);
+}
+
+/* Project page: green feature numbers, blue Technologies icon, yellow Key concepts icon */
+.feature__num {
+  color: var(--c-green);
+}
+
+.impl__block:first-child .impl__label .ico {
+  color: var(--c-blue);
+}
+
+.impl__block--wide .impl__label .ico {
+  color: var(--c-yellow);
 }

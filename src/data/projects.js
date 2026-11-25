@@ -197,4 +197,40 @@ export const projects = [
     featured: true,
     // status: '',      // TODO
   },
+  {
+    id: 9,
+    slug: 'youtube-automation',
+    title: 'YouTube Automation',
+    shortDescription: 'An AI automation project for YouTube workflows.',
+    category: 'AI Automation',
+    technologies: ['AI', 'Automation'], // TODO: add the real stack (e.g. n8n, APIs, models)
+    // fullDescription: '',  // TODO: what it automates and how
+    // features: [],         // TODO
+    // status: '',           // TODO
+    // githubUrl: '',        // TODO
+  },
+  {
+    id: 10,
+    slug: 'rag-customer-support-agent',
+    title: 'RAG-Based Customer Support Agent',
+    shortDescription: 'An AI customer support agent that answers questions using retrieval-augmented generation (RAG).',
+    category: 'AI Automation',
+    technologies: ['RAG', 'AI Agents'], // TODO: add the real stack
+    // fullDescription: '',  // TODO
+    // features: [],         // TODO
+    // status: '',           // TODO
+    // githubUrl: '',        // TODO
+  },
+  {
+    id: 11,
+    slug: 'ai-travel-assistant',
+    title: 'AI Travel Assistant',
+    shortDescription: 'An AI-powered assistant for travel planning.',
+    category: 'AI Automation',
+    technologies: ['AI', 'Automation'], // TODO: add the real stack
+    // fullDescription: '',  // TODO
+    // features: [],         // TODO
+    // status: '',           // TODO
+    // githubUrl: '',        // TODO
+  },
 ];

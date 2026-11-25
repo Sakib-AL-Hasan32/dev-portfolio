@@ -100,8 +100,8 @@ export const achievements = [
     title: 'Programming Competitions',
     summary: 'Competitive programming contest results.',
     items: [
-      'Unlock the Algorithm — 17th Place',
-      'Take-Off Programming Contest Spring 2024 — 15th Place',
+      'Unlock the Algorithm Contest — 17th Place',
+      'Take-Off Programming Contest — 15th Place',
     ],
     // certificateUrl: '',
   },

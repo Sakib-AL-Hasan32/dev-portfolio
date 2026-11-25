@@ -156,6 +156,8 @@ async function go(href, { push = true, back = false, y = null } = {}) {
   curPath = target.pathname;
   curPage = clean(target.href);
 
+  runInit();
+
   // Scroll: remembered position (Back link / history), a #section, or the top.
   let top = y;
   if (push) {
@@ -174,15 +176,13 @@ async function go(href, { push = true, back = false, y = null } = {}) {
   else scrollTo({ top: top ?? 0, left: 0, behavior: 'instant' });
   scrollPos[curIdx] = scrollY;
 
-  runInit();
-
   // Landing: glide the cover into its place on the new page.
   if (fly) {
     let dest = null;
     if (landOn === 'detail') dest = document.querySelector('.detail-hero__cover');
     else {
       const card = document.querySelector(`.pcard[data-slug="${landOn}"]`);
-      if (card) {
+      if (card && !card.classList.contains('is-hidden')) {
         card.classList.add('is-revealed');
         dest = card.querySelector('.pcard__media');
       }

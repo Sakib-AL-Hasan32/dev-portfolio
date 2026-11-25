@@ -536,7 +536,7 @@
   font-family: var(--font-mono);
   font-size: 0.78rem;
   font-weight: 500;
-  color: var(--accent);
+  color: var(--c-green);
 }
 
 .feature__title {
@@ -985,4 +985,46 @@
   justify-content: center;
   gap: 12px;
   margin-top: 10px;
+}
+
+/* ---------- Projects pagination ---------- */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0 56px;
+}
+
+.pagination__btn {
+  min-width: 44px;
+  height: 44px;
+  padding: 0 14px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: var(--r-full);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-2);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  border: 1px solid var(--border);
+  transition: transform 0.35s var(--ease-spring), color var(--dur-2), border-color var(--dur-2), background-color var(--dur-2), box-shadow var(--dur-2);
+}
+
+.pagination__btn:not([disabled]):hover {
+  transform: translateY(-2px);
+  color: var(--text);
+  border-color: var(--accent-line);
+}
+
+.pagination__btn.is-active {
+  color: #fff;
+  background: var(--grad-btn);
+  border-color: transparent;
+  box-shadow: 0 10px 26px -10px var(--glow);
+}
+
+.pagination__btn[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
