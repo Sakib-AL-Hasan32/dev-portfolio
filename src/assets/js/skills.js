@@ -1,6 +1,6 @@
 /**
- * Skills explorer: accessible tabs (click, arrow keys, Home/End) with a sliding pill,
- * a smooth height change between categories and staggered tile entrances.
+ * Skills explorer: accessible tabs (click, arrow keys, Home/End) with a sliding highlight,
+ * a cross-fade between categories (the box keeps its size) and staggered tile entrances.
  */
 import { $, $$, reducedMotion, rafThrottle, EASE_SPRING, EASE_OUT } from './utils.js';
 
@@ -22,17 +22,17 @@ export function initSkills() {
   const root = $('[data-skillset]');
   if (!root) return;
   const nav = $('.skillset__nav', root);
-  const stage = $('.skillset__stage', root);
   const tabs = $$('.skillset__tab', root);
   const panels = $$('.skillset__panel', root);
   const indicator = $('.skillset__indicator', root);
   let active = Math.max(0, tabs.findIndex((t) => t.classList.contains('is-active')));
 
   function moveIndicator(instant = false) {
+    if (getComputedStyle(indicator).display === 'none') return; // mobile row: no indicator
     const tab = tabs[active];
     if (instant) indicator.classList.add('no-anim');
-    indicator.style.setProperty('--ix', `${tab.offsetLeft}px`);
-    indicator.style.setProperty('--iw', `${tab.offsetWidth}px`);
+    indicator.style.setProperty('--iy', `${tab.offsetTop}px`);
+    indicator.style.setProperty('--ih', `${tab.offsetHeight}px`);
     indicator.style.setProperty('--io', '1');
     if (instant) requestAnimationFrame(() => requestAnimationFrame(() => indicator.classList.remove('no-anim')));
   }
@@ -46,7 +46,6 @@ export function initSkills() {
 
   function select(i, { focus = false } = {}) {
     if (i === active) return;
-    const from = stage.offsetHeight;
     active = i;
 
     tabs.forEach((t, k) => {
@@ -66,13 +65,8 @@ export function initSkills() {
     moveIndicator();
     revealTab(tabs[i]);
 
-    if (reducedMotion()) return;
-    // Smoothly grow/shrink the card to the new category's height.
-    const to = stage.offsetHeight;
-    if (from !== to) {
-      stage.animate({ height: [`${from}px`, `${to}px`] }, { duration: 450, easing: EASE_OUT });
-    }
-    animateTiles(panels[i], 40);
+    // The box keeps its size (all panels share one grid cell); only the content animates.
+    animateTiles(panels[i], 60);
   }
 
   tabs.forEach((t, i) => t.addEventListener('click', () => select(i)));

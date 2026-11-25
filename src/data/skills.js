@@ -1,6 +1,6 @@
 /**
  * Technology stack, grouped by category.
- * `devicon` → logo from the Devicon set (https://devicon.dev), `icon` → built-in line icon.
+ * Logos: `devicon` (https://devicon.dev) or `simpleicon` (https://simpleicons.org slug); `icon` → built-in line icon.
  * If a logo fails to load, the line icon is shown instead.
  * The first group is the tab that is open by default; `short` is the tab label.
  * @type {import('./types.js').SkillGroup[]}
@@ -13,14 +13,14 @@ export const skillGroups = [
     icon: 'server',
     items: [
       { name: 'Spring Boot', devicon: 'spring/spring-original' },
-      { name: 'Spring Security', icon: 'shield' },
+      { name: 'Spring Security', simpleicon: 'springsecurity', icon: 'shield' },
       { name: 'Spring Data JPA', devicon: 'spring/spring-original' },
       { name: 'Hibernate', devicon: 'hibernate/hibernate-original', mono: true },
       { name: 'REST API Development', icon: 'route' },
-      { name: 'JWT Authentication', icon: 'key' },
-      { name: 'OAuth 2.0', icon: 'lock' },
+      { name: 'JWT Authentication', simpleicon: 'jsonwebtokens', icon: 'key', mono: true },
+      { name: 'OAuth 2.0', devicon: 'oauth/oauth-original', icon: 'lock', mono: true },
       { name: 'Role-Based Access Control', icon: 'users' },
-      { name: 'Thymeleaf', icon: 'layout' },
+      { name: 'Thymeleaf', simpleicon: 'thymeleaf', icon: 'layout' },
     ],
   },
   {
@@ -52,7 +52,7 @@ export const skillGroups = [
     icon: 'plug',
     items: [
       { name: 'RabbitMQ', devicon: 'rabbitmq/rabbitmq-original' },
-      { name: 'Stripe Integration', icon: 'card' },
+      { name: 'Stripe Integration', simpleicon: 'stripe', icon: 'card' },
       { name: 'Email Integration', icon: 'mail' },
     ],
   },
@@ -67,7 +67,7 @@ export const skillGroups = [
       { name: 'Git', devicon: 'git/git-original' },
       { name: 'GitHub', devicon: 'github/github-original', mono: true },
       { name: 'GitHub Actions', devicon: 'githubactions/githubactions-original' },
-      { name: 'Flyway', icon: 'layers' },
+      { name: 'Flyway', simpleicon: 'flyway', icon: 'layers' },
       { name: 'Postman', devicon: 'postman/postman-original' },
       { name: 'Swagger / OpenAPI', devicon: 'swagger/swagger-original' },
       { name: 'IntelliJ IDEA', devicon: 'intellij/intellij-original' },
@@ -109,7 +109,7 @@ export const skillGroups = [
     items: [
       { name: 'AI Automation', icon: 'bot' },
       { name: 'Agentic AI', icon: 'brain' },
-      { name: 'n8n', icon: 'workflow' },
+      { name: 'n8n', simpleicon: 'n8n', icon: 'workflow' },
       { name: 'AI-powered workflows', icon: 'sparkles' },
       { name: 'Spring AI', devicon: 'spring/spring-original' },
     ],

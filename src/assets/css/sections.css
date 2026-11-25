@@ -794,51 +794,53 @@
 
 /* ---------- Skills ---------- */
 
-/* One card: category bar on top, active category's tiles below. */
+/* Skills: category column on the left, large logo tiles on the right. */
 .skillset {
-  position: relative;
-  border-radius: var(--r-xl);
-  background:
-    radial-gradient(70% 55% at 100% 0%, var(--accent-soft), transparent 60%),
-    radial-gradient(50% 50% at 0% 100%, rgba(56, 189, 248, 0.06), transparent 70%),
-    var(--surface);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-md);
-  overflow: hidden;
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 20px;
+  align-items: stretch;
 }
 
-/* ---- Category bar ---- */
-.skillset__bar {
-  padding: 10px;
-  border-bottom: 1px solid var(--border);
-  background: color-mix(in srgb, var(--surface-2) 55%, transparent);
-}
-
+/* ---- Category column ---- */
 .skillset__nav {
   position: relative;
   display: flex;
-  gap: 4px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  scroll-snap-type: x proximity;
-}
-
-.skillset__nav::-webkit-scrollbar {
-  display: none;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
 }
 
 .skillset__indicator {
   position: absolute;
+  left: 12px;
+  right: 12px;
   top: 0;
-  left: 0;
-  height: 100%;
-  width: var(--iw, 0);
-  border-radius: var(--r-full);
-  background: var(--grad-btn);
-  box-shadow: 0 8px 24px -10px var(--glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  transform: translateX(var(--ix, 0));
+  height: var(--ih, 0);
+  border-radius: 16px;
+  background:
+    linear-gradient(100deg, var(--accent-soft), transparent 85%),
+    color-mix(in srgb, var(--surface-2) 80%, transparent);
+  border: 1px solid var(--accent-line);
+  box-shadow: 0 12px 30px -18px var(--glow);
+  transform: translateY(var(--iy, 0));
   opacity: var(--io, 0);
-  transition: transform 0.5s var(--ease-out), width 0.5s var(--ease-out), opacity var(--dur-2);
+  transition: transform 0.55s var(--ease-out), height 0.55s var(--ease-out), opacity var(--dur-2);
+}
+
+.skillset__indicator::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: 22%;
+  bottom: 22%;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--grad-btn);
 }
 
 .skillset__indicator.no-anim {
@@ -848,74 +850,135 @@
 .skillset__tab {
   position: relative;
   z-index: 1;
-  flex: 1 0 auto;
-  display: inline-flex;
+  flex: 1;
+  display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 44px;
-  padding: 0 16px;
-  border-radius: var(--r-full);
-  font-size: 0.88rem;
-  font-weight: 600;
-  white-space: nowrap;
+  gap: 14px;
+  width: 100%;
+  min-height: 64px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  text-align: left;
   color: var(--text-2);
-  scroll-snap-align: start;
   transition: color var(--dur-2), background-color var(--dur-2);
 }
 
 .skillset__tab:hover {
   color: var(--text);
-  background: color-mix(in srgb, var(--surface-3) 60%, transparent);
+  background: color-mix(in srgb, var(--surface-2) 70%, transparent);
 }
 
 .skillset__tab.is-active {
-  color: #fff;
+  color: var(--text);
   background: transparent;
 }
 
 .skillset__tab-ico {
   flex: none;
-  opacity: 0.8;
-  transition: transform 0.5s var(--ease-spring), opacity var(--dur-2);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  color: var(--text-3);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  transition: color var(--dur-2), background-color var(--dur-2), border-color var(--dur-2), transform 0.5s var(--ease-spring), box-shadow var(--dur-2);
+}
+
+.skillset__tab:hover .skillset__tab-ico {
+  color: var(--accent);
 }
 
 .skillset__tab.is-active .skillset__tab-ico {
-  opacity: 1;
-  transform: scale(1.1);
+  color: #fff;
+  background: var(--grad-btn);
+  border-color: transparent;
+  box-shadow: 0 10px 24px -10px var(--glow);
+  transform: scale(1.05);
 }
 
-/* ---- Stage (height animates between categories in skills.js) ---- */
+.skillset__tab-text {
+  flex: 1;
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.skillset__tab-title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.skillset__tab-count {
+  font-size: 0.8rem;
+  color: var(--text-3);
+}
+
+.skillset__tab-arrow {
+  flex: none;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity var(--dur-2), transform 0.4s var(--ease-out);
+}
+
+.skillset__tab:hover .skillset__tab-arrow {
+  opacity: 0.5;
+  transform: none;
+}
+
+.skillset__tab.is-active .skillset__tab-arrow {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- Stage: every panel sits in the same cell, so the box never resizes ---- */
 .skillset__stage {
-  position: relative;
-  border-radius: 0 0 var(--r-xl) var(--r-xl);
+  display: grid;
+  border-radius: var(--r-xl);
+  background:
+    radial-gradient(70% 55% at 100% 0%, var(--accent-soft), transparent 60%),
+    radial-gradient(50% 45% at 0% 100%, rgba(56, 189, 248, 0.07), transparent 70%),
+    var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
 }
 
 .skillset__panel {
-  padding: clamp(22px, 3.4vw, 40px);
+  grid-area: 1 / 1;
+  padding: clamp(24px, 3.4vw, 44px);
+  transition: opacity 0.35s var(--ease-out) 0.05s, visibility 0s;
 }
 
 html.js .skillset__panel:not(.is-active) {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in, visibility 0s 0.2s;
 }
 
 .skillset__head {
   display: flex;
   align-items: center;
-  gap: 18px;
-  margin-bottom: clamp(22px, 3vw, 30px);
+  gap: 20px;
+  padding-bottom: clamp(22px, 2.6vw, 28px);
+  margin-bottom: clamp(22px, 2.6vw, 30px);
+  border-bottom: 1px solid var(--border);
 }
 
 .skillset__head-ico {
   flex: none;
   display: grid;
   place-items: center;
-  width: 54px;
-  height: 54px;
-  border-radius: 16px;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
   color: #fff;
   background: var(--grad-btn);
-  box-shadow: 0 12px 30px -12px var(--glow);
+  box-shadow: 0 14px 34px -12px var(--glow);
 }
 
 .skillset__head-text {
@@ -924,14 +987,14 @@ html.js .skillset__panel:not(.is-active) {
 }
 
 .skillset__title {
-  font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.85rem);
+  font-size: clamp(1.5rem, 1.15rem + 1.2vw, 2.15rem);
   font-weight: 800;
   letter-spacing: -0.035em;
 }
 
 .skillset__blurb {
-  margin-top: 4px;
-  font-size: 0.98rem;
+  margin-top: 6px;
+  font-size: 1.05rem;
   color: var(--text-2);
 }
 
@@ -939,81 +1002,89 @@ html.js .skillset__panel:not(.is-active) {
   flex: none;
   display: grid;
   justify-items: end;
-  font-size: 0.76rem;
+  gap: 2px;
+  font-size: 0.82rem;
   color: var(--text-3);
 }
 
 .skillset__head-count b {
   font-family: var(--font-display);
-  font-size: 2rem;
+  font-size: 2.6rem;
   font-weight: 800;
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.045em;
   background: var(--grad);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-/* ---- Compact technology tiles ---- */
+/* ---- Large logo tiles ---- */
 .tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+  gap: 16px;
 }
 
 .tile {
   position: relative;
   display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 12px 16px 12px 12px;
-  border-radius: var(--r-md);
-  background: color-mix(in srgb, var(--surface-2) 80%, transparent);
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 150px;
+  padding: 20px;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--surface-2) 85%, transparent);
   border: 1px solid var(--border);
   overflow: hidden;
-  transition: transform 0.4s var(--ease-spring), border-color var(--dur-2), box-shadow 0.4s var(--ease-out), background-color var(--dur-2);
+  transition: transform 0.45s var(--ease-spring), border-color var(--dur-2), box-shadow 0.45s var(--ease-out), background-color var(--dur-2);
 }
 
-/* soft accent wash that slides in on hover */
+/* Soft accent wash that rises on hover. */
 .tile::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(100deg, var(--accent-soft), transparent 70%);
+  background: radial-gradient(120% 80% at 0% 0%, var(--accent-soft), transparent 70%);
   opacity: 0;
-  transform: translateX(-30%);
-  transition: opacity 0.4s var(--ease-out), transform 0.6s var(--ease-out);
+  transition: opacity 0.4s var(--ease-out);
   pointer-events: none;
 }
 
 .tile:hover {
-  transform: translateY(-3px);
+  transform: translateY(-6px);
   border-color: var(--accent-line);
-  box-shadow: 0 14px 34px -18px var(--glow);
+  box-shadow: 0 20px 44px -22px var(--glow);
 }
 
 .tile:hover::before {
   opacity: 1;
-  transform: none;
 }
 
 .tile__logo {
   position: relative;
-  flex: none;
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
   color: var(--accent);
   background: var(--surface);
   border: 1px solid var(--border);
-  transition: transform 0.45s var(--ease-spring), border-color var(--dur-2);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.5s var(--ease-spring), border-color var(--dur-2);
 }
 
-[data-theme='light'] .tile__logo {
-  background: var(--bg);
+/* Skills without an official logo get a tinted icon badge. */
+.tile__logo--icon {
+  background: linear-gradient(145deg, var(--accent-soft), color-mix(in srgb, var(--surface) 80%, transparent));
+  border-color: var(--accent-line);
+}
+
+[data-theme='light'] .tile__logo:not(.tile__logo--icon) {
+  background: #fff;
 }
 
 .tile:hover .tile__logo {
@@ -1022,8 +1093,8 @@ html.js .skillset__panel:not(.is-active) {
 }
 
 .tile__logo img {
-  width: 24px;
-  height: 24px;
+  width: 34px;
+  height: 34px;
   object-fit: contain;
 }
 
@@ -1045,46 +1116,107 @@ html.js .skillset__panel:not(.is-active) {
 
 .tile__name {
   position: relative;
-  font-size: 0.93rem;
+  font-size: 1.02rem;
   font-weight: 600;
   line-height: 1.3;
 }
 
-@media (max-width: 760px) {
-  .skillset__bar {
-    padding: 8px;
-  }
-
-  .skillset__tab {
-    flex: none;
-    height: 40px;
-    padding: 0 14px;
-  }
-
-  .skillset__head {
-    flex-wrap: wrap;
-    gap: 14px;
-  }
-
-  .skillset__head-ico {
-    width: 46px;
-    height: 46px;
+@media (max-width: 1100px) {
+  .skillset {
+    grid-template-columns: 290px minmax(0, 1fr);
   }
 
   .skillset__head-count {
     display: none;
   }
+}
+
+@media (max-width: 900px) {
+  .skillset {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .skillset__nav {
+    flex-direction: row;
+    gap: 6px;
+    padding: 8px;
+    border-radius: var(--r-lg);
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+
+  .skillset__nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .skillset__indicator,
+  .skillset__tab-count,
+  .skillset__tab-arrow {
+    display: none;
+  }
+
+  .skillset__tab {
+    flex: none;
+    width: auto;
+    min-height: 0;
+    padding: 8px 16px 8px 8px;
+    gap: 10px;
+    border-radius: var(--r-full);
+    scroll-snap-align: start;
+  }
+
+  .skillset__tab.is-active {
+    background: var(--accent-soft);
+    box-shadow: inset 0 0 0 1px var(--accent-line);
+  }
+
+  .skillset__tab-ico {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+  }
+
+  .skillset__tab-title {
+    font-size: 0.92rem;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 560px) {
+  .skillset__head {
+    gap: 14px;
+  }
+
+  .skillset__head-ico {
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+  }
 
   .tiles {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: 12px;
   }
 
   .tile {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 14px;
+    min-height: 130px;
+    padding: 16px;
+  }
+
+  .tile__logo {
+    width: 54px;
+    height: 54px;
+    border-radius: 15px;
+  }
+
+  .tile__logo img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .tile__name {
+    font-size: 0.95rem;
   }
 }
 

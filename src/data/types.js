@@ -43,6 +43,7 @@
  * @typedef {Object} Skill
  * @property {string} name
  * @property {string} [devicon]   Devicon path, e.g. 'java/java-original'
+ * @property {string} [simpleicon] Simple Icons slug, e.g. 'springsecurity' (used when no devicon)
  * @property {string} [icon]      Inline icon name from templates/icons.js (fallback)
  * @property {boolean} [mono]     Logo is single-colour black → inverted in dark mode
  *

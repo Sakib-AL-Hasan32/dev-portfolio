@@ -3,6 +3,10 @@ import { esc, asArray, assetUrl, statusLabel, hueFor, slugify } from './util.js'
 import { icon, categoryIcon } from './icons.js';
 
 const DEVICON = 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/';
+const SIMPLEICONS = 'https://cdn.simpleicons.org/';
+
+/** Real brand logo URL for a skill (Devicon or Simple Icons), or '' if it only has a line icon. */
+const logoUrl = (s) => (s.devicon ? `${DEVICON}${s.devicon}.svg` : s.simpleicon ? `${SIMPLEICONS}${s.simpleicon}` : '');
 
 /* ───────────────────────── Project cover ───────────────────────── */
 
@@ -71,22 +75,28 @@ export function projectCard(p, { root, index = 0, featured = false }) {
 /* ───────────────────────── Skills ───────────────────────── */
 
 function tileIcon(s) {
-  const fallback = icon(s.icon || 'code', { size: 20 });
-  if (!s.devicon) return `<span class="tile__logo">${fallback}</span>`;
-  return `<span class="tile__logo${s.mono ? ' tile__logo--mono' : ''}"><img src="${DEVICON}${s.devicon}.svg" alt="" width="24" height="24" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('is-fallback')">${fallback}</span>`;
+  const fallback = icon(s.icon || 'code', { size: 26 });
+  const src = logoUrl(s);
+  if (!src) return `<span class="tile__logo tile__logo--icon">${fallback}</span>`;
+  return `<span class="tile__logo${s.mono ? ' tile__logo--mono' : ''}"><img src="${src}" alt="" width="34" height="34" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('is-fallback')">${fallback}</span>`;
 }
 
 /**
- * Tabbed skills explorer: one card with a horizontal category bar on top (a sliding pill
- * marks the active tab) and the active category's technologies as compact logo tiles below.
+ * Tabbed skills explorer: category tabs in a column on the left (a scrollable row on mobile),
+ * the active category's technologies as large logo tiles on the right. All panels share one
+ * grid cell, so the box keeps the same size whichever category is open.
  * The first group in skills.js is open by default. Without JavaScript every panel is shown.
  */
 export function skillsTabs(groups) {
   const tabs = groups
     .map(
-      (g, i) => `<button class="skillset__tab${i === 0 ? ' is-active' : ''}" type="button" role="tab" id="skill-tab-${i}" aria-controls="skill-panel-${i}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" title="${esc(g.title)}">
-        ${icon(g.icon, { size: 16, cls: 'skillset__tab-ico' })}
-        <span class="skillset__tab-label">${esc(g.short || g.title)}</span>
+      (g, i) => `<button class="skillset__tab${i === 0 ? ' is-active' : ''}" type="button" role="tab" id="skill-tab-${i}" aria-controls="skill-panel-${i}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">
+        <span class="skillset__tab-ico">${icon(g.icon, { size: 20 })}</span>
+        <span class="skillset__tab-text">
+          <span class="skillset__tab-title">${esc(g.title)}</span>
+          <span class="skillset__tab-count">${g.items.length} ${g.items.length === 1 ? 'skill' : 'skills'}</span>
+        </span>
+        ${icon('chevron-right', { size: 18, cls: 'skillset__tab-arrow' })}
       </button>`,
     )
     .join('');
@@ -95,7 +105,7 @@ export function skillsTabs(groups) {
     .map(
       (g, i) => `<section class="skillset__panel${i === 0 ? ' is-active' : ''}" role="tabpanel" id="skill-panel-${i}" aria-labelledby="skill-tab-${i}"${i === 0 ? '' : ' aria-hidden="true"'}>
         <header class="skillset__head">
-          <span class="skillset__head-ico">${icon(g.icon, { size: 22 })}</span>
+          <span class="skillset__head-ico">${icon(g.icon, { size: 26 })}</span>
           <div class="skillset__head-text">
             <h3 class="skillset__title">${esc(g.title)}</h3>
             <p class="skillset__blurb">${esc(g.blurb)}</p>
@@ -108,27 +118,25 @@ export function skillsTabs(groups) {
     .join('');
 
   return `<div class="skillset" data-skillset data-reveal>
-    <div class="skillset__bar">
-      <div class="skillset__nav" role="tablist" aria-label="Skill categories">
-        <span class="skillset__indicator" aria-hidden="true"></span>
-        ${tabs}
-      </div>
+    <div class="skillset__nav" role="tablist" aria-label="Skill categories" aria-orientation="vertical">
+      <span class="skillset__indicator" aria-hidden="true"></span>
+      ${tabs}
     </div>
     <div class="skillset__stage" data-spotlight>${panels}</div>
   </div>`;
 }
 
-/** Infinite logo marquee built from every skill that has a logo. */
+/** Infinite logo marquee built from every skill that has a real logo. */
 export function marquee(groups) {
   const seen = new Set();
   const items = groups
     .flatMap((g) => g.items)
-    .filter((s) => s.devicon && !seen.has(s.devicon) && seen.add(s.devicon));
+    .filter((s) => logoUrl(s) && !seen.has(logoUrl(s)) && seen.add(logoUrl(s)));
   const row = (list) =>
     list
       .map(
         (s) =>
-          `<li class="marquee__item"><span class="chip__ico${s.mono ? ' chip__ico--mono' : ''}"><img src="${DEVICON}${s.devicon}.svg" alt="" width="22" height="22" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('is-fallback')">${icon(s.icon || 'code', { size: 20 })}</span>${esc(s.name.replace(/ (Development|Integration)$/, ''))}</li>`,
+          `<li class="marquee__item"><span class="chip__ico${s.mono ? ' chip__ico--mono' : ''}"><img src="${logoUrl(s)}" alt="" width="22" height="22" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('is-fallback')">${icon(s.icon || 'code', { size: 20 })}</span>${esc(s.name.replace(/ (Development|Integration|Authentication)$/, ''))}</li>`,
       )
       .join('');
   const half = Math.ceil(items.length / 2);
