@@ -150,7 +150,7 @@ export function marquee(groups) {
 /* ───────────────────────── Training & achievements ───────────────────────── */
 
 /**
- * Course cards (side by side): icon, course name, provider, highlights, then one compact row
+ * Course cards (side by side): course name, training badge, provider, highlights, then one compact row
  * of stats (rank, projects, final score). All cards in a row share a height.
  */
 export function trainingCards(list, { root = './' } = {}) {
@@ -160,11 +160,8 @@ export function trainingCards(list, { root = './' } = {}) {
         `data-count="${s.value}" data-decimals="${s.decimals || 0}" data-prefix="${esc(s.prefix || '')}" data-suffix="${esc(s.suffix || '')}">${esc(s.prefix || '')}${s.value}${esc(s.suffix || '')}`;
       return `<article class="course" data-reveal data-spotlight style="--i:${i}">
       <span class="course__shine" aria-hidden="true"></span>
-      <header class="course__top">
-        <span class="course__ico">${icon(t.icon || 'graduation', { size: 24 })}</span>
-      </header>
-      <span class="badge badge--accent course__badge">${icon('graduation', { size: 14 })} ${esc(t.type)}</span>
       <h3 class="course__title">${esc(t.program)}</h3>
+      <span class="badge badge--accent course__badge">${icon('graduation', { size: 14 })} ${esc(t.type)}</span>
       <p class="course__provider">${t.providerLogo ? `<img class="course__provider-logo" src="${esc(assetUrl(root, t.providerLogo))}" alt="" width="28" height="28" loading="lazy" decoding="async">` : icon('award', { size: 15 })}<span>${esc(t.provider)}</span></p>
       <ul class="checklist">${t.points.map((pt) => `<li>${icon('check', { size: 16 })}<span>${esc(pt)}</span></li>`).join('')}</ul>
       <dl class="course__stats">

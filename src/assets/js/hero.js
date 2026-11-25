@@ -51,6 +51,7 @@ function typeLoop(el) {
   el.textContent = '';
   el.classList.add('is-typing');
   const step = () => {
+    if (!el.isConnected) return; // page was swapped away: stop typing
     if (!deleting) {
       el.textContent = full.slice(0, ++i);
       if (i === full.length) {

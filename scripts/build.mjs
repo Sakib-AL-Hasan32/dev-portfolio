@@ -200,6 +200,11 @@ function portrait(root) {
       web3formsKey: esc(site.web3formsAccessKey || ''),
       socials: L.socialLinks(),
       portrait: portrait(root),
+      cvButton:
+        site.cvFile && existsSync(path.join(SRC, site.cvFile))
+          ? `<a class="btn btn--soft btn--lg btn--cv" href="${root}${esc(site.cvFile)}" download>${icon('download', { size: 18 })}Download CV</a>`
+          : (warn(`CV not found at src/${site.cvFile} — Download CV button shows "Soon"`),
+            `<button class="btn btn--soft btn--lg btn--cv" type="button" disabled title="CV coming soon">${icon('download', { size: 18 })}Download CV<span class="course__soon">Soon</span></button>`),
       marquee: C.marquee(skillGroups),
       skills: C.skillsTabs(skillGroups),
       featured: featured.map((p, i) => C.projectCard(p, { root, index: i, featured: true })).join('\n'),

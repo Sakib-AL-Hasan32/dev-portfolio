@@ -20,6 +20,10 @@ export const site = {
   // If the file is missing, an initials placeholder is shown automatically.
   profileImage: 'assets/images/profile.jpg',
 
+  // Your CV (PDF). Put the file at src/assets/files/ with this name and the
+  // "Download CV" button in the hero starts working (until then it shows "Soon").
+  cvFile: 'assets/files/Sakibul-Hasan-Sakib-CV.pdf',
+
   email: 'shsakib32@gmail.com',
   socials: {
     github: { label: 'GitHub', url: 'https://github.com/Sakib-AL-Hasan32', handle: 'github.com/Sakib-AL-Hasan32' },
