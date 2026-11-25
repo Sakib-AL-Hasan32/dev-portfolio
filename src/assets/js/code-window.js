@@ -48,7 +48,7 @@ function type(win) {
       line += 1;
       part = 0;
       char = 0;
-      setTimeout(step, 45);
+      setTimeout(step, 90);
       return;
     }
     const p = parts[part];
@@ -59,7 +59,7 @@ function type(win) {
       part += 1;
       char = 0;
     }
-    setTimeout(step, typed === ' ' ? 3 : 6 + Math.random() * 12);
+    setTimeout(step, typed === ' ' ? 6 : 16 + Math.random() * 34);
   };
   step();
 }
@@ -76,7 +76,7 @@ export function initCodeWindow() {
     (entries) => {
       if (!entries.some((e) => e.isIntersecting)) return;
       io.disconnect();
-      setTimeout(() => type(win), 250);
+      setTimeout(() => type(win), 350);
     },
     { threshold: 0.4 },
   );
