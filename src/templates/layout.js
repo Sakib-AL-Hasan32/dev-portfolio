@@ -86,8 +86,8 @@ export function head(o) {
 <meta name="description" content="${esc(description)}">
 <meta name="author" content="${esc(site.name)}">
 <meta name="color-scheme" content="dark light">
-<meta name="theme-color" content="#0a0b10" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0706" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fcf8f3" media="(prefers-color-scheme: light)">
 ${canonical ? `<link rel="canonical" href="${esc(canonical)}">\n<meta property="og:url" content="${esc(canonical)}">` : ''}
 <meta property="og:type" content="${o.type || 'website'}">
 <meta property="og:site_name" content="${esc(site.name)}">
