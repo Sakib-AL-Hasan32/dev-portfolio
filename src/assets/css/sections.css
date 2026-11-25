@@ -2505,35 +2505,8 @@ html:not(.js) .course__ring-dot,
   background: color-mix(in srgb, var(--surface-2) 55%, transparent);
 }
 
-/* Soft coloured shapes behind these sections give the glass something to blur */
-.skills,
-.achievements,
-.contact {
-  isolation: isolate;
-}
-
-.skills::before,
-.achievements::before,
-.contact::before {
-  content: '';
-  position: absolute;
-  inset: 14% 3% 6%;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 16% 32%, color-mix(in srgb, var(--t1) 60%, transparent) 0 8%, transparent 21%),
-    radial-gradient(circle at 80% 24%, color-mix(in srgb, var(--t4) 55%, transparent) 0 7%, transparent 19%),
-    radial-gradient(circle at 62% 76%, color-mix(in srgb, var(--t3) 55%, transparent) 0 9%, transparent 23%),
-    radial-gradient(circle at 32% 86%, color-mix(in srgb, var(--t2) 50%, transparent) 0 6%, transparent 17%);
-  opacity: 0.5;
-}
-
-[data-theme='light'] :is(.skills, .achievements, .contact)::before {
-  opacity: 0.32;
-}
-
 /* ==========================================================================
-   Achievements: each icon and badge its own colour, green points
+   Achievements: each icon and badge its own colour, green bullet dots
    ========================================================================== */
 .timeline > :nth-child(2) { --tone: var(--t3); }     /* Champion  — gold   */
 .timeline > :nth-child(3) { --tone: var(--c-blue); } /* Hackathon — blue   */
@@ -2558,11 +2531,7 @@ html:not(.js) .course__ring-dot,
   border-color: color-mix(in srgb, var(--tone) 38%, transparent);
 }
 
-.tl-card__list li {
-  color: var(--c-green);
-  font-weight: 500;
-}
-
+/* Point text stays white; only the bullet dot is green */
 .tl-card__list li::before {
   background: var(--c-green);
 }
