@@ -368,7 +368,7 @@
   overflow: hidden;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-lg);
-  view-transition-name: project-cover;
+
 }
 
 .detail-body {

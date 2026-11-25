@@ -4,12 +4,9 @@ import { esc } from './util.js';
 import { icon } from './icons.js';
 
 /*
- * Runs before first paint: theme (stored → system), feature flags, and page-transition setup.
- *
- * Page transitions (cross-document View Transitions):
- *  - Only the project card that was clicked gets view-transition-name "project-cover", so that one
- *    cover morphs into the detail page's cover (and back again) while the rest of the page fades.
- *  - Back/forward history navigations get the "back" type, which plays the animation in reverse.
+ * Runs before first paint: theme (stored -> system) and page-transition arrival state.
+ * transitions.js stores how a page was left in sessionStorage ('pf:enter'); this marks <html>
+ * with the matching entrance class before anything is painted, so the animation has no flash.
  */
 const preloadSrc = function () {
   var d = document.documentElement, t;
@@ -18,56 +15,20 @@ const preloadSrc = function () {
   if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   d.setAttribute('data-theme', t);
 
-  // Returning from a project via its Back link: restore the scroll position we left from.
-  var restore = function () {
+  // Entrance animation for this page (forward / back / project cover).
+  try {
+    var en = sessionStorage.getItem('pf:enter');
+    if (en) {
+      sessionStorage.removeItem('pf:enter');
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add(en === 'back' ? 'enter-back' : en === 'cover' ? 'enter-cover' : 'enter');
+    }
+  } catch (e) {}
+
+  // Returning via a Back link: restore the scroll position we left from.
+  addEventListener('DOMContentLoaded', function () {
     var r;
     try { r = JSON.parse(sessionStorage.getItem('pf:restore')); sessionStorage.removeItem('pf:restore'); } catch (e) {}
     if (r && r.url === location.href.split('#')[0]) scrollTo({ top: r.y, left: 0, behavior: 'instant' });
-  };
-  var goingBack = function () {
-    try { var b = sessionStorage.getItem('pf:back'); return !!b; } catch (e) { return false; }
-  };
-  if (!('onpagereveal' in window)) {
-    d.classList.add('no-vt');
-    addEventListener('DOMContentLoaded', restore);
-    return;
-  }
-
-  var noop = function () {};
-  var slugOf = function (url) { var m = /\/projects\/([^\/?#]+)\/?(?:[?#].*)?$/.exec(url || ''); return m && m[1]; };
-  // The named card is marked revealed so it is visible in the transition snapshot.
-  var nameCard = function (slug) {
-    if (!slug) return null;
-    var card = document.querySelector('.pcard[data-slug="' + slug + '"]');
-    if (!card || card.classList.contains('is-hidden')) return null;
-    card.classList.add('is-revealed');
-    var media = card.querySelector('.pcard__media');
-    media.style.viewTransitionName = 'project-cover';
-    return media;
-  };
-  var setup = function (v, activation, slug) {
-    v.ready.catch(noop);
-    v.updateCallbackDone.catch(noop);
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { v.skipTransition(); return; }
-    if ((activation && activation.navigationType === 'traverse') || goingBack()) d.classList.add('vt-back');
-    var media = nameCard(slug);
-    var done = function () { d.classList.remove('vt-back'); if (media) media.style.viewTransitionName = ''; };
-    v.finished.then(done, done);
-  };
-  // Leaving this page: name the card whose project we are opening.
-  addEventListener('pageswap', function (e) {
-    if (!e.viewTransition) return;
-    var a = e.activation;
-    setup(e.viewTransition, a, a && a.entry && slugOf(a.entry.url));
-  });
-  // Arriving on this page: when coming back from a project, name its card so the cover flies home.
-  addEventListener('pagereveal', function (e) {
-    restore();
-    if (e.viewTransition) {
-      var a = window.navigation && navigation.activation;
-      setup(e.viewTransition, a, a && a.from && slugOf(a.from.url));
-    }
-    try { sessionStorage.removeItem('pf:back'); } catch (err) {}
   });
 };
 const preload = `(${preloadSrc.toString().replace(/\n\s*\/\/.*$/gm, '').replace(/\s*\n\s*/g, ' ')})();`;

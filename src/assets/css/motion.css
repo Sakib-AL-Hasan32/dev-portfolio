@@ -233,84 +233,80 @@ html.js [data-split]:not(.is-split) {
 }
 
 /* ==========================================================================
-   Page transitions — cross-document View Transitions API
-   (Chrome/Edge 126+, Safari 18.2+). Other browsers use the JS fallback below.
+   Page transitions — driven by transitions.js so they work in every browser.
+   Leaving: the page fades and blurs (upwards when going forward, downwards
+   when going back). Opening a project: the clicked card's cover flies up to
+   where the project page's cover sits. Arriving: the new page eases in.
    ========================================================================== */
 
-@view-transition {
-  navigation: auto;
+body.is-leaving main,
+body.is-leaving .footer {
+  opacity: 0;
+  translate: 0 -14px;
+  filter: blur(6px);
+  transition: opacity 0.38s ease-in, translate 0.42s ease-in, filter 0.38s ease-in;
 }
 
-::view-transition-group(*) {
-  animation-duration: 0.65s;
-  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+body.is-leaving-back main,
+body.is-leaving-back .footer {
+  opacity: 0;
+  translate: 0 16px;
+  filter: blur(6px);
+  transition: opacity 0.38s ease-in, translate 0.42s ease-in, filter 0.38s ease-in;
 }
 
-::view-transition-group(site-nav) {
-  z-index: 50;
-}
-
-html:not(.theme-vt)::view-transition-old(root) {
-  animation: vt-out 0.32s cubic-bezier(0.4, 0, 1, 1) both;
-}
-
-html:not(.theme-vt)::view-transition-new(root) {
-  animation: vt-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
-}
-
-@keyframes vt-out {
-  to {
-    opacity: 0;
-    transform: translateY(-14px) scale(0.985);
-    filter: blur(4px);
-  }
-}
-
-@keyframes vt-in {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-}
-
-/* Going back: the same motion in reverse (old page sinks, previous page settles from above). */
-html.vt-back::view-transition-old(root) {
-  animation-name: vt-out-back;
-}
-
-html.vt-back::view-transition-new(root) {
-  animation-name: vt-in-back;
-}
-
-@keyframes vt-out-back {
-  to {
-    opacity: 0;
-    transform: translateY(14px) scale(0.985);
-    filter: blur(4px);
-  }
-}
-
-@keyframes vt-in-back {
-  from {
-    opacity: 0;
-    transform: translateY(-18px);
-  }
-}
-
-/* The clicked project's cover morphs between its card and the detail page header. */
-::view-transition-group(project-cover) {
-  z-index: 40;
+/* The flying cover (a clone of the clicked card's cover) */
+.cover-fly {
+  position: fixed;
+  z-index: 300;
   overflow: hidden;
-  border-radius: 20px;
-  animation-duration: 0.7s;
-  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  border-radius: 14px;
+  box-shadow: var(--shadow-lg);
+  pointer-events: none;
 }
 
-::view-transition-old(project-cover),
-::view-transition-new(project-cover) {
+.cover-fly .cover {
   height: 100%;
-  object-fit: cover;
-  animation-duration: 0.45s;
+  aspect-ratio: auto;
+}
+
+/* Arrival (class set before first paint by the inline head script) */
+html.enter main {
+  animation: page-enter 0.65s var(--ease-out) backwards;
+}
+
+html.enter-back main {
+  animation: page-enter-back 0.65s var(--ease-out) backwards;
+}
+
+html.enter-cover main {
+  animation: fade-in 0.5s var(--ease-out) backwards;
+}
+
+/* The project page's cover lands where the flying cover stopped */
+html.enter-cover .detail-hero__cover {
+  animation: cover-land 0.7s var(--ease-out) backwards;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    translate: 0 20px;
+  }
+}
+
+@keyframes page-enter-back {
+  from {
+    opacity: 0;
+    translate: 0 -20px;
+  }
+}
+
+@keyframes cover-land {
+  from {
+    opacity: 0.6;
+    scale: 0.965;
+  }
 }
 
 /* Theme switch: circular reveal (theme.js animates the clip-path). */
@@ -324,29 +320,11 @@ html.theme-vt::view-transition-new(root) {
   z-index: 2;
 }
 
-html.theme-vt .nav__inner,
-html.theme-vt .detail-hero__cover,
-html.theme-vt .pcard__media {
-  view-transition-name: none;
-}
-
 /* Colours snap inside the snapshot; the circular reveal does the animating. */
 html.theme-vt *,
 html.theme-vt *::before,
 html.theme-vt *::after {
   transition: none !important;
-}
-
-/* Fallback page transitions (no View Transitions support). */
-html.no-vt main {
-  animation: fade-up 0.6s var(--ease-out) backwards;
-}
-
-html.no-vt body.is-leaving main,
-html.no-vt body.is-leaving .footer {
-  opacity: 0;
-  translate: 0 -10px;
-  transition: opacity 0.25s ease-in, translate 0.25s ease-in;
 }
 
 /* ==========================================================================
@@ -391,3 +369,4 @@ html.no-vt body.is-leaving .footer {
     display: none;
   }
 }
+

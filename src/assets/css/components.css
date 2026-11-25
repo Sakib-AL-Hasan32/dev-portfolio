@@ -16,7 +16,6 @@
 
 /* The transition name lives on the bar itself: on a parent it would stop backdrop-filter from blurring the page. */
 .nav__inner {
-  view-transition-name: site-nav;
   pointer-events: auto;
   max-width: var(--container);
   height: var(--nav-h);
@@ -953,17 +952,10 @@
   gap: 10px;
 }
 
-/* Whole card is clickable via the CTA's stretched pseudo-element. */
+/* Only the View Details button is clickable (the card itself is not a link). */
 .pcard__cta {
-  position: static;
-}
-
-.pcard__cta::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  border-radius: var(--r-lg);
+  position: relative;
+  z-index: 4;
 }
 
 .pcard__gh {
@@ -971,17 +963,13 @@
   z-index: 4;
 }
 
-.pcard:hover .pcard__cta {
+.pcard__cta:hover {
   background: var(--accent);
   color: #fff;
 }
 
-[data-theme='dark'] .pcard:hover .pcard__cta {
+[data-theme='dark'] .pcard__cta:hover {
   color: #160805;
-}
-
-.pcard:hover .pcard__cta .btn__arrow {
-  transform: translateX(3px);
 }
 
 /* ---------- Forms ---------- */
