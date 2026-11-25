@@ -150,41 +150,25 @@ export function marquee(groups) {
 /* ───────────────────────── Training & achievements ───────────────────────── */
 
 /**
- * Course cards (side by side). The percentage stat becomes an animated score ring in the
- * card's corner; the remaining stats sit in one compact row. All cards in a row share a height.
+ * Course cards (side by side): icon, course name, provider, highlights, then one compact row
+ * of stats (rank, projects, final score). All cards in a row share a height.
  */
 export function trainingCards(list, { root = './' } = {}) {
   return list
     .map((t, i) => {
-      const scoreIdx = t.stats.findIndex((s) => s.suffix === '%');
-      const score = scoreIdx >= 0 ? t.stats[scoreIdx] : null;
-      const rest = t.stats.filter((_, k) => k !== scoreIdx);
       const num = (s) =>
         `data-count="${s.value}" data-decimals="${s.decimals || 0}" data-prefix="${esc(s.prefix || '')}" data-suffix="${esc(s.suffix || '')}">${esc(s.prefix || '')}${s.value}${esc(s.suffix || '')}`;
-      const ring = score
-        ? `<div class="course__ring" style="--p:${Math.min(100, Math.max(0, score.value))}" role="img" aria-label="${esc(score.label)}: ${score.value}%">
-            <svg viewBox="0 0 72 72" aria-hidden="true">
-              <defs><linearGradient id="ring-grad-${i}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--accent)"/><stop offset="1" style="stop-color:var(--accent-2)"/></linearGradient></defs>
-              <circle class="course__ring-track" cx="36" cy="36" r="30" pathLength="100"/>
-              <circle class="course__ring-bar" cx="36" cy="36" r="30" pathLength="100" stroke="url(#ring-grad-${i})"/>
-            </svg>
-            <span class="course__ring-disc" aria-hidden="true"></span>
-            <span class="course__ring-dot" aria-hidden="true"><i></i></span>
-            <span class="course__ring-text"><b ${num(score)}</b><small>${esc(score.label)}</small></span>
-          </div>`
-        : '';
       return `<article class="course" data-reveal data-spotlight style="--i:${i}">
       <span class="course__shine" aria-hidden="true"></span>
       <header class="course__top">
         <span class="course__ico">${icon(t.icon || 'graduation', { size: 24 })}</span>
-        ${ring}
       </header>
       <span class="badge badge--accent course__badge">${icon('graduation', { size: 14 })} ${esc(t.type)}</span>
       <h3 class="course__title">${esc(t.program)}</h3>
       <p class="course__provider">${t.providerLogo ? `<img class="course__provider-logo" src="${esc(assetUrl(root, t.providerLogo))}" alt="" width="28" height="28" loading="lazy" decoding="async">` : icon('award', { size: 15 })}<span>${esc(t.provider)}</span></p>
       <ul class="checklist">${t.points.map((pt) => `<li>${icon('check', { size: 16 })}<span>${esc(pt)}</span></li>`).join('')}</ul>
       <dl class="course__stats">
-        ${rest
+        ${t.stats
           .map(
             (s) => `<div class="stat">
           <dt class="stat__label">${esc(s.label)}</dt>

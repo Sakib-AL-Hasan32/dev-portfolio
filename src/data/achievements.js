@@ -21,10 +21,9 @@ export const training = [
       'Took part in live classes, problem-solving sessions, discussions and code reviews.',
     ],
     stats: [
-      { value: 97.3, decimals: 1, suffix: '%', label: 'Final score' },
       { value: 5, prefix: '#', label: 'Rank among 53 students' },
       { value: 28, label: 'Projects, assignments & quizzes' },
-      { value: 8, label: 'Month program' },
+      { value: 97.3, decimals: 1, suffix: '%', label: 'Final score' },
     ],
     certificateUrl: 'https://ostad.app/share/certificate/c46010-sakib',
   },
@@ -41,10 +40,9 @@ export const training = [
       'Took part in live classes, lab sessions and code reviews.',
     ],
     stats: [
-      { value: 94.2, decimals: 1, suffix: '%', label: 'Final score' },
       { value: 7, prefix: '#', label: 'Rank among 48 students' },
       { value: 16, label: 'Projects, assignments & quizzes' },
-      { value: 4, label: 'Month program' },
+      { value: 94.2, decimals: 1, suffix: '%', label: 'Final score' },
     ],
     certificateUrl: '', // TODO: paste the Ostad certificate link
   },
@@ -61,10 +59,9 @@ export const training = [
       'Took part in live classes, hands-on sessions and project reviews.',
     ],
     stats: [
-      { value: 95.6, decimals: 1, suffix: '%', label: 'Final score' },
       { value: 4, prefix: '#', label: 'Rank among 60 students' },
       { value: 18, label: 'Projects, assignments & quizzes' },
-      { value: 4, label: 'Month program' },
+      { value: 95.6, decimals: 1, suffix: '%', label: 'Final score' },
     ],
     certificateUrl: '', // TODO: paste the Ostad certificate link
   },
