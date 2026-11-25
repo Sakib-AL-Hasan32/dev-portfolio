@@ -2,7 +2,6 @@
  * Pointer effects (mouse devices only, disabled with reduced motion):
  *  - spotlight: cursor-following border/glow on [data-spotlight]
  *  - tilt: subtle 3D tilt on [data-tilt]
- *  - magnetic: buttons drift toward the cursor on [data-magnetic]
  *  - cursor glow in the page background
  */
 import { $, $$, pointerFx, rafThrottle } from './utils.js';
@@ -40,22 +39,6 @@ function tilt() {
   }
 }
 
-function magnetic() {
-  for (const el of $$('[data-magnetic]')) {
-    const strength = 0.28;
-    const move = rafThrottle((e) => {
-      const r = el.getBoundingClientRect();
-      el.style.setProperty('--tx', `${(e.clientX - (r.left + r.width / 2)) * strength}px`);
-      el.style.setProperty('--ty', `${(e.clientY - (r.top + r.height / 2)) * strength}px`);
-    });
-    el.addEventListener('pointermove', move);
-    el.addEventListener('pointerleave', () => {
-      el.style.setProperty('--tx', '0px');
-      el.style.setProperty('--ty', '0px');
-    });
-  }
-}
-
 function cursorGlow() {
   const glow = $('[data-cursor-glow]');
   if (!glow) return;
@@ -72,6 +55,5 @@ export function initEffects() {
   if (!pointerFx()) return;
   spotlight();
   tilt();
-  magnetic();
   cursorGlow();
 }

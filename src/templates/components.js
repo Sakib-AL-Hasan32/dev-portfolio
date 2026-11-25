@@ -52,9 +52,9 @@ export function statusBadge(status) {
 export function projectCard(p, { root, index = 0, featured = false }) {
   const href = `${root}projects/${p.slug}/`;
   const search = [p.title, p.shortDescription, p.category, ...asArray(p.technologies)].join(' ').toLowerCase();
-  return `<article class="pcard${featured ? ' pcard--featured' : ''}" data-reveal data-tilt data-spotlight style="--i:${index % 4}"
+  return `<article class="pcard${featured ? ' pcard--featured' : ''}" data-reveal data-tilt data-spotlight style="--i:${index % 4}" data-slug="${esc(p.slug)}"
     data-category="${esc(p.category)}" data-tech="${esc(asArray(p.technologies).join('|'))}" data-search="${esc(search)}">
-    <div class="pcard__media vt-cover" style="--vt:cover-${esc(p.slug)}">${cover(p, { root })}</div>
+    <div class="pcard__media">${cover(p, { root })}</div>
     <div class="pcard__body">
       <div class="pcard__meta"><span class="badge">${esc(p.category)}</span>${statusBadge(p.status)}</div>
       <h3 class="pcard__title">${esc(p.title)}</h3>
@@ -70,35 +70,50 @@ export function projectCard(p, { root, index = 0, featured = false }) {
 
 /* ───────────────────────── Skills ───────────────────────── */
 
-function skillIcon(s) {
-  const fallback = icon(s.icon || 'code', { size: 16 });
-  if (!s.devicon) return `<span class="chip__ico">${fallback}</span>`;
-  return `<span class="chip__ico${s.mono ? ' chip__ico--mono' : ''}"><img src="${DEVICON}${s.devicon}.svg" alt="" width="16" height="16" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('is-fallback')">${fallback}</span>`;
+function tileIcon(s) {
+  const fallback = icon(s.icon || 'code', { size: 24 });
+  if (!s.devicon) return `<span class="tile__logo">${fallback}</span>`;
+  return `<span class="tile__logo${s.mono ? ' tile__logo--mono' : ''}"><img src="${DEVICON}${s.devicon}.svg" alt="" width="28" height="28" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('is-fallback')">${fallback}</span>`;
 }
 
-/** Bento grid: groups are paired in rows; the busier group of a pair gets the wider column. */
-export function skillsGrid(groups) {
-  const spans = [];
-  for (let i = 0; i < groups.length; i += 2) {
-    const a = groups[i].items.length;
-    const b = groups[i + 1]?.items.length;
-    if (b == null) spans.push(12);
-    else if (a === b) spans.push(6, 6);
-    else spans.push(a > b ? 7 : 5, a > b ? 5 : 7);
-  }
-  return groups
+/**
+ * Tabbed skills explorer: category tabs on the left (a scrollable row on mobile),
+ * the active category's technologies as uniform logo tiles on the right.
+ * Without JavaScript every panel is shown, one after another.
+ */
+export function skillsTabs(groups) {
+  const tabs = groups
     .map(
-      (g, i) => `<article class="skill-card" data-reveal data-spotlight style="--span:${spans[i]};--i:${i % 2}">
-      <header class="skill-card__head">
-        <span class="skill-card__icon">${icon(g.icon, { size: 20 })}</span>
-        <span class="skill-card__num">${String(i + 1).padStart(2, '0')}</span>
-      </header>
-      <h3 class="skill-card__title">${esc(g.title)}</h3>
-      <p class="skill-card__blurb">${esc(g.blurb)}</p>
-      <ul class="chips">${g.items.map((s, j) => `<li class="chip" style="--j:${j}">${skillIcon(s)}<span>${esc(s.name)}</span></li>`).join('')}</ul>
-    </article>`,
+      (g, i) => `<button class="skillset__tab${i === 0 ? ' is-active' : ''}" type="button" role="tab" id="skill-tab-${i}" aria-controls="skill-panel-${i}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">
+        <span class="skillset__tab-ico">${icon(g.icon, { size: 18 })}</span>
+        <span class="skillset__tab-text"><span class="skillset__tab-title">${esc(g.title)}</span><span class="skillset__tab-count">${g.items.length} ${g.items.length === 1 ? 'skill' : 'skills'}</span></span>
+        <span class="skillset__tab-num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
+      </button>`,
     )
     .join('');
+
+  const panels = groups
+    .map(
+      (g, i) => `<section class="skillset__panel${i === 0 ? ' is-active' : ''}" role="tabpanel" id="skill-panel-${i}" aria-labelledby="skill-tab-${i}"${i === 0 ? '' : ' aria-hidden="true"'}>
+        <header class="skillset__head">
+          <span class="skillset__head-ico">${icon(g.icon, { size: 22 })}</span>
+          <div>
+            <h3 class="skillset__title">${esc(g.title)}</h3>
+            <p class="skillset__blurb">${esc(g.blurb)}</p>
+          </div>
+        </header>
+        <ul class="tiles">${g.items.map((s) => `<li class="tile">${tileIcon(s)}<span class="tile__name">${esc(s.name)}</span></li>`).join('')}</ul>
+      </section>`,
+    )
+    .join('');
+
+  return `<div class="skillset" data-skillset data-reveal>
+    <div class="skillset__nav" role="tablist" aria-label="Skill categories" aria-orientation="vertical">
+      <span class="skillset__indicator" aria-hidden="true"></span>
+      ${tabs}
+    </div>
+    <div class="skillset__panels" data-spotlight>${panels}</div>
+  </div>`;
 }
 
 /** Infinite logo marquee built from every skill that has a logo. */
@@ -127,15 +142,15 @@ export function marquee(groups) {
 export function trainingCards(list) {
   return list
     .map(
-      (t) => `<article class="training" data-reveal data-spotlight>
-      <div class="training__main">
+      (t, i) => `<article class="course" data-reveal data-spotlight style="--i:${i}">
+      <header class="course__top">
+        <span class="course__ico">${icon(t.icon || 'graduation', { size: 22 })}</span>
         <span class="badge badge--accent">${icon('graduation', { size: 14 })} ${esc(t.type)}</span>
-        <h3 class="training__provider">${esc(t.provider)}</h3>
-        <p class="training__program">${esc(t.program)}</p>
-        <ul class="checklist">${t.points.map((pt, i) => `<li data-reveal style="--i:${i + 1}">${icon('check', { size: 16 })}<span>${esc(pt)}</span></li>`).join('')}</ul>
-        ${t.certificateUrl ? `<a class="btn btn--sm btn--ghost" href="${esc(t.certificateUrl)}" target="_blank" rel="noopener">View certificate ${icon('external', { size: 15 })}</a>` : ''}
-      </div>
-      <dl class="training__stats">
+      </header>
+      <h3 class="course__title">${esc(t.program)}</h3>
+      <p class="course__provider">${icon('award', { size: 15 })}${esc(t.provider)}</p>
+      <ul class="checklist">${t.points.map((pt) => `<li>${icon('check', { size: 16 })}<span>${esc(pt)}</span></li>`).join('')}</ul>
+      <dl class="course__stats">
         ${t.stats
           .map(
             (s) => `<div class="stat">
@@ -145,6 +160,13 @@ export function trainingCards(list) {
           )
           .join('')}
       </dl>
+      <div class="course__foot">
+        ${
+          t.certificateUrl
+            ? `<a class="btn btn--sm btn--ghost btn--block" href="${esc(t.certificateUrl)}" target="_blank" rel="noopener">${icon('award', { size: 16 })}View credential${icon('external', { size: 15 })}</a>`
+            : `<button class="btn btn--sm btn--ghost btn--block" type="button" disabled title="Certificate link coming soon">${icon('award', { size: 16 })}View credential<span class="course__soon">Soon</span></button>`
+        }
+      </div>
     </article>`,
     )
     .join('');

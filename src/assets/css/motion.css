@@ -273,6 +273,46 @@ html:not(.theme-vt)::view-transition-new(root) {
   }
 }
 
+/* Going back: the same motion in reverse (old page sinks, previous page settles from above). */
+html:active-view-transition-type(back)::view-transition-old(root) {
+  animation-name: vt-out-back;
+}
+
+html:active-view-transition-type(back)::view-transition-new(root) {
+  animation-name: vt-in-back;
+}
+
+@keyframes vt-out-back {
+  to {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+    filter: blur(4px);
+  }
+}
+
+@keyframes vt-in-back {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+}
+
+/* The clicked project's cover morphs between its card and the detail page header. */
+::view-transition-group(project-cover) {
+  z-index: 40;
+  overflow: hidden;
+  border-radius: 20px;
+  animation-duration: 0.7s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-old(project-cover),
+::view-transition-new(project-cover) {
+  height: 100%;
+  object-fit: cover;
+  animation-duration: 0.45s;
+}
+
 /* Theme switch: circular reveal (theme.js animates the clip-path). */
 html.theme-vt::view-transition-old(root),
 html.theme-vt::view-transition-new(root) {
@@ -285,7 +325,8 @@ html.theme-vt::view-transition-new(root) {
 }
 
 html.theme-vt .nav,
-html.theme-vt .vt-cover {
+html.theme-vt .detail-hero__cover,
+html.theme-vt .pcard__media {
   view-transition-name: none;
 }
 

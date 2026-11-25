@@ -4,11 +4,17 @@
  * a "View certificate" button appears automatically.
  */
 
+/**
+ * Courses shown in "Experience & learning".
+ * `certificateUrl`: paste your Ostad certificate link — until then the
+ * "View credential" button is shown as "coming soon" (disabled).
+ */
 export const training = [
   {
-    provider: 'Ostad',
     program: 'Backend Web Development with Java & Spring Boot',
+    provider: 'Ostad',
     type: 'Professional training',
+    icon: 'server',
     points: [
       'Completed an 8-month backend development program.',
       'Worked on 28 backend projects, assignments and quizzes.',
@@ -20,7 +26,45 @@ export const training = [
       { value: 28, label: 'Projects, assignments & quizzes' },
       { value: 8, label: 'Month program' },
     ],
-    // certificateUrl: '',  // TODO
+    certificateUrl: '', // TODO: paste the Ostad certificate link
+  },
+  {
+    program: 'AI Automation & AI Agents',
+    provider: 'Ostad',
+    type: 'Professional training',
+    icon: 'bot',
+    // TODO: the numbers below are PLACEHOLDERS — replace them with your real results.
+    points: [
+      'Completed a 4-month AI automation program.',
+      'Built 18 automation workflows, assignments and quizzes.',
+      'Took part in live classes, hands-on sessions and project reviews.',
+    ],
+    stats: [
+      { value: 95.6, decimals: 1, suffix: '%', label: 'Final score' },
+      { value: 4, prefix: '#', label: 'Rank among 60 students' },
+      { value: 18, label: 'Projects, assignments & quizzes' },
+      { value: 4, label: 'Month program' },
+    ],
+    certificateUrl: '', // TODO: paste the Ostad certificate link
+  },
+  {
+    program: 'AI Native DevOps',
+    provider: 'Ostad',
+    type: 'Professional training',
+    icon: 'repeat',
+    // TODO: the numbers below are PLACEHOLDERS — replace them with your real results.
+    points: [
+      'Completed a 4-month DevOps program.',
+      'Worked on 16 DevOps projects, assignments and quizzes.',
+      'Took part in live classes, lab sessions and code reviews.',
+    ],
+    stats: [
+      { value: 94.2, decimals: 1, suffix: '%', label: 'Final score' },
+      { value: 7, prefix: '#', label: 'Rank among 48 students' },
+      { value: 16, label: 'Projects, assignments & quizzes' },
+      { value: 4, label: 'Month program' },
+    ],
+    certificateUrl: '', // TODO: paste the Ostad certificate link
   },
 ];
 

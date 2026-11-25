@@ -8,7 +8,7 @@ const mqFine = matchMedia('(hover: hover) and (pointer: fine)');
 
 export const reducedMotion = () => mqReduce.matches;
 export const finePointer = () => mqFine.matches;
-/** Pointer-driven effects (tilt, magnetic, spotlight, glow) only on mouse devices with motion allowed. */
+/** Pointer-driven effects (tilt, spotlight, glow) only on mouse devices with motion allowed. */
 export const pointerFx = () => mqFine.matches && !mqReduce.matches;
 
 export const clamp = (v, min, max) => Math.min(max, Math.max(min, v));

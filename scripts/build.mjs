@@ -187,7 +187,7 @@ function portrait(root) {
       socials: L.socialLinks(),
       portrait: portrait(root),
       marquee: C.marquee(skillGroups),
-      skills: C.skillsGrid(skillGroups),
+      skills: C.skillsTabs(skillGroups),
       featured: featured.map((p, i) => C.projectCard(p, { root, index: i, featured: true })).join('\n'),
       projectCount: projects.length,
       training: C.trainingCards(training),

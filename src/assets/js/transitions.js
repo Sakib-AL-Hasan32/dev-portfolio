@@ -49,7 +49,79 @@ function fallbackTransitions() {
   });
 }
 
+/* ---------- "Back" that returns you to where you were ---------- */
+
+const RETURN_KEYS = { project: 'pf:return:project', projects: 'pf:return:projects' };
+const cleanUrl = (u) => u.split('#')[0];
+const isDetailPath = (p) => /\/projects\/[^/]+\/?$/.test(p);
+const isProjectsPath = (p) => /\/projects\/?$/.test(p);
+
+function store(key, value) {
+  try {
+    sessionStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    /* storage unavailable — Back falls back to a normal link */
+  }
+}
+
+function read(key) {
+  try {
+    return JSON.parse(sessionStorage.getItem(key));
+  } catch {
+    return null;
+  }
+}
+
+/** On Home and Projects: remember the page + scroll position when a project (or the projects page) is opened. */
+function rememberOrigin() {
+  const page = document.body.dataset.page;
+  if (page !== 'home' && page !== 'projects') return;
+  document.addEventListener(
+    'click',
+    (e) => {
+      const a = e.target.closest('a[href]');
+      if (!a || a.target === '_blank') return;
+      const url = new URL(a.href, location.href);
+      if (url.origin !== location.origin) return;
+      const origin = { url: cleanUrl(location.href), y: Math.round(scrollY) };
+      if (isDetailPath(url.pathname)) store(RETURN_KEYS.project, origin);
+      else if (page === 'home' && isProjectsPath(url.pathname)) store(RETURN_KEYS.projects, origin);
+    },
+    true,
+  );
+}
+
+/** [data-back] links: go back to the remembered page, at the remembered scroll position. */
+function backLinks() {
+  const link = document.querySelector('[data-back]');
+  if (!link) return;
+  const page = document.body.dataset.page;
+  const origin = read(page === 'project' ? RETURN_KEYS.project : RETURN_KEYS.projects);
+  if (!origin?.url) return;
+  const target = new URL(origin.url);
+  if (target.origin !== location.origin || cleanUrl(target.href) === cleanUrl(location.href)) return;
+
+  link.href = target.href;
+  const label = link.querySelector('span');
+  if (label && page === 'project') label.textContent = isProjectsPath(target.pathname) ? 'All projects' : 'Back to home';
+
+  link.addEventListener('click', (e) => {
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    store('pf:back', 1);
+    // Came straight from that page → real history back (browser restores scroll natively).
+    if (document.referrer && cleanUrl(document.referrer) === cleanUrl(target.href) && history.length > 1) {
+      e.preventDefault();
+      history.back();
+      return;
+    }
+    // Otherwise (e.g. after Previous/Next) navigate there and restore the scroll position on arrival.
+    store('pf:restore', origin);
+  });
+}
+
 export function initChrome() {
   scrollChrome();
   fallbackTransitions();
+  rememberOrigin();
+  backLinks();
 }

@@ -11,12 +11,14 @@ import { initChrome } from './transitions.js';
 import { initProjectsPage } from './projects-page.js';
 import { initDetail } from './detail.js';
 import { initContact } from './contact.js';
+import { initSkills } from './skills.js';
 
 const page = document.body.dataset.page;
 
 initTheme();
 initNav();
 initHero();
+initSkills();
 initReveal();
 initEffects();
 initChrome();

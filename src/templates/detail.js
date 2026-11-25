@@ -13,7 +13,7 @@ function links(p, cls = 'btn') {
   return list
     .map(
       (l) =>
-        `<a class="${cls} ${l.primary ? 'btn--primary' : 'btn--ghost'}" data-magnetic href="${esc(l.href)}" target="_blank" rel="noopener">${icon(l.ico, { size: 18 })}<span>${esc(l.label)}</span>${icon('arrow-up-right', { size: 16, cls: 'btn__arrow' })}</a>`,
+        `<a class="${cls} ${l.primary ? 'btn--primary' : 'btn--ghost'}" href="${esc(l.href)}" target="_blank" rel="noopener">${icon(l.ico, { size: 18 })}<span>${esc(l.label)}</span>${icon('arrow-up-right', { size: 16, cls: 'btn__arrow' })}</a>`,
     )
     .join('');
 }
@@ -144,7 +144,7 @@ export function projectDetail(p, { root, prev, next }) {
 
   return `<main id="main" class="detail">
   <section class="detail-hero container">
-    <a class="back-link" href="${root}projects/">${icon('arrow-left', { size: 16 })}<span>All projects</span></a>
+    <a class="back-link" href="${root}projects/" data-back>${icon('arrow-left', { size: 16 })}<span>All projects</span></a>
     <div class="detail-hero__head">
       <div class="pcard__meta" data-reveal><span class="badge">${esc(p.category)}</span>${statusBadge(p.status)}${p.date ? `<span class="badge badge--plain">${icon('calendar', { size: 13 })} ${esc(formatDate(p.date))}</span>` : ''}</div>
       <h1 class="detail-hero__title" data-split>${esc(p.title)}</h1>
@@ -152,7 +152,7 @@ export function projectDetail(p, { root, prev, next }) {
       <div data-reveal style="--i:2">${tags(p.technologies)}</div>
       ${linkHtml ? `<div class="detail-hero__links" data-reveal style="--i:3">${linkHtml}</div>` : ''}
     </div>
-    <div class="detail-hero__cover vt-cover" style="--vt:cover-${esc(p.slug)}">${cover(p, { root, eager: true, large: true })}</div>
+    <div class="detail-hero__cover">${cover(p, { root, eager: true, large: true })}</div>
   </section>
 
   <div class="container detail-body">

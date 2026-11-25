@@ -3,7 +3,8 @@
  * Reveals use the Web Animations API on `translate` / `scale` / `clip-path`, so they
  * never override an element's own CSS transitions or hover transforms.
  */
-import { $, $$, reducedMotion, rafThrottle, clamp, cssNum, EASE_OUT, EASE_SPRING } from './utils.js';
+import { $, $$, reducedMotion, rafThrottle, clamp, cssNum, EASE_OUT } from './utils.js';
+import { animateTiles } from './skills.js';
 
 const VARIANTS = {
   up: { translate: ['0 34px', '0 0'] },
@@ -22,13 +23,17 @@ function reveal(el) {
   const delay = cssNum(el, '--i') * 90;
   el.animate({ opacity: [0, 1], ...variant }, { duration: 950, delay, easing: EASE_OUT, fill: 'backwards' });
 
-  // Skill chips pop in one after another once their card appears.
-  $$('.chip', el).forEach((chip, j) =>
-    chip.animate(
-      { opacity: [0, 1], scale: ['0.6', '1'], translate: ['0 10px', '0 0'] },
-      { duration: 520, delay: delay + 260 + j * 45, easing: EASE_SPRING, fill: 'backwards' },
-    ),
-  );
+  // Skills explorer: tabs slide in, then the active panel's tiles pop in one by one.
+  if (el.matches('[data-skillset]')) {
+    $$('.skillset__tab', el).forEach((tab, j) =>
+      tab.animate(
+        { opacity: [0, 1], translate: ['-16px 0', '0 0'] },
+        { duration: 600, delay: delay + 150 + j * 50, easing: EASE_OUT, fill: 'backwards' },
+      ),
+    );
+    const panel = $('.skillset__panel.is-active', el);
+    if (panel) animateTiles(panel, delay + 250);
+  }
 }
 
 /** Mark an element as revealed without animating (used when filtering shows a card). */

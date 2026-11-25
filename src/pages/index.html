@@ -24,8 +24,8 @@
           I build scalable, secure and maintainable backend applications with Java and Spring Boot — and design AI-powered workflows that automate real business processes.
         </p>
         <div class="hero__ctas" data-hero-in style="--i:7">
-          <a class="btn btn--primary btn--lg" data-magnetic href="#projects">View My Projects{{icon:arrow-right}}</a>
-          <a class="btn btn--ghost btn--lg" data-magnetic href="#contact">{{icon:message}}Let's Connect</a>
+          <a class="btn btn--primary btn--lg" href="#projects">View My Projects{{icon:arrow-right}}</a>
+          <a class="btn btn--ghost btn--lg" href="#contact">{{icon:message}}Let's Connect</a>
         </div>
         <div class="hero__meta" data-hero-in style="--i:8">
           <div class="hero__socials">{{socials}}</div>
@@ -114,23 +114,23 @@
       <ul class="highlights">
         <li class="hl-card" data-reveal data-spotlight style="--i:0">
           <span class="hl-card__ico">{{icon:server}}</span>
-          <h3>Java Backend Development</h3>
-          <p>REST APIs, authentication systems and database-driven applications with Spring Boot.</p>
+          <h3>Java Backend Developer</h3>
+          <p>REST APIs, authentication systems and database-driven applications with Java &amp; Spring Boot.</p>
         </li>
         <li class="hl-card" data-reveal data-spotlight style="--i:1">
-          <span class="hl-card__ico">{{icon:sparkles}}</span>
-          <h3>AI Automation</h3>
-          <p>Agentic AI and intelligent workflows that automate business processes.</p>
+          <span class="hl-card__ico">{{icon:repeat}}</span>
+          <h3>AI Native DevOps</h3>
+          <p>Containers, CI/CD pipelines and monitoring, with AI built into the delivery workflow.</p>
         </li>
         <li class="hl-card" data-reveal data-spotlight style="--i:2">
+          <span class="hl-card__ico">{{icon:bot}}</span>
+          <h3>AI Automation &amp; AI Agents</h3>
+          <p>Intelligent workflows and AI agents that automate real business processes.</p>
+        </li>
+        <li class="hl-card" data-reveal data-spotlight style="--i:3">
           <span class="hl-card__ico">{{icon:layers}}</span>
           <h3>Software Engineering</h3>
           <p>Scalable, maintainable architecture over quick fixes.</p>
-        </li>
-        <li class="hl-card" data-reveal data-spotlight style="--i:3">
-          <span class="hl-card__ico">{{icon:bulb}}</span>
-          <h3>Problem Solving</h3>
-          <p>Practical solutions to real-world problems, sharpened in contests and projects.</p>
         </li>
       </ul>
     </div>
@@ -144,9 +144,7 @@
         <h2 class="h2" id="skills-title" data-reveal style="--i:1">The stack I <span class="grad">build with.</span></h2>
         <p class="section-head__sub" data-reveal style="--i:2">From the Spring ecosystem to infrastructure, architecture and AI automation.</p>
       </header>
-      <div class="skills__grid">
-        {{skills}}
-      </div>
+      {{skills}}
     </div>
   </section>
 
@@ -159,13 +157,13 @@
           <h2 class="h2" id="projects-title" data-reveal style="--i:1">Selected <span class="grad">work.</span></h2>
           <p class="section-head__sub" data-reveal style="--i:2">A few of the backends and automations I've built. The full collection lives on the projects page.</p>
         </div>
-        <a class="btn btn--ghost" data-magnetic data-reveal style="--i:3" href="{{root}}projects/">All {{projectCount}} projects{{icon:arrow-up-right}}</a>
+        <a class="btn btn--ghost" data-reveal style="--i:3" href="{{root}}projects/">All {{projectCount}} projects{{icon:arrow-up-right}}</a>
       </header>
       <div class="featured__grid">
         {{featured}}
       </div>
       <div class="featured__more" data-reveal>
-        <a class="btn btn--primary btn--lg" data-magnetic href="{{root}}projects/">Explore All Projects{{icon:arrow-right}}</a>
+        <a class="btn btn--primary btn--lg" href="{{root}}projects/">Explore All Projects{{icon:arrow-right}}</a>
       </div>
     </div>
   </section>
@@ -177,7 +175,9 @@
         <p class="eyebrow" data-reveal>Experience &amp; learning</p>
         <h2 class="h2" id="experience-title" data-reveal style="--i:1">Structured training, <span class="grad">measured results.</span></h2>
       </header>
-      {{training}}
+      <div class="courses">
+        {{training}}
+      </div>
     </div>
   </section>
 
@@ -246,7 +246,7 @@
             <p class="field__error" id="f-message-err" aria-live="polite"></p>
           </div>
           <div class="form__notice" data-form-notice hidden></div>
-          <button class="btn btn--primary btn--lg btn--block form__submit" type="submit" data-magnetic>
+          <button class="btn btn--primary btn--lg btn--block form__submit" type="submit">
             <span class="form__submit-label">Send message</span>{{icon:send}}
           </button>
           <p class="form__status" role="status" aria-live="polite" data-form-status></p>

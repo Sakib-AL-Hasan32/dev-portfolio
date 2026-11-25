@@ -323,18 +323,25 @@
   white-space: nowrap;
   isolation: isolate;
   overflow: hidden;
-  translate: var(--tx, 0) var(--ty, 0);
   transition:
-    translate 0.4s var(--ease-out),
-    scale var(--dur-1) var(--ease-out),
-    box-shadow var(--dur-2),
+    translate 0.35s var(--ease-spring),
+    scale 0.35s var(--ease-spring),
+    box-shadow 0.35s var(--ease-out),
     background-color var(--dur-2),
     border-color var(--dur-2),
     color var(--dur-2);
 }
 
+/* Simple hover: the button pops up slightly and glows. It never follows the cursor. */
+.btn:hover {
+  translate: 0 -2px;
+  scale: 1.03;
+}
+
 .btn:active {
+  translate: 0 0;
   scale: 0.97;
+  transition-duration: 0.1s;
 }
 
 .btn .ico {
@@ -373,7 +380,7 @@
 }
 
 .btn--primary:hover {
-  box-shadow: 0 16px 44px -12px var(--glow), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 4px var(--accent-soft), 0 14px 40px -8px var(--glow), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .btn--primary:hover::before {
@@ -391,6 +398,7 @@
 .btn--ghost:hover {
   border-color: var(--accent-line);
   background: var(--accent-soft);
+  box-shadow: 0 10px 30px -12px var(--glow);
 }
 
 .btn--soft {
@@ -885,7 +893,6 @@
   margin: 8px 8px 0;
   border-radius: calc(var(--r-lg) - 6px);
   overflow: hidden;
-  view-transition-name: var(--vt, none);
 }
 
 .pcard__media .cover {
