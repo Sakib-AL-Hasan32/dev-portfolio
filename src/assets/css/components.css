@@ -35,14 +35,14 @@
   transition: height var(--dur-3) var(--ease-out), box-shadow var(--dur-3), border-color var(--dur-3), background-color var(--dur-3);
 }
 
-/* Once the page scrolls, the bar becomes a solid, strongly blurred glass so text behind it can't bleed through. */
+/* Once the page scrolls, the bar becomes a light frosted glass: content behind stays softly visible but never competes with the links. */
 .nav.is-scrolled .nav__inner {
   height: 56px;
-  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  background: color-mix(in srgb, var(--bg) 58%, transparent);
   border-color: var(--border-2);
   box-shadow: var(--shadow-lg);
-  backdrop-filter: blur(24px) saturate(1.8);
-  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  backdrop-filter: blur(10px) saturate(1.5);
+  -webkit-backdrop-filter: blur(10px) saturate(1.5);
 }
 
 .nav__logo {
