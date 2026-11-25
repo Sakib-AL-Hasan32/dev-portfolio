@@ -13,6 +13,7 @@ export const training = [
   {
     program: 'Backend Development with Java & Spring Boot',
     provider: 'Ostad',
+    providerLogo: 'assets/images/ostad-logo.png',
     type: 'Professional training',
     icon: 'server',
     points: [
@@ -30,6 +31,7 @@ export const training = [
   {
     program: 'AI Native DevOps',
     provider: 'Ostad',
+    providerLogo: 'assets/images/ostad-logo.png',
     type: 'Professional training',
     icon: 'repeat',
     // TODO: the numbers below are PLACEHOLDERS — replace them with your real results.
@@ -49,6 +51,7 @@ export const training = [
   {
     program: 'AI Automation & AI Agents',
     provider: 'Ostad',
+    providerLogo: 'assets/images/ostad-logo.png',
     type: 'Professional training',
     icon: 'bot',
     // TODO: the numbers below are PLACEHOLDERS — replace them with your real results.

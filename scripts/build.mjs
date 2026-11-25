@@ -204,7 +204,7 @@ function portrait(root) {
       skills: C.skillsTabs(skillGroups),
       featured: featured.map((p, i) => C.projectCard(p, { root, index: i, featured: true })).join('\n'),
       projectCount: projects.length,
-      training: C.trainingCards(training),
+      training: C.trainingCards(training, { root }),
       achievements: C.achievementsTimeline(achievements),
     },
     'index.html',
