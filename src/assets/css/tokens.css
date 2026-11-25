@@ -1,0 +1,138 @@
+/* ==========================================================================
+   Design tokens — colours, type, spacing, motion. Light + dark themes.
+   ========================================================================== */
+
+@property --angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+:root {
+  /* Type */
+  --font-display: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;
+  --fs-md: 1.125rem;
+  --fs-lg: clamp(1.15rem, 1rem + 0.5vw, 1.35rem);
+  --fs-h3: clamp(1.15rem, 1.05rem + 0.4vw, 1.35rem);
+  --fs-h2: clamp(2rem, 1.4rem + 2.6vw, 3.4rem);
+  --fs-h1: clamp(2.6rem, 1.6rem + 4.6vw, 5.2rem);
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: clamp(16px, 4vw, 32px);
+  --section-y: clamp(80px, 10vw, 140px);
+  --nav-h: 64px;
+
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --r-full: 999px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-1: 160ms;
+  --dur-2: 280ms;
+  --dur-3: 520ms;
+  --dur-4: 900ms;
+
+  /* Brand (shared) */
+  --indigo: #6c7bff;
+  --cyan: #38bdf8;
+  --violet: #a78bfa;
+  --green: #34d399;
+  --amber: #fbbf24;
+}
+
+/* ---------- Dark (default look) ---------- */
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #08090e;
+  --bg-elev: #0d0f16;
+  --surface: #10121a;
+  --surface-2: #151823;
+  --surface-3: #1b1f2c;
+  --glass: rgba(16, 18, 27, 0.62);
+  --border: rgba(255, 255, 255, 0.075);
+  --border-2: rgba(255, 255, 255, 0.13);
+  --text: #eef0f7;
+  --text-2: #a3a9bb;
+  --text-3: #6b7184;
+
+  --accent: #7b86ff;
+  --accent-2: #38bdf8;
+  --accent-ink: #0a0b12;
+  --accent-soft: rgba(123, 134, 255, 0.13);
+  --accent-line: rgba(123, 134, 255, 0.35);
+  --grad: linear-gradient(110deg, #8b93ff 0%, #5fb4ff 50%, #38d2f8 100%);
+  --grad-btn: linear-gradient(110deg, #6f7bff, #3fb5f5);
+
+  --grid-line: rgba(255, 255, 255, 0.045);
+  --blob-a: rgba(91, 104, 255, 0.32);
+  --blob-b: rgba(56, 189, 248, 0.2);
+  --blob-c: rgba(167, 139, 250, 0.18);
+  --glow: rgba(110, 125, 255, 0.45);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 10px 30px -12px rgba(0, 0, 0, 0.7), 0 2px 6px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 30px 80px -24px rgba(0, 0, 0, 0.85), 0 8px 24px -8px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 0 1px var(--accent-line), 0 18px 60px -18px var(--glow);
+
+  --code-bg: #0b0d14;
+  --tk-kw: #c792ea;
+  --tk-ty: #7fdbca;
+  --tk-st: #9ece6a;
+  --tk-an: #f7b267;
+  --tk-cm: #5c6680;
+  --tk-fn: #82aaff;
+
+  --logo-invert: 1;
+}
+
+/* ---------- Light ---------- */
+[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f6f7fb;
+  --bg-elev: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f3f4f9;
+  --surface-3: #eceef6;
+  --glass: rgba(255, 255, 255, 0.7);
+  --border: rgba(16, 20, 45, 0.08);
+  --border-2: rgba(16, 20, 45, 0.15);
+  --text: #0c0f1d;
+  --text-2: #4b5168;
+  --text-3: #868ca3;
+
+  --accent: #4f46e5;
+  --accent-2: #0891d6;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(79, 70, 229, 0.08);
+  --accent-line: rgba(79, 70, 229, 0.28);
+  --grad: linear-gradient(110deg, #4f46e5 0%, #3b6cf0 50%, #0aa2e0 100%);
+  --grad-btn: linear-gradient(110deg, #4f46e5, #2563eb 55%, #0891d6);
+
+  --grid-line: rgba(16, 20, 45, 0.055);
+  --blob-a: rgba(99, 102, 241, 0.2);
+  --blob-b: rgba(14, 165, 233, 0.14);
+  --blob-c: rgba(167, 139, 250, 0.16);
+  --glow: rgba(79, 70, 229, 0.25);
+
+  --shadow-sm: 0 1px 2px rgba(16, 20, 45, 0.06);
+  --shadow-md: 0 12px 30px -14px rgba(16, 20, 45, 0.18), 0 2px 6px rgba(16, 20, 45, 0.05);
+  --shadow-lg: 0 30px 70px -28px rgba(16, 20, 45, 0.28), 0 8px 20px -10px rgba(16, 20, 45, 0.1);
+  --shadow-glow: 0 0 0 1px var(--accent-line), 0 18px 50px -20px var(--glow);
+
+  --code-bg: #0f111a;
+
+  --logo-invert: 0;
+}

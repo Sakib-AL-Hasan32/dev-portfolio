@@ -1,0 +1,356 @@
+/* ==========================================================================
+   Motion — entrance states, keyframes, page & theme view transitions,
+   reduced-motion handling.
+   Entrance animations animate the individual `translate` / `scale` properties
+   (not `transform`) so they never fight with hover transforms.
+   ========================================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ---------- Scroll reveal (driven by reveal.js via the Web Animations API) ---------- */
+
+html.js [data-reveal]:not(.is-revealed) {
+  opacity: 0;
+}
+
+/* ---------- Load-in (hero + page headers) ---------- */
+
+html.js [data-hero-in] {
+  animation: hero-in 1s var(--ease-out) backwards;
+  animation-delay: calc(0.12s + var(--i, 0) * 0.08s);
+}
+
+html.js [data-hero-in='scale'] {
+  animation-name: hero-in-scale;
+  animation-duration: 1.3s;
+}
+
+/* ---------- Split text (hero.js wraps chars in .char) ---------- */
+
+html.js [data-split]:not(.is-split) {
+  opacity: 0;
+  animation: unhide 0s 2.5s forwards; /* safety net if JS fails */
+}
+
+.word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.char {
+  display: inline-block;
+  animation: char-in 0.95s var(--ease-out) backwards;
+  animation-delay: calc(var(--d, 0s) + var(--ci, 0) * 0.03s);
+}
+
+/* ---------- Keyframes ---------- */
+
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    translate: 0 26px;
+    filter: blur(6px);
+  }
+}
+
+@keyframes hero-in-scale {
+  from {
+    opacity: 0;
+    scale: 0.9;
+    filter: blur(10px);
+  }
+}
+
+@keyframes char-in {
+  from {
+    opacity: 0;
+    translate: 0 0.55em;
+    rotate: 6deg;
+    filter: blur(8px);
+  }
+}
+
+@keyframes unhide {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    translate: 0 16px;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    scale: 0.4;
+  }
+}
+
+@keyframes grid-pan {
+  to {
+    background-position: 64px 64px;
+  }
+}
+
+@keyframes blob-a {
+  to {
+    transform: translate3d(14vmax, 10vmax, 0) scale(1.15);
+  }
+}
+
+@keyframes blob-b {
+  to {
+    transform: translate3d(-16vmax, 14vmax, 0) scale(0.9);
+  }
+}
+
+@keyframes blob-c {
+  to {
+    transform: translate3d(-12vmax, -12vmax, 0) scale(1.2);
+  }
+}
+
+@keyframes spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes spin-angle {
+  to {
+    --angle: 360deg;
+  }
+}
+
+@keyframes glow-breathe {
+  50% {
+    opacity: 0.25;
+    scale: 0.92;
+  }
+}
+
+@keyframes shine {
+  0%,
+  70% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes float {
+  50% {
+    translate: 0 -12px;
+  }
+}
+
+@keyframes wheel {
+  0% {
+    opacity: 0;
+    translate: 0 -3px;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    translate: 0 12px;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-dot {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes nudge-up {
+  40% {
+    translate: 0 -4px;
+  }
+}
+
+@keyframes shake {
+  20%,
+  60% {
+    translate: -5px 0;
+  }
+  40%,
+  80% {
+    translate: 5px 0;
+  }
+}
+
+@keyframes send-fly {
+  50% {
+    translate: 4px -4px;
+    opacity: 0.4;
+  }
+}
+
+@keyframes heartbeat {
+  0%,
+  40%,
+  100% {
+    scale: 1;
+  }
+  20% {
+    scale: 1.25;
+  }
+}
+
+/* ==========================================================================
+   Page transitions — cross-document View Transitions API
+   (Chrome/Edge 126+, Safari 18.2+). Other browsers use the JS fallback below.
+   ========================================================================== */
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-group(*) {
+  animation-duration: 0.65s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-group(site-nav) {
+  z-index: 50;
+}
+
+html:not(.theme-vt)::view-transition-old(root) {
+  animation: vt-out 0.32s cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+html:not(.theme-vt)::view-transition-new(root) {
+  animation: vt-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
+}
+
+@keyframes vt-out {
+  to {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.985);
+    filter: blur(4px);
+  }
+}
+
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+/* Theme switch: circular reveal (theme.js animates the clip-path). */
+html.theme-vt::view-transition-old(root),
+html.theme-vt::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html.theme-vt::view-transition-new(root) {
+  z-index: 2;
+}
+
+html.theme-vt .nav,
+html.theme-vt .vt-cover {
+  view-transition-name: none;
+}
+
+/* Colours snap inside the snapshot; the circular reveal does the animating. */
+html.theme-vt *,
+html.theme-vt *::before,
+html.theme-vt *::after {
+  transition: none !important;
+}
+
+/* Fallback page transitions (no View Transitions support). */
+html.no-vt main {
+  animation: fade-up 0.6s var(--ease-out) backwards;
+}
+
+html.no-vt body.is-leaving main,
+html.no-vt body.is-leaving .footer {
+  opacity: 0;
+  translate: 0 -10px;
+  transition: opacity 0.25s ease-in, translate 0.25s ease-in;
+}
+
+/* ==========================================================================
+   Reduced motion — keep everything usable, drop the movement.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+
+  html.js [data-reveal]:not(.is-revealed),
+  html.js [data-split]:not(.is-split) {
+    opacity: 1;
+  }
+
+  .marquee__row {
+    animation: none !important;
+  }
+
+  .marquee__track[aria-hidden='true'] {
+    display: none;
+  }
+
+  .marquee__row {
+    flex-wrap: wrap;
+    width: auto;
+    justify-content: center;
+  }
+
+  .bg__glow {
+    display: none;
+  }
+}

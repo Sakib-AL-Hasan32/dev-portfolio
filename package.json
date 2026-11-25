@@ -1,0 +1,14 @@
+{
+  "name": "sakib-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal portfolio of Sakibul Hasan Sakib — vanilla HTML, CSS and JavaScript, no dependencies.",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "node scripts/build.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+{{head}}
+</head>
+<body data-page="projects">
+{{chrome}}
+{{nav}}
+
+<main id="main" class="projects-page">
+  <section class="page-hero container">
+    <a class="back-link" href="{{root}}" data-reveal>{{icon:arrow-left}}<span>Home</span></a>
+    <div class="page-hero__row">
+      <div>
+        <p class="eyebrow" data-hero-in style="--i:0">Portfolio</p>
+        <h1 class="page-hero__title" data-split>My Projects</h1>
+        <p class="page-hero__sub" data-hero-in style="--i:3">Things I've built, problems I've solved, and ideas I've brought to life.</p>
+      </div>
+      <div class="count-card" data-hero-in="scale" style="--i:4" aria-label="{{projectCount}} projects in total">
+        <span class="count-card__num" data-count="{{projectCount}}">{{projectCount}}</span>
+        <span class="count-card__label">Projects<br>in total</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" aria-label="Project list">
+    <div class="toolbar" data-hero-in style="--i:5" data-filters>
+      <div class="toolbar__row">
+        <label class="search">
+          <span class="visually-hidden">Search projects</span>
+          {{icon:search}}
+          <input type="search" placeholder="Search by name, description or technology…" autocomplete="off" data-filter-search>
+          <kbd class="search__kbd" aria-hidden="true">/</kbd>
+        </label>
+        <label class="select">
+          <span class="visually-hidden">Filter by technology</span>
+          {{icon:layers}}
+          <select data-filter-tech>
+            <option value="">All technologies</option>
+            {{techOptions}}
+          </select>
+          {{icon:chevron-down}}
+        </label>
+      </div>
+      <div class="segmented" role="group" aria-label="Filter by category" data-filter-cats>
+        <span class="segmented__pill" aria-hidden="true"></span>
+        {{categoryButtons}}
+      </div>
+    </div>
+
+    <p class="results-line" aria-live="polite" data-results>Showing {{projectCount}} of {{projectCount}}</p>
+
+    <div class="projects-grid" data-projects-grid>
+      {{grid}}
+    </div>
+
+    <div class="empty" data-empty hidden>
+      <div class="empty__art" aria-hidden="true">{{icon:search}}</div>
+      <h2 class="empty__title">No projects match those filters</h2>
+      <p class="empty__text">Try a different keyword, or clear the filters to see everything.</p>
+      <button class="btn btn--ghost" type="button" data-filter-reset>{{icon:reset}}Reset filters</button>
+    </div>
+  </section>
+</main>
+
+{{footer}}
+</body>
+</html>
