@@ -90,7 +90,7 @@ function tileIcon(s) {
 export function skillsTabs(groups) {
   const tabs = groups
     .map(
-      (g, i) => `<button class="skillset__tab${i === 0 ? ' is-active' : ''}" type="button" role="tab" id="skill-tab-${i}" aria-controls="skill-panel-${i}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">
+      (g, i) => `<button class="skillset__tab${i === 0 ? ' is-active' : ''}" style="--tone: var(--t${(i % 8) + 1})" type="button" role="tab" id="skill-tab-${i}" aria-controls="skill-panel-${i}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">
         <span class="skillset__tab-ico">${icon(g.icon, { size: 20 })}</span>
         <span class="skillset__tab-text">
           <span class="skillset__tab-title">${esc(g.title)}</span>
@@ -103,7 +103,7 @@ export function skillsTabs(groups) {
 
   const panels = groups
     .map(
-      (g, i) => `<section class="skillset__panel${i === 0 ? ' is-active' : ''}" role="tabpanel" id="skill-panel-${i}" aria-labelledby="skill-tab-${i}"${i === 0 ? '' : ' aria-hidden="true"'}>
+      (g, i) => `<section class="skillset__panel${i === 0 ? ' is-active' : ''}" style="--tone: var(--t${(i % 8) + 1})" role="tabpanel" id="skill-panel-${i}" aria-labelledby="skill-tab-${i}"${i === 0 ? '' : ' aria-hidden="true"'}>
         <header class="skillset__head">
           <span class="skillset__head-ico">${icon(g.icon, { size: 26 })}</span>
           <div class="skillset__head-text">

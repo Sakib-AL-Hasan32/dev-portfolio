@@ -11,12 +11,13 @@
  */
 export const training = [
   {
-    program: 'Backend Development with Java & Spring Boot',
+    program: 'Java & Spring Boot',
     provider: 'Ostad',
     providerLogo: 'assets/images/ostad-logo.png',
     type: 'Professional training',
     icon: 'server',
     points: [
+      'Completed a 4-month Spring Boot program.',
       'Worked on 28 backend projects, assignments and quizzes.',
       'Took part in live classes, problem-solving sessions, discussions and code reviews.',
     ],

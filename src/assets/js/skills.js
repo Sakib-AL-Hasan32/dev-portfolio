@@ -34,6 +34,7 @@ export function initSkills() {
     indicator.style.setProperty('--iy', `${tab.offsetTop}px`);
     indicator.style.setProperty('--ih', `${tab.offsetHeight}px`);
     indicator.style.setProperty('--io', '1');
+    indicator.style.setProperty('--tone', getComputedStyle(tab).getPropertyValue('--tone'));
     if (instant) requestAnimationFrame(() => requestAnimationFrame(() => indicator.classList.remove('no-anim')));
   }
 

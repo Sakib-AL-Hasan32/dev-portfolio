@@ -2616,3 +2616,75 @@ html:not(.js) .course__ring-dot,
 .course__provider {
   margin-top: 16px;
 }
+
+/* ==========================================================================
+   Skills: the selected category keeps its own colour (tab icon filled, panel matches)
+   ========================================================================== */
+.skillset__tab.is-active .skillset__tab-ico {
+  color: #fff;
+  background: linear-gradient(140deg, var(--tone), color-mix(in srgb, var(--tone) 62%, #000));
+  border-color: transparent;
+  box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--tone) 70%, transparent);
+}
+
+.skillset__tab.is-active .skillset__tab-arrow,
+.skillset__tab:hover .skillset__tab-arrow {
+  color: var(--tone);
+}
+
+.skillset__indicator {
+  border-color: color-mix(in srgb, var(--tone, var(--accent)) 40%, transparent);
+  background:
+    linear-gradient(100deg, color-mix(in srgb, var(--tone, var(--accent)) 14%, transparent), transparent 85%),
+    color-mix(in srgb, var(--surface-2) 80%, transparent);
+  box-shadow: 0 12px 30px -18px color-mix(in srgb, var(--tone, var(--accent)) 60%, transparent);
+  transition: transform 0.55s var(--ease-out), height 0.55s var(--ease-out), opacity var(--dur-2), border-color 0.4s, background 0.4s;
+}
+
+.skillset__indicator::before {
+  background: var(--tone, var(--accent));
+}
+
+.skillset__head-ico {
+  background: linear-gradient(140deg, var(--tone), color-mix(in srgb, var(--tone) 62%, #000));
+  box-shadow: 0 14px 34px -12px color-mix(in srgb, var(--tone) 65%, transparent);
+}
+
+.skillset__head-count b {
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  color: var(--tone);
+}
+
+@media (max-width: 900px) {
+  .skillset__tab.is-active {
+    background: color-mix(in srgb, var(--tone) 12%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tone) 40%, transparent);
+  }
+}
+
+/* Contact: info icon, email link and the submit button in green */
+.form__notice .ico,
+.form__notice a {
+  color: var(--c-green);
+}
+
+.form__submit.btn--primary {
+  color: #06210f;
+  background: linear-gradient(110deg, var(--c-green), color-mix(in srgb, var(--c-green) 70%, #0b7a3b));
+  box-shadow: 0 12px 32px -12px color-mix(in srgb, var(--c-green) 60%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.form__submit.btn--primary:hover {
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-green) 18%, transparent), 0 14px 40px -8px color-mix(in srgb, var(--c-green) 55%, transparent);
+}
+
+[data-theme='light'] .form__submit.btn--primary {
+  color: #ffffff;
+}
+
+/* Courses: more space between the stats row and View credential */
+.course__foot {
+  margin-top: 22px;
+}

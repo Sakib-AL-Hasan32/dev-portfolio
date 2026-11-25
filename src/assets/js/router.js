@@ -23,7 +23,11 @@ let initPage = () => {};
 let pageCtrl = null;
 let busy = false;
 let curPath = location.pathname;
-let curIdx = 0;
+let curPage = clean(location.href); // current page URL without #hash
+let curIdx = history.state?.idx ?? 0;
+// Scroll position of each history entry, kept in memory: writing to history while scrolling
+// (replaceState) cancels smooth scrolling in Chrome, so we never do that.
+const scrollPos = {};
 
 /**
  * Run the page initialisers so that every listener they add to window/document is tied to
@@ -130,8 +134,9 @@ async function go(href, { push = true, back = false, y = null } = {}) {
   }
 
   if (push) {
+    scrollPos[curIdx] = scrollY; // remember where we were on the page we are leaving
     curIdx += 1;
-    history.pushState({ y: 0, idx: curIdx, from: clean(location.href) }, '', target.href);
+    history.pushState({ idx: curIdx, from: clean(location.href) }, '', target.href);
   }
 
   // Swap the page content.
@@ -149,6 +154,7 @@ async function go(href, { push = true, back = false, y = null } = {}) {
   if (desc) document.querySelector('meta[name="description"]')?.setAttribute('content', desc);
   document.body.classList.remove('is-leaving', 'is-leaving-back');
   curPath = target.pathname;
+  curPage = clean(target.href);
 
   // Scroll: remembered position (Back link / history), a #section, or the top.
   let top = y;
@@ -166,7 +172,7 @@ async function go(href, { push = true, back = false, y = null } = {}) {
   const anchor = target.hash && document.getElementById(decodeURIComponent(target.hash.slice(1)));
   if (anchor && top == null) anchor.scrollIntoView({ behavior: 'instant' });
   else scrollTo({ top: top ?? 0, left: 0, behavior: 'instant' });
-  history.replaceState({ ...(history.state || {}), y: scrollY }, '');
+  scrollPos[curIdx] = scrollY;
 
   runInit();
 
@@ -189,15 +195,15 @@ async function go(href, { push = true, back = false, y = null } = {}) {
 export function initRouter(init) {
   initPage = init;
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  history.replaceState({ ...(history.state || {}), y: scrollY, idx: curIdx }, '');
+  history.replaceState({ ...(history.state || {}), idx: curIdx }, '');
 
-  // Keep the current entry's scroll position up to date (for Back/Forward).
+  // Track the scroll position of the current entry (memory only; see scrollPos).
   let t;
   window.addEventListener(
     'scroll',
     () => {
       clearTimeout(t);
-      t = setTimeout(() => history.replaceState({ ...(history.state || {}), y: scrollY }, ''), 120);
+      t = setTimeout(() => (scrollPos[curIdx] = scrollY), 120);
     },
     { passive: true },
   );
@@ -215,10 +221,13 @@ export function initRouter(init) {
   });
 
   window.addEventListener('popstate', (e) => {
+    // Same page, only the #hash changed (e.g. "View My Projects" -> #projects): let the browser scroll.
+    if (clean(location.href) === curPage) return;
     const idx = e.state?.idx ?? 0;
     const back = idx < curIdx;
+    scrollPos[curIdx] = scrollY;
     curIdx = idx;
-    go(location.href, { push: false, back, y: e.state?.y ?? 0 });
+    go(location.href, { push: false, back, y: scrollPos[idx] ?? 0 });
   });
 
   runInit();
