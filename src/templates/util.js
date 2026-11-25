@@ -29,11 +29,11 @@ const STATUS = {
 };
 export const statusLabel = (s) => (s ? STATUS[s] || s : '');
 
-/** Deterministic warm hue (crimson → orange → amber) for generated covers, from a string. */
+/** Deterministic hue (indigo → cyan → violet) for generated project covers, from a string. */
 export function hueFor(str) {
   let h = 0;
   for (const ch of String(str)) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
-  const palette = [355, 8, 18, 28, 2, 14, 36, 22]; // warm: crimson → orange → amber
+  const palette = [232, 248, 205, 265, 218, 190, 280, 240];
   return palette[h % palette.length];
 }
 
