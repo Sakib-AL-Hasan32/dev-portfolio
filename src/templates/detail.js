@@ -35,6 +35,31 @@ function pagerCard(p, dir, root) {
 }
 
 /**
+ * "GitHub" card: the project's repository link (githubUrl in src/data/projects.js), or a
+ * "coming soon" note until one is added. Rendered twice: in the sidebar after "On this page"
+ * (wide screens) and after "How it's built" (one-column layout); CSS shows the right one.
+ */
+function githubCard(p, where) {
+  const url = p.githubUrl;
+  const repo = url ? url.replace(/^https?:\/\/(www\.)?github\.com\//i, '').replace(/\/+$/, '') : '';
+  const body = url
+    ? `<a class="gh-card__repo" href="${esc(url)}" target="_blank" rel="noopener">
+        <span class="gh-card__ico">${icon('github', { size: 20 })}</span>
+        <span class="gh-card__text"><b>${esc(repo || 'Repository')}</b><small>View source on GitHub</small></span>
+        ${icon('arrow-up-right', { size: 16, cls: 'gh-card__go' })}
+      </a>`
+    : `<div class="gh-card__repo is-empty">
+        <span class="gh-card__ico">${icon('github', { size: 20 })}</span>
+        <span class="gh-card__text"><b>Repository</b><small>Link coming soon</small></span>
+        <span class="gh-card__soon">Soon</span>
+      </div>`;
+  return `<div class="aside-card gh-card gh-card--${where}">
+    <p class="aside-card__title">GitHub</p>
+    ${body}
+  </div>`;
+}
+
+/**
  * @param {object} p project
  * @param {{root:string, prev?:object, next?:object}} o
  */
@@ -166,11 +191,13 @@ export function projectDetail(p, { root, prev, next }) {
         <p class="aside-card__title">On this page</p>
         <ul>${toc.map(([id, label]) => `<li><a href="#${id}" data-toc-link="${id}">${label}</a></li>`).join('')}</ul>
       </nav>
+      ${githubCard(p, 'aside')}
     </aside>
     <div class="detail-main">
       ${overview}
       ${featureHtml}
       ${tech}
+      ${githubCard(p, 'inline')}
       ${cs}
       ${gallery}
     </div>
