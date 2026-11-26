@@ -154,6 +154,11 @@
   <section class="section featured" id="projects" data-section aria-labelledby="projects-title">
     <div class="container">
       <header class="section-head section-head--split">
+        <button class="view-toggle" type="button" data-view-toggle aria-pressed="false" aria-label="Show two projects per row">
+          <span class="view-toggle__pill" aria-hidden="true"></span>
+          <span class="view-toggle__opt" aria-hidden="true">{{icon:cols-1}}</span>
+          <span class="view-toggle__opt" aria-hidden="true">{{icon:cols-2}}</span>
+        </button>
         <div>
           <p class="eyebrow" data-reveal>Featured projects</p>
           <h2 class="h2" id="projects-title" data-reveal style="--i:1">Selected <span class="grad">work.</span></h2>
@@ -179,6 +184,11 @@
       </header>
       <div class="courses">
         {{training}}
+      </div>
+      <div class="courses__more">
+        <button class="btn btn--primary courses__more-btn" type="button" data-courses-more aria-expanded="false">
+          <span data-courses-more-label>See more</span>{{icon:chevron-down}}
+        </button>
       </div>
     </div>
   </section>

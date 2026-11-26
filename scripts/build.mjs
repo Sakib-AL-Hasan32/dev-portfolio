@@ -80,7 +80,7 @@ for (const [i, p] of projects.entries()) {
 await fs.rm(DIST, { recursive: true, force: true });
 await fs.mkdir(DIST, { recursive: true });
 
-const CSS_ORDER = ['tokens', 'base', 'components', 'sections', 'pages', 'motion'];
+const CSS_ORDER = ['tokens', 'base', 'components', 'sections', 'pages', 'motion', 'mobile'];
 const cssDir = path.join(SRC, 'assets', 'css');
 const cssFiles = (await fs.readdir(cssDir)).filter((f) => f.endsWith('.css'));
 cssFiles.sort((a, b) => {

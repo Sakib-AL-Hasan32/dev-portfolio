@@ -61,7 +61,7 @@ export function initContact() {
   const fields = Object.keys(RULES).map((name) => form.elements[name]);
 
   if (!key) {
-    notice.innerHTML = `${svg('info')}<p>The form isn’t connected to an email service yet — sending will open your email app with your message filled in. You can also write to <a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a>.</p>`;
+    notice.innerHTML = `${svg('info')}<p>The form isn’t connected to an email service yet — sending will open your email app with your message filled in.<span class="form__notice-alt"> You can also write to <a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a>.</span></p>`;
     notice.hidden = false;
     label.textContent = 'Write this email';
   }

@@ -15,6 +15,8 @@ import { initContact } from './contact.js';
 import { initSkills } from './skills.js';
 import { initCodeWindow } from './code-window.js';
 import { initRouter } from './router.js';
+import { initViewToggle } from './view-toggle.js';
+import { initCourses } from './courses.js';
 
 function initPage() {
   const page = document.body.dataset.page;
@@ -26,6 +28,8 @@ function initPage() {
   initReveal();
   initEffects();
   initPageLinks();
+  initViewToggle();
+  initCourses();
   if (page === 'projects') initProjectsPage();
   if (page === 'project') initDetail();
   if (document.querySelector('[data-contact-form], [data-copy]')) initContact();

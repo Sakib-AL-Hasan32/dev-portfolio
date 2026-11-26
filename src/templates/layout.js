@@ -14,6 +14,7 @@ const preloadSrc = function () {
   try { t = localStorage.getItem('theme'); } catch (e) {}
   if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   d.setAttribute('data-theme', t);
+  var cols; try { cols = localStorage.getItem('pf:cols'); } catch (e) {} if (cols !== '1') d.classList.add('cols-2');
 
   // Entrance animation for this page (forward / back / project cover).
   try {

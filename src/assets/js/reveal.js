@@ -14,14 +14,24 @@ const VARIANTS = {
   clip: { clipPath: ['inset(100% 0 0 0 round 16px)', 'inset(0 0 0 0 round 16px)'] },
 };
 
+// Phones: one column, so sideways slides would poke past the screen edge. Everything rises
+// gently from below instead, a little quicker and with a shorter stagger.
+const PHONE_VARIANTS = {
+  up: { translate: ['0 26px', '0 0'], filter: ['blur(4px)', 'blur(0px)'] },
+  scale: { scale: ['0.96', '1'], translate: ['0 20px', '0 0'] },
+  clip: VARIANTS.clip,
+};
+const mqPhone = matchMedia('(max-width: 640px)');
+
 let observer = null;
 
 function reveal(el) {
   el.classList.add('is-revealed');
   if (reducedMotion()) return;
-  const variant = VARIANTS[el.dataset.reveal] || VARIANTS.up;
-  const delay = cssNum(el, '--i') * 90;
-  el.animate({ opacity: [0, 1], ...variant }, { duration: 950, delay, easing: EASE_OUT, fill: 'backwards' });
+  const phone = mqPhone.matches;
+  const variant = phone ? PHONE_VARIANTS[el.dataset.reveal] || PHONE_VARIANTS.up : VARIANTS[el.dataset.reveal] || VARIANTS.up;
+  const delay = cssNum(el, '--i') * (phone ? 60 : 90);
+  el.animate({ opacity: [0, 1], ...variant }, { duration: phone ? 800 : 950, delay, easing: EASE_OUT, fill: 'backwards' });
 
   // Skills explorer: tabs slide in, then the active panel's tiles pop in one by one.
   if (el.matches('[data-skillset]')) {

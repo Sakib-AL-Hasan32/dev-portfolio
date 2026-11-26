@@ -3,7 +3,7 @@
  * no page reloads. Cards are pre-rendered by the build; each carries data-category, data-tech and
  * data-search. State is mirrored in the URL (?q=&category=&tech=&page=) so results can be shared.
  */
-import { $, $$, reducedMotion, debounce, EASE_OUT } from './utils.js';
+import { $, $$, reducedMotion, debounce, EASE_OUT, EASE_SPRING } from './utils.js';
 import { markRevealed } from './reveal.js';
 
 export function initProjectsPage() {
@@ -17,7 +17,9 @@ export function initProjectsPage() {
   const pill = $('.segmented__pill', catWrap);
   const results = $('[data-results]');
   const pager = $('[data-pagination]');
-  const PAGE_SIZE = 9;
+  // 9 per page (3 × 3 grid); phones show 8 (four rows of two).
+  const mqPhone = matchMedia('(max-width: 640px)');
+  const pageSize = () => (mqPhone.matches ? 8 : 9);
   const empty = $('[data-empty]');
   const total = cards.length;
 
@@ -93,9 +95,16 @@ export function initProjectsPage() {
 
   /* ---------- Apply with FLIP ---------- */
   let token = 0;
-  function apply({ animate = true, dir = 0 } = {}) {
+
+  /**
+   * @param {{animate?: boolean, dir?: number, jumpTo?: number|null}} o
+   *   dir: page turn direction (1 next, -1 previous, 0 = filter change)
+   *   jumpTo: scroll position of the list, applied while the grid is empty between pages
+   */
+  function apply({ animate = true, dir = 0, jumpTo = null } = {}) {
     const run = ++token;
     const matched = cards.filter(matches);
+    const PAGE_SIZE = pageSize();
     const pages = Math.max(1, Math.ceil(matched.length / PAGE_SIZE));
     state.page = Math.min(Math.max(1, state.page), pages);
     const start = (state.page - 1) * PAGE_SIZE;
@@ -118,15 +127,22 @@ export function initProjectsPage() {
         c.classList.remove('is-hidden');
         markRevealed(c);
       });
+      if (jumpTo != null) scrollTo({ top: jumpTo, behavior: 'instant' });
       return;
     }
 
-    const outAnims = leaving.map((c) => {
+    // Page turns: the old page slides out the way you're going (light: no blur, so it stays
+    // smooth on phones). Filter changes keep the scale + blur exit.
+    // Page turns "pop": the old cards shrink away in a quick wave, the new ones pop in with a
+    // little spring. Only scale + opacity are animated, so it stays smooth on phones.
+    const outAnims = leaving.map((c, i) => {
       const a = c.animate(
         dir
-          ? { opacity: [1, 0], translate: ['0 0', `${-dir * 48}px 0`], filter: ['blur(0px)', 'blur(6px)'] }
+          ? { opacity: [1, 0], scale: ['1', '0.86'] }
           : { opacity: [1, 0], scale: ['1', '0.92'], filter: ['blur(0px)', 'blur(6px)'] },
-        { duration: dir ? 260 : 200, easing: 'ease-in', fill: 'forwards' },
+        dir
+          ? { duration: 190, delay: Math.min(i, 8) * 22, easing: 'cubic-bezier(0.4, 0, 1, 1)', fill: 'forwards' }
+          : { duration: 200, easing: 'ease-in', fill: 'forwards' },
       );
       a.id = 'flip';
       return a.finished.catch(() => {});
@@ -143,6 +159,7 @@ export function initProjectsPage() {
         c.classList.remove('is-hidden');
         markRevealed(c);
       });
+      if (jumpTo != null) scrollTo({ top: jumpTo, behavior: 'instant' });
 
       staying.forEach((c) => {
         const f = first.get(c);
@@ -156,12 +173,15 @@ export function initProjectsPage() {
       entering.forEach((c, i) => {
         const a = c.animate(
           dir
-            ? { opacity: [0, 1], translate: [`${dir * 48}px 0`, '0 0'], filter: ['blur(6px)', 'blur(0px)'] }
+            ? { opacity: [0, 1], scale: ['0.72', '1'] }
             : { opacity: [0, 1], scale: ['0.94', '1'], translate: ['0 20px', '0 0'] },
-          { duration: 620, delay: 60 + i * 50, easing: EASE_OUT, fill: 'backwards' },
+          dir
+            ? { duration: 480, delay: 40 + Math.min(i, 8) * 55, easing: EASE_SPRING, fill: 'backwards' }
+            : { duration: 620, delay: 60 + i * 50, easing: EASE_OUT, fill: 'backwards' },
         );
         a.id = 'flip';
       });
+
     });
   }
 
@@ -223,10 +243,18 @@ export function initProjectsPage() {
     if (!next || next === state.page) return;
     const dir = next > state.page ? 1 : -1;
     state.page = next;
-    apply({ dir });
-    const top = results.getBoundingClientRect().top + scrollY - 110;
-    if (scrollY > top) scrollTo({ top, behavior: reducedMotion() ? 'auto' : 'smooth' });
+    // If the reader is further down (e.g. at the page buttons), the view moves to the top of the
+    // list while it is empty between the two pages, then the new cards pop in.
+    const top = Math.max(0, results.getBoundingClientRect().top + scrollY - 110);
+    apply({ dir, jumpTo: scrollY > top + 4 ? top : null });
   });
+
+  // Rotating / resizing across the phone breakpoint re-paginates (8 ↔ 9 per page).
+  const onSize = () => {
+    if (!grid.isConnected) return mqPhone.removeEventListener('change', onSize); // page was swapped away
+    apply({ animate: false });
+  };
+  mqPhone.addEventListener('change', onSize);
 
   movePill(true);
   document.fonts?.ready.then(() => movePill(true));

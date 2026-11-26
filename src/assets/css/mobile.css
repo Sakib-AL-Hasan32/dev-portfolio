@@ -1,0 +1,922 @@
+/* ==========================================================================
+   Mobile — phone-only refinements. Every rule here sits inside a phone-width
+   (or touch-only) media query, so the desktop layout is never affected.
+   Loaded last, so it wins over the section and page styles.
+   ========================================================================== */
+
+/* ---------- Touch devices: honest tap feedback instead of sticky hover ---------- */
+@media (hover: none) {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Hover lifts "stick" after a tap on phones: keep cards still, press them instead. */
+  .hl-card:hover,
+  .tl-card:hover,
+  .ccard:hover,
+  .tile:hover,
+  .pcard:hover,
+  .course:hover,
+  .pager__card:hover,
+  .pagination__btn:not([disabled]):hover {
+    transform: none;
+  }
+
+  .hl-card:hover .hl-card__ico,
+  .tile:hover .tile__logo,
+  .tl-item:hover .tl-item__node {
+    transform: none;
+  }
+
+  .btn,
+  .icon-btn,
+  .ccard,
+  .tile,
+  .hl-card,
+  .pagination__btn,
+  .pager__card,
+  .pager__all,
+  .skillset__tab,
+  .segmented button {
+    transition-property: transform, color, background-color, border-color, box-shadow, opacity;
+  }
+
+  .btn:active,
+  .icon-btn:active,
+  .pagination__btn:not([disabled]):active,
+  .skillset__tab:active {
+    transform: scale(0.96);
+    transition-duration: 0.12s;
+  }
+
+  .ccard:active,
+  .tile:active,
+  .hl-card:active,
+  .pager__card:active,
+  .pager__all:active {
+    transform: scale(0.98);
+    transition-duration: 0.12s;
+  }
+}
+
+/* ---------- Phones ---------- */
+@media (max-width: 640px) {
+  :root {
+    --section-y: 76px;
+  }
+
+  /* Sliding animations (page changes, reveals) must never widen the page sideways */
+  html,
+  body {
+    overflow-x: clip;
+  }
+
+  .section-head {
+    margin-bottom: 36px;
+  }
+
+  /* Hero */
+  .hero {
+    padding-top: calc(var(--nav-h) + 36px);
+  }
+
+  .hero__visual {
+    width: min(72%, 290px);
+  }
+
+  /* About: nothing may push the page wider than the screen */
+  .about__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .about__text .h2 {
+    margin-bottom: 22px;
+  }
+
+  .code-window__body {
+    font-size: 0.72rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .code-window__body::-webkit-scrollbar {
+    display: none;
+  }
+
+  .about__visual .edu-card {
+    margin: -24px 14px 0;
+  }
+
+  /* Highlight cards: two by two */
+  .highlights {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .hl-card {
+    padding: 16px 14px;
+    border-radius: var(--r-md);
+  }
+
+  .hl-card__ico {
+    width: 38px;
+    height: 38px;
+    margin-bottom: 12px;
+    border-radius: 11px;
+  }
+
+  .hl-card__ico svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .hl-card h3 {
+    font-size: 0.9rem;
+    line-height: 1.25;
+    margin-bottom: 6px;
+  }
+
+  .hl-card p {
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+
+  /* Skills: category row hints that it scrolls; compact logo tiles */
+  .skillset__nav {
+    -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent);
+    mask-image: linear-gradient(90deg, #000 82%, transparent);
+    padding-right: 40px;
+  }
+
+  .skillset__panel {
+    padding: 18px 14px;
+  }
+
+  .skillset__head {
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+  }
+
+  .skillset__title {
+    font-size: 1.25rem;
+  }
+
+  .skillset__blurb {
+    font-size: 0.88rem;
+  }
+
+  .tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .tile {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    min-height: 62px;
+    padding: 10px;
+    border-radius: 14px;
+  }
+
+  .tile__logo {
+    flex: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  .tile__logo img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .tile__logo svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .tile__name {
+    min-width: 0;
+    font-size: 0.82rem;
+    line-height: 1.25;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+  /* Project cards */
+  .pcard .cover {
+    aspect-ratio: 16 / 9;
+  }
+
+  .featured__more {
+    margin-top: 32px;
+  }
+
+  /* Achievements: narrower rail so the cards get the width */
+  .timeline {
+    gap: 20px;
+  }
+
+  .timeline__track {
+    left: 18px;
+  }
+
+  .tl-item {
+    padding-left: 52px;
+  }
+
+  .tl-item__node {
+    top: 22px;
+    width: 38px;
+    height: 38px;
+    box-shadow: 0 0 0 5px var(--bg), 0 0 20px -4px var(--glow);
+  }
+
+  .tl-item__node svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .tl-card {
+    padding: 20px;
+  }
+
+  .tl-card__title {
+    font-size: 1.15rem;
+  }
+
+  /* Contact: compact enough to fit on one phone screen */
+  .contact__panel {
+    gap: 16px;
+    padding: 18px 16px;
+    border-radius: var(--r-lg);
+  }
+
+  .contact__intro .eyebrow {
+    margin-bottom: 8px;
+  }
+
+  .contact__title {
+    font-size: 1.45rem;
+    line-height: 1.15;
+  }
+
+  .contact__sub {
+    margin-top: 8px;
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  /* Email across the top, LinkedIn and GitHub side by side underneath */
+  .contact__cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .contact__cards > :first-child {
+    grid-column: 1 / -1;
+  }
+
+  .ccard {
+    gap: 10px;
+    padding: 7px 9px;
+  }
+
+  .ccard__ico {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+  }
+
+  .ccard__copy {
+    width: 32px;
+    height: 32px;
+  }
+
+  .ccard__ico svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .ccard__body span {
+    font-size: 0.9rem;
+  }
+
+  .contact__cards > :not(:first-child) .ccard__body span {
+    display: none;
+  }
+
+  .contact__cards > :not(:first-child) .ccard__body small {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--text);
+  }
+
+  .form {
+    gap: 9px;
+  }
+
+  .form__row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .field__input {
+    height: 48px;
+    padding: 19px 13px 5px;
+    font-size: 0.92rem;
+    border-radius: 12px;
+  }
+
+  .field__label {
+    left: 14px;
+    top: 14px;
+    font-size: 0.92rem;
+  }
+
+  .field__input--area {
+    min-height: 80px;
+    padding-top: 22px;
+  }
+
+  .form__notice {
+    gap: 9px;
+    padding: 9px 12px;
+    font-size: 0.76rem;
+    line-height: 1.5;
+  }
+
+  .form__notice-alt {
+    display: none; /* the email address is already shown just above */
+  }
+
+  .form__notice .ico {
+    width: 15px;
+    height: 15px;
+  }
+
+  .form__submit {
+    margin-top: 2px;
+    height: 46px;
+    min-height: 46px;
+  }
+
+  /* Footer: brand on the left, "Say hello" on the right, links across the full width */
+  .footer {
+    margin-top: 16px;
+    padding-top: 30px;
+  }
+
+  .footer__inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 16px;
+    padding-bottom: 24px;
+  }
+
+  .footer__brand {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .footer__cta {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+  }
+
+  .footer__nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .footer__logo {
+    font-size: 1.35rem;
+  }
+
+  .footer__name {
+    margin-top: 6px;
+    font-size: 0.92rem;
+  }
+
+  .footer__title {
+    font-size: 0.82rem;
+  }
+
+  .footer__socials {
+    margin-top: 12px;
+    gap: 8px;
+  }
+
+  .footer__heading {
+    margin-bottom: 10px;
+    font-size: 0.66rem;
+  }
+
+  .footer__nav ul {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px 12px;
+  }
+
+  .footer__nav a,
+  .footer__mail {
+    font-size: 0.88rem;
+  }
+
+  .footer__mail {
+    display: inline-block;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .footer__loc {
+    margin-top: 8px;
+    font-size: 0.84rem;
+  }
+
+  .footer__bottom {
+    flex-direction: column;
+    gap: 2px;
+    padding-block: 14px max(16px, env(safe-area-inset-bottom));
+    font-size: 0.74rem;
+  }
+
+  /* Projects page: the category row hints that it scrolls */
+  .segmented {
+    -webkit-mask-image: linear-gradient(90deg, #000 84%, transparent);
+    mask-image: linear-gradient(90deg, #000 84%, transparent);
+    padding-right: 36px;
+  }
+
+  .pagination {
+    padding-bottom: 40px;
+  }
+
+  /* Project page: "All projects" button content centred */
+  .pager__all {
+    justify-content: center;
+  }
+}
+
+/* ---------- Narrow phones (most iPhones, 360–400px Androids) ---------- */
+@media (max-width: 400px) {
+  /* Logo above the name, so long words ("Architecture") get the full tile width */
+  .tile {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    min-height: 0;
+    padding: 12px;
+  }
+
+  .tile__name {
+    font-size: 0.8rem;
+  }
+
+  .contact__panel {
+    padding: 20px 14px;
+  }
+
+  .ccard {
+    gap: 9px;
+    padding: 9px;
+  }
+
+  .ccard__body span {
+    font-size: 0.84rem;
+  }
+
+  .footer__nav ul {
+    gap: 10px 8px;
+  }
+
+  /* LinkedIn / GitHub half cards: the label needs the room more than the arrow */
+  .contact__cards > :not(:first-child) .ccard__go {
+    display: none;
+  }
+}
+
+/* ---------- Very narrow phones (320–359px, folded phones) ---------- */
+@media (max-width: 359px) {
+  .footer__cta {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  /* Let long links wrap instead of being cut off */
+  .ccard__body span {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.35;
+  }
+}
+
+/* ==========================================================================
+   One / two projects per row (view-toggle.js). The button only exists on phones;
+   the `cols-2` class on <html> does nothing on larger screens.
+   ========================================================================== */
+.view-toggle {
+  display: none;
+}
+
+/* The card morph between layouts (same-document View Transition) */
+html.vt-cols::view-transition-group(*) {
+  animation-duration: 0.55s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.vt-cols::view-transition-old(root) {
+  animation: none;
+  opacity: 0;
+}
+
+html.vt-cols::view-transition-new(root) {
+  animation: none;
+}
+
+@media (max-width: 640px) {
+  .view-toggle {
+    position: relative;
+    flex: none;
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
+    width: 78px;
+    height: 38px;
+    padding: 3px;
+    border-radius: var(--r-full);
+    color: var(--text-3);
+    background: color-mix(in srgb, var(--surface) 82%, transparent);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .view-toggle__pill {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    left: 3px;
+    width: calc(50% - 3px);
+    border-radius: var(--r-full);
+    background: var(--grad-btn);
+    box-shadow: 0 6px 16px -6px var(--glow);
+    transition: translate 0.45s var(--ease-spring);
+  }
+
+  html.cols-2 .view-toggle__pill {
+    translate: 100% 0;
+  }
+
+  html.vt-cols .view-toggle__pill {
+    transition: none; /* the view transition moves it instead */
+  }
+
+  .view-toggle__opt {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    transition: color 0.35s;
+  }
+
+  .view-toggle__opt svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  html:not(.cols-2) .view-toggle__opt:nth-child(2),
+  html.cols-2 .view-toggle__opt:nth-child(3) {
+    color: #fff;
+  }
+
+  /* Where the button sits: top-right of "Selected work", right of "Showing 1–9 of 11" */
+  .featured .section-head {
+    position: relative;
+  }
+
+  .featured .section-head > .view-toggle {
+    position: absolute;
+    top: -9px;
+    right: 0;
+  }
+
+  .results-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 22px 0 14px;
+  }
+
+  .results-bar .results-line {
+    margin: 0;
+  }
+
+  /* Two projects per row: smaller, simpler cards */
+  html.cols-2 :is(.featured__grid, .projects-grid) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  html.cols-2 .pcard {
+    border-radius: 16px;
+  }
+
+  html.cols-2 .pcard__media {
+    margin: 5px 5px 0;
+    border-radius: 12px;
+  }
+
+  html.cols-2 .pcard .cover {
+    aspect-ratio: 4 / 3;
+  }
+
+  html.cols-2 .pcard .cover__bar {
+    top: 9px;
+    left: 10px;
+    right: 10px;
+  }
+
+  html.cols-2 .pcard .cover__path {
+    display: none;
+  }
+
+  html.cols-2 .pcard .cover__dots {
+    gap: 4px;
+  }
+
+  html.cols-2 .pcard .cover__dots i {
+    width: 7px;
+    height: 7px;
+  }
+
+  html.cols-2 .pcard .cover__lines {
+    top: 27px;
+    left: 10px;
+    gap: 5px;
+  }
+
+  html.cols-2 .pcard .cover__lines i {
+    height: 4px;
+  }
+
+  html.cols-2 .pcard .cover__glyph {
+    right: -12px;
+    bottom: -16px;
+  }
+
+  html.cols-2 .pcard .cover__glyph svg {
+    width: 74px;
+    height: 74px;
+  }
+
+  html.cols-2 .pcard .cover__title {
+    left: 10px;
+    right: 10px;
+    bottom: 9px;
+    font-size: 0.95rem;
+  }
+
+  html.cols-2 .pcard__body {
+    gap: 7px;
+    padding: 10px 11px 12px;
+  }
+
+  html.cols-2 .pcard__meta {
+    gap: 5px;
+  }
+
+  html.cols-2 .pcard__meta .badge {
+    padding: 3px 8px;
+    font-size: 0.6rem;
+  }
+
+  html.cols-2 .pcard__title {
+    font-size: 0.92rem;
+    line-height: 1.22;
+  }
+
+  html.cols-2 .pcard__desc {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    font-size: 0.74rem;
+    line-height: 1.45;
+  }
+
+  html.cols-2 .pcard .tags {
+    display: none;
+  }
+
+  html.cols-2 .pcard__actions {
+    gap: 6px;
+    padding-top: 4px;
+  }
+
+  html.cols-2 .pcard__cta {
+    flex: 1;
+    justify-content: center;
+    height: 32px;
+    min-height: 32px;
+    padding: 0 8px;
+    gap: 4px;
+    font-size: 0.72rem;
+  }
+
+  html.cols-2 .pcard__cta svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  html.cols-2 .pcard__gh {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* ==========================================================================
+   Courses "See more" (courses.js) — one-column layout only (≤700px).
+   The last card shows just its top, fading out towards the button.
+   ========================================================================== */
+@property --course-fade {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 100%;
+}
+
+.courses__more {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  html.js .courses > .course:last-child {
+    --course-fade: 100%;
+    -webkit-mask-image: linear-gradient(to bottom, #000 var(--course-fade), transparent calc(var(--course-fade) + 78%));
+    mask-image: linear-gradient(to bottom, #000 var(--course-fade), transparent calc(var(--course-fade) + 78%));
+    transition:
+      max-height 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      --course-fade 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.5s var(--ease-out),
+      border-color 0.4s,
+      box-shadow 0.5s;
+  }
+
+  html.js .courses:not(.is-open) > .course:last-child {
+    --course-fade: 14%;
+    max-height: 200px;
+    overflow: hidden;
+  }
+
+  html.js .courses__more {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    margin-top: -54px;
+    transition: margin-top 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  html.js .courses.is-open + .courses__more {
+    margin-top: 18px;
+  }
+
+  .courses__more-btn {
+    gap: 10px;
+    min-width: 168px;
+    height: 50px;
+    padding-inline: 28px 22px;
+    font-size: 1rem;
+    justify-content: center;
+  }
+
+  .courses__more-btn svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.5s var(--ease-spring);
+  }
+
+  .courses__more-btn[aria-expanded='true'] svg {
+    transform: rotate(180deg);
+  }
+}
+
+/* ==========================================================================
+   Hero chips (stacked layout: tablets and phones) — kept clear of the face:
+   API request in the top-left corner, Spring Boot low on the right,
+   Agentic AI over the bottom-left edge.
+   ========================================================================== */
+@media (max-width: 980px) {
+  .float-chip--api {
+    top: -5%;
+    left: -20%;
+  }
+
+  .float-chip--spring {
+    top: auto;
+    bottom: 21%;
+    right: -22%;
+  }
+
+  .float-chip--ai {
+    bottom: -6%;
+    left: -21%;
+  }
+}
+
+@media (max-width: 400px) {
+  .float-chip--api {
+    left: -18%;
+  }
+
+  .float-chip--spring {
+    bottom: 13%;
+    right: -19%;
+  }
+
+  .float-chip--ai {
+    left: -18%;
+  }
+}
+
+@media (max-width: 359px) {
+  .float-chip--ai {
+    bottom: -11%;
+  }
+}
+
+/* Hero chips on phones: smaller, the API chip lower (clear of the header) and further left,
+   Spring Boot further right. */
+@media (max-width: 640px) {
+  .float-chip {
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+  }
+
+  .float-chip b {
+    font-size: 0.74rem;
+  }
+
+  .float-chip small {
+    font-size: 0.64rem;
+  }
+
+  .float-chip__ico {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+  }
+
+  .float-chip__ico svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .float-chip--api {
+    top: 4%;
+    left: -22%;
+    gap: 4px;
+    font-size: 0.62rem;
+  }
+
+  .float-chip--api .float-chip__req b {
+    font-size: inherit;
+  }
+
+  .float-chip__res {
+    gap: 5px;
+    font-size: 0.58rem;
+  }
+
+  .float-chip__res i {
+    width: 6px;
+    height: 6px;
+  }
+
+  .float-chip--spring {
+    bottom: 18%;
+    right: -23%;
+  }
+
+  .float-chip--ai {
+    bottom: -5%;
+    left: -22%;
+  }
+}
+
+@media (max-width: 359px) {
+  .float-chip--api {
+    left: -20%;
+  }
+
+  .float-chip--spring {
+    right: -21%;
+  }
+}
