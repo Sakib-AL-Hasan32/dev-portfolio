@@ -96,6 +96,7 @@ export function initNav() {
   function openMenu() {
     clearTimeout(closeTimer);
     open = true;
+    menu.classList.remove('is-closing');
     menu.hidden = false;
     menu.getBoundingClientRect(); // commit the closed state before transitioning
     menu.classList.add('is-open');
@@ -108,11 +109,15 @@ export function initNav() {
   function closeMenu(returnFocus = true) {
     if (!open) return;
     open = false;
+    menu.classList.add('is-closing');
     menu.classList.remove('is-open');
     burger.setAttribute('aria-expanded', 'false');
     burger.setAttribute('aria-label', 'Open menu');
     document.documentElement.style.overflow = '';
-    closeTimer = setTimeout(() => (menu.hidden = true), 420);
+    closeTimer = setTimeout(() => {
+      menu.hidden = true;
+      menu.classList.remove('is-closing');
+    }, 820);
     if (returnFocus) burger.focus({ preventScroll: true });
   }
 
