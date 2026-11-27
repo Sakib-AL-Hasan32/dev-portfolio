@@ -187,20 +187,26 @@
 
 /* ---------- Mobile menu ---------- */
 
+/* Opens with a quick fade + slight zoom from the menu button. Only opacity and transform
+   animate (no full-screen blur, no clip-path), so it stays smooth on phones. */
 .mmenu {
   position: fixed;
   inset: 0;
   z-index: 99;
-  background: color-mix(in srgb, var(--bg) 92%, transparent);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  clip-path: circle(0 at calc(100% - 46px) 46px);
-  transition: clip-path 0.7s var(--ease-in-out);
+  background: var(--bg); /* solid: without a blur, page text would show through */
+  opacity: 0;
+  transform: scale(0.97);
+  transform-origin: calc(100% - 46px) 46px;
+  transition:
+    opacity 0.28s var(--ease-out),
+    transform 0.38s var(--ease-out);
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .mmenu.is-open {
-  clip-path: circle(150% at calc(100% - 46px) 46px);
+  opacity: 1;
+  transform: none;
 }
 
 .mmenu__panel {
@@ -226,7 +232,7 @@
 .mmenu.is-open .mmenu__list li {
   opacity: 1;
   transform: none;
-  transition-delay: calc(0.18s + var(--i) * 0.055s);
+  transition-delay: calc(0.06s + var(--i) * 0.045s);
 }
 
 .mmenu__link {
@@ -269,7 +275,7 @@
   display: grid;
   gap: 18px;
   opacity: 0;
-  transition: opacity 0.5s 0.45s;
+  transition: opacity 0.4s 0.25s;
 }
 
 .mmenu.is-open .mmenu__foot {

@@ -97,7 +97,7 @@ export function initNav() {
     clearTimeout(closeTimer);
     open = true;
     menu.hidden = false;
-    menu.getBoundingClientRect(); // commit initial clip-path before transitioning
+    menu.getBoundingClientRect(); // commit the closed state before transitioning
     menu.classList.add('is-open');
     burger.setAttribute('aria-expanded', 'true');
     burger.setAttribute('aria-label', 'Close menu');
@@ -112,7 +112,7 @@ export function initNav() {
     burger.setAttribute('aria-expanded', 'false');
     burger.setAttribute('aria-label', 'Open menu');
     document.documentElement.style.overflow = '';
-    closeTimer = setTimeout(() => (menu.hidden = true), 700);
+    closeTimer = setTimeout(() => (menu.hidden = true), 420);
     if (returnFocus) burger.focus({ preventScroll: true });
   }
 

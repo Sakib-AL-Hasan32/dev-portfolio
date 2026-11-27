@@ -249,9 +249,15 @@ export function initProjectsPage() {
     apply({ dir, jumpTo: scrollY > top + 4 ? top : null });
   });
 
+  // Phones: the technology filter is narrow (30% of the row), so its first option reads "All tech".
+  const allTech = techSelect.options[0];
+  const syncAllTechLabel = () => (allTech.textContent = mqPhone.matches ? 'All tech' : 'All technologies');
+  syncAllTechLabel();
+
   // Rotating / resizing across the phone breakpoint re-paginates (8 ↔ 9 per page).
   const onSize = () => {
     if (!grid.isConnected) return mqPhone.removeEventListener('change', onSize); // page was swapped away
+    syncAllTechLabel();
     apply({ animate: false });
   };
   mqPhone.addEventListener('change', onSize);

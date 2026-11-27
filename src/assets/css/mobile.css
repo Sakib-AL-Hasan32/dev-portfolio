@@ -606,7 +606,8 @@ html.vt-cols::view-transition-new(root) {
     transition: translate 0.45s var(--ease-spring);
   }
 
-  html.cols-2 .view-toggle__pill {
+  /* Order: two-per-row icon on the left, one-per-row on the right */
+  html:not(.cols-2) .view-toggle__pill {
     translate: 100% 0;
   }
 
@@ -627,8 +628,8 @@ html.vt-cols::view-transition-new(root) {
     height: 16px;
   }
 
-  html:not(.cols-2) .view-toggle__opt:nth-child(2),
-  html.cols-2 .view-toggle__opt:nth-child(3) {
+  html.cols-2 .view-toggle__opt:nth-child(2),
+  html:not(.cols-2) .view-toggle__opt:nth-child(3) {
     color: #fff;
   }
 
@@ -962,8 +963,28 @@ html.vt-cols::view-transition-new(root) {
 @media (max-width: 640px) {
   /* Skills: room before the first tab, compact header, three tiles per row */
   .skillset__nav {
-    padding-left: 12px;
-    scroll-padding-inline: 12px;
+    gap: 4px;
+    padding: 6px 36px 6px 10px;
+    scroll-padding-inline: 10px;
+  }
+
+  .skillset__tab {
+    gap: 7px;
+    padding: 4px 12px 4px 4px;
+  }
+
+  .skillset__tab-ico {
+    width: 26px;
+    height: 26px;
+  }
+
+  .skillset__tab-ico svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .skillset__tab-title {
+    font-size: 0.78rem;
   }
 
   .skillset__panel {
@@ -1054,12 +1075,31 @@ html.vt-cols::view-transition-new(root) {
     z-index: 2;
     display: flex;
     justify-content: center;
-    margin-top: -34px;
+    margin-top: -26px;
     transition: margin-top 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   html.js .about__text.is-open .readmore {
-    margin-top: 18px;
+    margin-top: 14px;
+  }
+
+  .readmore__btn {
+    gap: 6px;
+    height: 34px;
+    min-height: 34px;
+    padding: 0 14px 0 16px;
+    font-size: 0.8rem;
+    background: var(--surface);
+  }
+
+  .readmore__btn svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.45s var(--ease-spring);
+  }
+
+  .readmore__btn[aria-expanded='true'] svg {
+    transform: rotate(180deg);
   }
 
   /* About cards: every card the same (shorter) height */
@@ -1134,9 +1174,9 @@ html.vt-cols::view-transition-new(root) {
     height: 30px;
   }
 
-  /* Contact: no subtitle under the heading */
-  .contact__sub {
-    display: none;
+  /* Contact: no "form isn't connected" notice box on phones */
+  .form__notice {
+    display: none !important;
   }
 }
 
@@ -1157,5 +1197,136 @@ html.vt-cols::view-transition-new(root) {
 
   .tile__name {
     font-size: 0.74rem;
+  }
+}
+
+/* ==========================================================================
+   Phone refinements, round 4
+   ========================================================================== */
+@media (max-width: 640px) {
+  /* Hero: "View My Projects" and "Let's Connect" side by side, Download CV below */
+  .hero__ctas {
+    gap: 10px;
+  }
+
+  .hero__ctas .btn {
+    flex: 1 1 calc(50% - 5px);
+    min-width: 0;
+    padding-inline: 10px;
+    gap: 8px;
+    font-size: 0.86rem;
+  }
+
+  .hero__ctas .btn--cv {
+    flex: 0 1 66%; /* under "View My Projects", a bit longer than it, not full width */
+  }
+
+  /* Degree card: university name on one line, without "(DIU)" */
+  .edu-card__abbr {
+    display: none;
+  }
+
+  .about__visual .edu-card {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .edu-card__school {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.8rem;
+  }
+
+  /* Skills panel heading: smaller title and icon */
+  .skillset__head-ico {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  .skillset__head-ico svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .skillset__title {
+    font-size: 0.98rem;
+  }
+
+  .skillset__blurb {
+    font-size: 0.74rem;
+  }
+
+  /* Featured projects: no "All 11 projects" button (Explore All Projects is below the cards) */
+  .featured .section-head > a.btn {
+    display: none;
+  }
+
+  /* Projects page: search (70%) and technology filter (30%) side by side */
+  .toolbar__row {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
+    gap: 8px;
+  }
+
+  .search,
+  .select {
+    height: 46px;
+  }
+
+  .search > .ico {
+    left: 13px;
+  }
+
+  .search input {
+    padding: 0 12px 0 40px;
+    font-size: 0.88rem;
+  }
+
+  .search__kbd {
+    display: none;
+  }
+
+  .select > .ico:first-of-type {
+    display: none;
+  }
+
+  .select select {
+    padding: 0 26px 0 12px;
+    font-size: 0.84rem;
+  }
+
+  .select > .ico--chevron-down {
+    right: 8px;
+  }
+
+  /* Contact: "Write this email" sized to its text, like "Explore All Projects" */
+  .form__submit {
+    justify-self: center;
+    width: auto;
+    padding-inline: 30px;
+  }
+}
+
+@media (max-width: 374px) {
+  .hero__ctas .btn {
+    gap: 6px;
+    padding-inline: 8px;
+    font-size: 0.8rem;
+  }
+
+  .edu-card__school {
+    font-size: 0.74rem;
+  }
+}
+
+@media (max-width: 359px) {
+  .hero__ctas .btn {
+    font-size: 0.76rem;
+  }
+
+  .hero__ctas .btn--primary .btn__arrow,
+  .hero__ctas .btn--primary svg:last-child {
+    display: none;
   }
 }
