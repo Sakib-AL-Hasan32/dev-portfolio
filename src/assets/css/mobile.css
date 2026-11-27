@@ -465,27 +465,27 @@
 }
 
 /* ---------- Narrow phones (most iPhones, 360–400px Androids) ---------- */
-@media (max-width: 400px) {
-  /* Logo above the name, so long words ("Architecture") get the full tile width */
+@media (max-width: 420px) {
+  /* Tiles stay side by side (same height as on wider phones), just a touch tighter so long
+     names ("Authentication", "Architecture") still fit next to the logo. */
   .tile {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    min-height: 0;
-    padding: 12px;
+    gap: 8px;
+    padding: 9px 8px;
+  }
+
+  .tile__logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+  }
+
+  .tile__logo img {
+    width: 18px;
+    height: 18px;
   }
 
   .tile__name {
-    font-size: 0.8rem;
-  }
-
-  .contact__panel {
-    padding: 20px 14px;
-  }
-
-  .ccard {
-    gap: 9px;
-    padding: 9px;
+    font-size: 0.76rem;
   }
 
   .ccard__body span {
@@ -502,8 +502,46 @@
   }
 }
 
+@media (max-width: 374px) {
+  .tile {
+    gap: 7px;
+  }
+
+  .tile__logo {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+  }
+
+  .tile__logo img {
+    width: 16px;
+    height: 16px;
+  }
+
+  .tile__name {
+    font-size: 0.72rem;
+  }
+}
+
 /* ---------- Very narrow phones (320–359px, folded phones) ---------- */
 @media (max-width: 359px) {
+  .contact__panel {
+    padding-inline: 14px;
+  }
+
+  .ccard {
+    gap: 8px;
+  }
+
+  /* Tiny screens: logo above the name, so long words get the full tile width */
+  .tile {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    min-height: 0;
+    padding: 12px;
+  }
+
   .footer__cta {
     grid-column: 1 / -1;
     grid-row: auto;
@@ -829,20 +867,6 @@ html.vt-cols::view-transition-new(root) {
   }
 }
 
-@media (max-width: 400px) {
-  .float-chip--api {
-    left: -18%;
-  }
-
-  .float-chip--spring {
-    bottom: 13%;
-    right: -19%;
-  }
-
-  .float-chip--ai {
-    left: -18%;
-  }
-}
 
 @media (max-width: 359px) {
   .float-chip--ai {
@@ -918,5 +942,220 @@ html.vt-cols::view-transition-new(root) {
 
   .float-chip--spring {
     right: -21%;
+  }
+}
+
+/* ==========================================================================
+   Phone refinements, round 3: shorter skills panel (three tiles per row),
+   About "Read more", even About cards, shorter project cards, leaner contact.
+   ========================================================================== */
+@property --rm-fade {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 100%;
+}
+
+.readmore {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  /* Skills: room before the first tab, compact header, three tiles per row */
+  .skillset__nav {
+    padding-left: 12px;
+    scroll-padding-inline: 12px;
+  }
+
+  .skillset__panel {
+    padding: 16px 12px;
+  }
+
+  .skillset__head {
+    gap: 12px;
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+  }
+
+  .skillset__head-ico {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+
+  .skillset__head-ico svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .skillset__title {
+    font-size: 1.1rem;
+  }
+
+  .skillset__blurb {
+    margin-top: 3px;
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+
+  .tiles {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .tile {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 7px;
+    min-height: 0;
+    padding: 10px 9px;
+    border-radius: 12px;
+  }
+
+  .tile__logo {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+  }
+
+  .tile__logo img {
+    width: 17px;
+    height: 17px;
+  }
+
+  .tile__logo svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .tile__name {
+    font-size: 0.7rem;
+    line-height: 1.25;
+  }
+
+  /* About: "Read more" (same look and motion as the courses "See more") */
+  html.js .about__text .prose {
+    --rm-fade: 100%;
+    -webkit-mask-image: linear-gradient(to bottom, #000 var(--rm-fade), transparent calc(var(--rm-fade) + 62%));
+    mask-image: linear-gradient(to bottom, #000 var(--rm-fade), transparent calc(var(--rm-fade) + 62%));
+    transition:
+      max-height 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      --rm-fade 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  html.js .about__text:not(.is-open) .prose {
+    --rm-fade: 30%;
+    max-height: 200px;
+    overflow: hidden;
+  }
+
+  html.js .readmore {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    margin-top: -34px;
+    transition: margin-top 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  html.js .about__text.is-open .readmore {
+    margin-top: 18px;
+  }
+
+  /* About cards: every card the same (shorter) height */
+  .highlights {
+    grid-auto-rows: 1fr;
+  }
+
+  .hl-card {
+    padding: 14px 12px;
+  }
+
+  .hl-card__ico {
+    width: 34px;
+    height: 34px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+  }
+
+  .hl-card__ico svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .hl-card h3 {
+    font-size: 0.86rem;
+    margin-bottom: 5px;
+  }
+
+  .hl-card p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    font-size: 0.74rem;
+    line-height: 1.45;
+  }
+
+  /* Two projects per row: shorter cards, two-line description */
+  html.cols-2 .pcard .cover {
+    aspect-ratio: 16 / 10;
+  }
+
+  html.cols-2 .pcard__body {
+    gap: 6px;
+    padding: 9px 10px 10px;
+  }
+
+  html.cols-2 .pcard__title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    font-size: 0.88rem;
+  }
+
+  html.cols-2 .pcard__desc {
+    -webkit-line-clamp: 2;
+    font-size: 0.72rem;
+  }
+
+  html.cols-2 .pcard__actions {
+    padding-top: 2px;
+  }
+
+  html.cols-2 .pcard__cta {
+    height: 30px;
+    min-height: 30px;
+  }
+
+  html.cols-2 .pcard__gh {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* Contact: no subtitle under the heading */
+  .contact__sub {
+    display: none;
+  }
+}
+
+@media (max-width: 374px) {
+  .tile {
+    padding: 9px 7px;
+  }
+
+  .tile__name {
+    font-size: 0.66rem;
+  }
+}
+
+@media (max-width: 359px) {
+  .tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tile__name {
+    font-size: 0.74rem;
   }
 }

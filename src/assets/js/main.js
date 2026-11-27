@@ -17,6 +17,7 @@ import { initCodeWindow } from './code-window.js';
 import { initRouter } from './router.js';
 import { initViewToggle } from './view-toggle.js';
 import { initCourses } from './courses.js';
+import { initReadMore } from './readmore.js';
 
 function initPage() {
   const page = document.body.dataset.page;
@@ -30,6 +31,7 @@ function initPage() {
   initPageLinks();
   initViewToggle();
   initCourses();
+  initReadMore();
   if (page === 'projects') initProjectsPage();
   if (page === 'project') initDetail();
   if (document.querySelector('[data-contact-form], [data-copy]')) initContact();
