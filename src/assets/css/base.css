@@ -254,16 +254,27 @@ main {
   overflow: hidden;
 }
 
+/* The grid drifts by moving a layer (transform), not by shifting background-position:
+   that used to repaint the whole screen-sized layer on every frame. The fade-out mask
+   stays on the parent so it doesn't move with the grid. */
 .bg__grid {
   position: absolute;
   inset: -2px;
+  overflow: hidden;
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 100%);
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 100%);
+}
+
+.bg__grid::before {
+  content: '';
+  position: absolute;
+  inset: -64px;
   background-image:
     linear-gradient(var(--grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 64px 64px;
-  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 100%);
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 100%);
   animation: grid-pan 40s linear infinite;
+  will-change: transform;
 }
 
 .bg__blob {

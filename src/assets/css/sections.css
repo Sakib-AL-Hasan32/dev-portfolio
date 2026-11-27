@@ -1871,6 +1871,7 @@ html:not(.js) .course__ring-dot,
   transform-origin: 50% 0;
   transform: scaleY(var(--tp, 0));
   box-shadow: 0 0 12px var(--glow);
+  will-change: transform; /* own layer: growing the line while scrolling doesn't repaint */
 }
 
 .tl-item {

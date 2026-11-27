@@ -99,9 +99,23 @@ html.js [data-split]:not(.is-split) {
 }
 
 @keyframes grid-pan {
-  to {
-    background-position: 64px 64px;
+  from {
+    transform: translate3d(0, 0, 0);
   }
+
+  to {
+    transform: translate3d(64px, 64px, 0);
+  }
+}
+
+/* Decorative loops pause while their element is off screen (perf.js sets data-offscreen). */
+[data-offscreen],
+[data-offscreen] *,
+[data-offscreen]::before,
+[data-offscreen]::after,
+[data-offscreen] *::before,
+[data-offscreen] *::after {
+  animation-play-state: paused !important;
 }
 
 @keyframes blob-a {
