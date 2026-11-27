@@ -193,7 +193,7 @@ export function achievementsTimeline(list) {
       .map(
         (a, i) => `<article class="tl-item${i % 2 ? ' tl-item--right' : ''}">
         <span class="tl-item__node" aria-hidden="true">${icon(a.icon || 'award', { size: 18 })}</span>
-        <div class="tl-card${a.highlight ? ' tl-card--highlight' : ''}" data-reveal="${i % 2 ? 'right' : 'left'}" data-spotlight>
+        <div class="tl-card${a.highlight ? ' tl-card--highlight' : ''}" data-spotlight>
           <span class="badge${a.highlight ? ' badge--gold' : ''}">${esc(a.badge)}</span>
           <h3 class="tl-card__title">${esc(a.title)}</h3>
           <p class="tl-card__summary">${esc(a.summary)}</p>

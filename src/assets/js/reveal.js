@@ -100,6 +100,24 @@ function initTimeline() {
   addEventListener('scroll', update, { passive: true });
   addEventListener('resize', update);
   update();
+
+  // Entrance: as each achievement scrolls into view its circle pops and the card grows out
+  // of it (CSS on .tl-item.is-shown). Shown once, then left alone.
+  if (!('IntersectionObserver' in window)) {
+    items.forEach((it) => it.classList.add('is-shown'));
+    return;
+  }
+  const showIO = new IntersectionObserver(
+    (entries) => {
+      for (const en of entries) {
+        if (!en.isIntersecting) continue;
+        en.target.classList.add('is-shown');
+        showIO.unobserve(en.target);
+      }
+    },
+    { rootMargin: '0px 0px -12% 0px', threshold: 0.15 },
+  );
+  items.forEach((it) => showIO.observe(it));
 }
 
 export function initReveal() {

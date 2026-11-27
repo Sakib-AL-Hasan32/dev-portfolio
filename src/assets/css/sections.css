@@ -2707,3 +2707,58 @@ html:not(.js) .course__ring-dot,
 [data-theme='light'] .tl-card {
   --glass-panel: rgba(255, 255, 255, 0.86);
 }
+
+/* ==========================================================================
+   Achievements entrance: each card grows out of its timeline circle.
+   The circle pops first, then the card scales up from the circle's centre and
+   fades in. Only scale + opacity animate (GPU), on pre-promoted layers, so it
+   stays smooth. reveal.js adds .is-shown when an item scrolls into view.
+   Without JavaScript everything is simply visible.
+   ========================================================================== */
+html.js .tl-item .tl-card {
+  /* the circle's centre, relative to the card (desktop: card on the left) */
+  --tl-ox: calc(100% + 32px);
+  --tl-oy: 48px;
+  transform-origin: var(--tl-ox) var(--tl-oy);
+  opacity: 0;
+  scale: 0.3;
+  will-change: transform, opacity;
+  transition:
+    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.14s,
+    scale 0.8s cubic-bezier(0.22, 1.12, 0.36, 1) 0.1s,
+    transform 0.5s var(--ease-out),
+    box-shadow 0.5s;
+}
+
+html.js .tl-item--right .tl-card {
+  --tl-ox: -32px; /* card on the right: the circle is to its left */
+}
+
+html.js .tl-item.is-shown .tl-card {
+  opacity: 1;
+  scale: 1;
+}
+
+html.js .tl-item .tl-item__node {
+  scale: 0.4;
+  opacity: 0.35;
+  transition:
+    scale 0.55s var(--ease-spring),
+    opacity 0.3s ease-out,
+    transform 0.6s var(--ease-spring),
+    background-color var(--dur-2),
+    color var(--dur-2);
+}
+
+html.js .tl-item.is-shown .tl-item__node {
+  scale: 1;
+  opacity: 1;
+}
+
+@media (max-width: 860px) {
+  /* one column: circles on the left rail, every card to their right */
+  html.js .tl-item .tl-card,
+  html.js .tl-item--right .tl-card {
+    --tl-ox: -42px;
+  }
+}

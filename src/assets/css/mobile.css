@@ -1528,3 +1528,12 @@ html.vt-cols::view-transition-new(root) {
     font-size: 0.95rem;
   }
 }
+
+/* Phones: achievements cards grow out of the (smaller, closer) timeline circles */
+@media (max-width: 640px) {
+  html.js .tl-item .tl-card,
+  html.js .tl-item--right .tl-card {
+    --tl-ox: -33px;
+    --tl-oy: 41px;
+  }
+}
