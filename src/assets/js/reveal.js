@@ -80,14 +80,22 @@ function initTimeline() {
   if (!tl) return;
   const fill = $('[data-timeline-fill]', tl);
   const items = $$('.tl-item', tl);
+  const nodes = items.map((it) => it.querySelector('.tl-item__node'));
+  let lastTp = '';
+  // Read every position first, then write: writing between reads forced the browser to
+  // recalculate layout several times per scroll frame and made the timeline stutter.
   const update = rafThrottle(() => {
     const r = tl.getBoundingClientRect();
     const line = innerHeight * 0.62;
-    fill.style.setProperty('--tp', clamp((line - r.top) / r.height, 0, 1).toFixed(4));
-    for (const it of items) {
-      const node = it.querySelector('.tl-item__node');
-      it.classList.toggle('is-lit', node.getBoundingClientRect().top < line);
+    const lit = nodes.map((n) => n.getBoundingClientRect().top < line);
+    const tp = clamp((line - r.top) / r.height, 0, 1).toFixed(4);
+    if (tp !== lastTp) {
+      fill.style.setProperty('--tp', tp);
+      lastTp = tp;
     }
+    items.forEach((it, i) => {
+      if (it.classList.contains('is-lit') !== lit[i]) it.classList.toggle('is-lit', lit[i]);
+    });
   });
   addEventListener('scroll', update, { passive: true });
   addEventListener('resize', update);

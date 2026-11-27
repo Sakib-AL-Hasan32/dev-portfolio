@@ -2690,3 +2690,19 @@ html:not(.js) .course__ring-dot,
 .impl__block--wide .impl__label .ico {
   color: var(--c-yellow);
 }
+
+/* ==========================================================================
+   Achievements performance: no live backdrop blur on the timeline cards.
+   Re-blurring the animated page background behind several large cards on every
+   scroll frame made this section stutter. A denser panel colour keeps the same
+   frosted look without the per-frame blur.
+   ========================================================================== */
+[data-theme] .tl-card {
+  --glass-panel: rgba(22, 21, 25, 0.86);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+[data-theme='light'] .tl-card {
+  --glass-panel: rgba(255, 255, 255, 0.86);
+}
