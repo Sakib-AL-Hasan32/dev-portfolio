@@ -1330,3 +1330,201 @@ html.vt-cols::view-transition-new(root) {
     display: none;
   }
 }
+
+/* ==========================================================================
+   Tablets (up to 1100px, e.g. Surface Pro / iPad portrait): the skills explorer
+   uses the phone layout — category tabs in a scrolling row on top, compact
+   logo tiles below (more per row than on phones).
+   ========================================================================== */
+@media (max-width: 1100px) {
+  .skillset {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .skillset__nav {
+    flex-direction: row;
+    border-radius: var(--r-lg);
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+    -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, #000 88%, transparent);
+  }
+
+  .skillset__nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .skillset__indicator,
+  .skillset__tab-count,
+  .skillset__tab-arrow {
+    display: none;
+  }
+
+  .skillset__tab {
+    flex: none;
+    width: auto;
+    min-height: 0;
+    border-radius: var(--r-full);
+    scroll-snap-align: start;
+  }
+
+  .skillset__tab.is-active {
+    background: var(--accent-soft);
+    box-shadow: inset 0 0 0 1px var(--accent-line);
+  }
+
+  .skillset__tab-ico {
+    border-radius: 50%;
+  }
+
+  .skillset__tab-title {
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1100px) {
+  .skillset__nav {
+    gap: 6px;
+    padding: 8px 40px 8px 12px;
+    scroll-padding-inline: 12px;
+  }
+
+  .skillset__tab {
+    padding: 6px 16px 6px 6px;
+    gap: 10px;
+  }
+
+  .skillset__tab-ico {
+    width: 32px;
+    height: 32px;
+  }
+
+  .skillset__tab-title {
+    font-size: 0.9rem;
+  }
+
+  .skillset__panel {
+    padding: 24px;
+  }
+
+  .skillset__head {
+    gap: 16px;
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+  }
+
+  .skillset__head-ico {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+  }
+
+  .skillset__title {
+    font-size: 1.4rem;
+  }
+
+  .skillset__blurb {
+    font-size: 0.92rem;
+  }
+
+  .skillset__head-count {
+    display: none;
+  }
+
+  /* Compact tiles like on phones: logo above the name */
+  .tiles {
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* three per row, like on phones */
+    gap: 10px;
+  }
+
+  .tile {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+    min-height: 0;
+    padding: 14px 12px;
+    border-radius: 14px;
+  }
+
+  .tile__logo {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+  }
+
+  .tile__logo img {
+    width: 21px;
+    height: 21px;
+  }
+
+  .tile__logo svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .tile__name {
+    font-size: 0.86rem;
+    line-height: 1.3;
+  }
+}
+
+/* Tablets: a roomier, taller skills panel */
+@media (min-width: 641px) and (max-width: 1100px) {
+  .skillset__panel {
+    padding: 32px 28px;
+  }
+
+  .skillset__head {
+    gap: 18px;
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+  }
+
+  .skillset__head-ico {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+  }
+
+  .skillset__title {
+    font-size: 1.55rem;
+  }
+
+  .skillset__blurb {
+    font-size: 0.98rem;
+  }
+
+  .tiles {
+    gap: 14px;
+  }
+
+  .tile {
+    gap: 16px;
+    min-height: 128px;
+    padding: 18px 16px;
+    border-radius: 16px;
+  }
+
+  .tile__logo {
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+  }
+
+  .tile__logo img {
+    width: 25px;
+    height: 25px;
+  }
+
+  .tile__logo svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .tile__name {
+    font-size: 0.95rem;
+  }
+}
